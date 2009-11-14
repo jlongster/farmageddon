@@ -1,4 +1,8 @@
 
+(declare (block)
+         (standard-bindings)
+         (extended-bindings))
+
 ;; May be better in C, who knows?
 
 (define (ray-box-intersection x1 y1 z1

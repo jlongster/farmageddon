@@ -11,14 +11,23 @@
   znear
   zfar)
 
-(define (perspective fovy aspect znear zfar)
+(define (frustum fovy aspect znear zfar)
   (let* ((xmax (* znear (tan (/ (* fovy PI) 360.))))
          (xmin (- xmax))
          (ymin (/ xmin aspect))
          (ymax (/ xmax aspect)))
+    (list xmin xmax ymin ymax znear zfar)))
+
+(define (perspective fovy aspect znear zfar)
+  (let ((vals (frustum fovy aspect znear zfar)))
     (current-perspective
-     (make-perspective xmin xmax ymin ymax znear zfar))
-    (glFrustumf xmin xmax ymin ymax znear zfar)))
+     (apply make-perspective vals))
+    (apply glFrustumf vals)))
+
+(define (ortho xmin xmax ymin ymax znear zfar)
+  (current-perspective
+   (make-perspective xmin xmax ymin ymax znear zfar))
+  (glOrthof xmin xmax ymin ymax znear zfar))
 
 (define (lookat eye center up)
   (glMultMatrixf (lookat-matrix eye center up))

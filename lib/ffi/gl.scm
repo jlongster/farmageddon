@@ -1,3 +1,8 @@
+
+(declare (block)
+         (standard-bindings)
+         (extended-bindings))
+
 (c-declare "#include \"stdlib.h\"")
 (c-declare "#include <OpenGLES/ES1/gl.h>")
 (include "types.scm")
@@ -449,6 +454,8 @@
 (define glMaterialf (c-lambda (GLenum GLenum GLfloat) void "glMaterialf"))
 (define glMaterialfv (c-lambda (GLenum GLenum (pointer GLfloat)) void "glMaterialfv"))
 (define glShadeModel (c-lambda (GLenum) void "glShadeModel"))
+(define glLightModelf (c-lambda (GLenum GLfloat) void "glLightModelf"))
+(define glLightModelfv (c-lambda (GLenum (pointer GLfloat)) void "glLightModelfv"))
 
 (define glReadPixels (c-lambda (GLint GLint GLsizei GLsizei GLenum GLenum (pointer GLvoid)) void "glReadPixels"))
 
@@ -576,8 +583,6 @@
 ;; (define glIsEnabled (c-lambda (GLenum) GLboolean "glIsEnabled"))
 ;; (define glIsList (c-lambda (GLuint) GLboolean "glIsList"))
 ;; (define glIsTexture (c-lambda (GLuint) GLboolean "glIsTexture"))
-;; (define glLightModelf (c-lambda (GLenum GLfloat) void "glLightModelf"))
-;; (define glLightModelfv (c-lambda (GLenum (pointer GLfloat)) void "glLightModelfv"))
 ;; (define glLightModeli (c-lambda (GLenum GLint) void "glLightModeli"))
 ;; (define glLightModeliv (c-lambda (GLenum (pointer GLint)) void "glLightModeliv"))
 ;; (define glLighti (c-lambda (GLenum GLenum GLint) void "glLighti"))

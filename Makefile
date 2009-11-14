@@ -67,6 +67,7 @@ tosser.app: Info.plist app/main.m app/EAGLView.m lib/init_.c config
 	-framework Foundation -framework UIKit \
 	-framework OpenGLES -framework QuartzCore \
 	-framework CoreGraphics \
+	-framework OpenAL -framework AudioToolbox \
 	-fvisibility=hidden -I/usr/local/include -D___LIBRARY -lgambc \
     -I/usr/local/Gambit-C/iPhoneSimulator3.1/include \
     -L/usr/local/Gambit-C/iPhoneSimulator3.1/lib \

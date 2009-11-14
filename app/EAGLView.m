@@ -64,7 +64,7 @@ extern "C" {
 		
 		eaglLayer.opaque = YES;
 		eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
-										[NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
+                                                                 [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
 		
 		context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
 		
@@ -121,15 +121,15 @@ extern "C" {
                                             encoding: NSASCIIStringEncoding];
     [self.label setText:labelText];
 		
-	[EAGLContext setCurrentContext:context];
+    [EAGLContext setCurrentContext:context];
 	
-	glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
-	glViewport(0, 0, backingWidth, backingHeight);
+    glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
+    glViewport(0, 0, backingWidth, backingHeight);
 
     render();
 
     glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
-	[context presentRenderbuffer:GL_RENDERBUFFER_OES];
+    [context presentRenderbuffer:GL_RENDERBUFFER_OES];
 }
 
 - (void)layoutSubviews {

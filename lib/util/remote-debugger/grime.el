@@ -3,6 +3,7 @@
   (get-process "grime"))
 
 (defun grime-receive-command (proc string)
+  (message string)
   (grime-display-msg string)
   (grime-run-command string))
 

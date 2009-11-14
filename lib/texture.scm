@@ -1,4 +1,8 @@
 
+(declare (block)
+         (standard-bindings)
+         (extended-bindings))
+
 (include "ffi/ffi#.scm")
 
 (define (alloc-opengl-image)
@@ -9,7 +13,7 @@
 (define (image-opengl-upload data width height)
   (let ((tex (alloc-opengl-image)))
     (glBindTexture GL_TEXTURE_2D tex)
-    (glTexEnvi GL_TEXTURE_ENV GL_TEXTURE_ENV_MODE GL_DECAL)
+    (glTexEnvi GL_TEXTURE_ENV GL_TEXTURE_ENV_MODE GL_MODULATE)
     (glTexImage2D GL_TEXTURE_2D
                   0
                   GL_RGBA
@@ -52,6 +56,7 @@
 
   (glEnable GL_TEXTURE_2D)
   (glDisable GL_DEPTH_TEST)
+  (glDisable GL_LIGHTING)
   
   (glVertexPointer 2 GL_FLOAT 0 square-pos)
   (glEnableClientState GL_VERTEX_ARRAY)
@@ -63,4 +68,5 @@
 
   (glDisableClientState GL_TEXTURE_COORD_ARRAY)
   (glEnable GL_DEPTH_TEST)
-  (glDisable GL_TEXTURE_2D))
+  (glDisable GL_TEXTURE_2D)
+  (glEnable GL_LIGHTING))

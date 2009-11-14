@@ -1,6 +1,10 @@
 ;;;; "phyics"
 ;;; Basic physics system involving velocity & acceleration
 
+(declare (block)
+         (standard-bindings)
+         (extended-bindings))
+
 (define GRAVITY (make-vec3d 0. -25. 0.))
 
 (define (update-physics obj)

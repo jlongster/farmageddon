@@ -7,7 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A1096C810AE0DF300BEA2A6 /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A1096C710AE0DF300BEA2A6 /* gradient.png */; };
+		1A1D5AB8109A344800ED980E /* noise.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A1D5AB7109A344800ED980E /* noise.wav */; };
+		1A1D5ACA109A349500ED980E /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A1D5AC9109A349500ED980E /* OpenAL.framework */; };
+		1A1D5ACE109A34A600ED980E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A1D5ACD109A34A600ED980E /* AudioToolbox.framework */; };
+		1A1D5B0A109A6D6D00ED980E /* bah.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A1D5B08109A6D6D00ED980E /* bah.wav */; };
+		1A1D5B0B109A6D6D00ED980E /* moo.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A1D5B09109A6D6D00ED980E /* moo.wav */; };
+		1A1D5B17109A9B6100ED980E /* thud.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A1D5B16109A9B6100ED980E /* thud.wav */; };
+		1A1D5B1D109A9F2F00ED980E /* shatter.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A1D5B1C109A9F2F00ED980E /* shatter.wav */; };
+		1A1D5B2D109B5D3100ED980E /* explosion.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A1D5B2C109B5D3100ED980E /* explosion.wav */; };
+		1A1D5B41109B828600ED980E /* line2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1A1D5B40109B828600ED980E /* line2.tiff */; };
 		1A2DA1901047358B00D90110 /* jlongster.obj.gso in Resources */ = {isa = PBXBuildFile; fileRef = 1A2DA18F1047358B00D90110 /* jlongster.obj.gso */; };
+		1A40308610AD38E80047E543 /* explosion2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A40308510AD38E80047E543 /* explosion2.wav */; };
+		1A40308A10AD3CCA0047E543 /* line2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A40308910AD3CCA0047E543 /* line2.png */; };
 		1A4EBE0D0FDA21CD000F4C9F /* init_.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EBE0C0FDA21CD000F4C9F /* init_.c */; };
 		1A53011D103E5A9700859416 /* sphere.obj.gso in Resources */ = {isa = PBXBuildFile; fileRef = 1A53011C103E5A9700859416 /* sphere.obj.gso */; };
 		1A5BC5CC102B80FA001FEDD9 /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = 1A5BC5C9102B80FA001FEDD9 /* sphere.obj */; };
@@ -21,6 +33,9 @@
 		1A8888031079A52100E1E774 /* sheep.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 1A8888011079A52100E1E774 /* sheep.mtl */; };
 		1A8888041079A52100E1E774 /* sheep.obj in Resources */ = {isa = PBXBuildFile; fileRef = 1A8888021079A52100E1E774 /* sheep.obj */; };
 		1A8BCDB0101A1BEA00DED70B /* box.obj in Resources */ = {isa = PBXBuildFile; fileRef = 1A8BCDAF101A1BEA00DED70B /* box.obj */; };
+		1A9D1AE31099E580001A93A4 /* line.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A9D1AE21099E580001A93A4 /* line.png */; };
+		1A9D1AE81099E5EA001A93A4 /* line.pnx in Resources */ = {isa = PBXBuildFile; fileRef = 1A9D1AE61099E5EA001A93A4 /* line.pnx */; };
+		1A9D1B201099F783001A93A4 /* line.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1A9D1B1F1099F783001A93A4 /* line.tiff */; };
 		1AAF6B480FD9A049000698DA /* init.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AAF6B470FD9A049000698DA /* init.c */; };
 		1AC6512C0FE70FD1004C15CB /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AC651270FE70FD1004C15CB /* EAGLView.m */; };
 		1AC6512D0FE70FD1004C15CB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AC651280FE70FD1004C15CB /* main.m */; };
@@ -35,7 +50,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A1096C710AE0DF300BEA2A6 /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gradient.png; path = "../../../projects/scheme/gambit-iphone-example/resources/gradient.png"; sourceTree = SOURCE_ROOT; };
+		1A1D5AB7109A344800ED980E /* noise.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = noise.wav; path = "../../../projects/scheme/gambit-iphone-example/resources/noise.wav"; sourceTree = SOURCE_ROOT; };
+		1A1D5AC9109A349500ED980E /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = /System/Library/Frameworks/OpenAL.framework; sourceTree = "<absolute>"; };
+		1A1D5ACD109A34A600ED980E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
+		1A1D5B08109A6D6D00ED980E /* bah.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = bah.wav; path = "../../../projects/scheme/gambit-iphone-example/resources/bah.wav"; sourceTree = SOURCE_ROOT; };
+		1A1D5B09109A6D6D00ED980E /* moo.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = moo.wav; path = "../../../projects/scheme/gambit-iphone-example/resources/moo.wav"; sourceTree = SOURCE_ROOT; };
+		1A1D5B16109A9B6100ED980E /* thud.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = thud.wav; path = "../../../projects/scheme/gambit-iphone-example/resources/thud.wav"; sourceTree = SOURCE_ROOT; };
+		1A1D5B1C109A9F2F00ED980E /* shatter.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = shatter.wav; path = "../../../projects/scheme/gambit-iphone-example/resources/shatter.wav"; sourceTree = SOURCE_ROOT; };
+		1A1D5B2C109B5D3100ED980E /* explosion.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = explosion.wav; path = "../../../projects/scheme/gambit-iphone-example/resources/explosion.wav"; sourceTree = SOURCE_ROOT; };
+		1A1D5B40109B828600ED980E /* line2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = line2.tiff; path = "../../../projects/scheme/gambit-iphone-example/resources/line2.tiff"; sourceTree = SOURCE_ROOT; };
 		1A2DA18F1047358B00D90110 /* jlongster.obj.gso */ = {isa = PBXFileReference; lastKnownFileType = file; path = jlongster.obj.gso; sourceTree = "<group>"; };
+		1A40308510AD38E80047E543 /* explosion2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = explosion2.wav; path = "../../../projects/scheme/gambit-iphone-example/resources/explosion2.wav"; sourceTree = SOURCE_ROOT; };
+		1A40308910AD3CCA0047E543 /* line2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = line2.png; path = "../../../projects/scheme/gambit-iphone-example/resources/line2.png"; sourceTree = SOURCE_ROOT; };
 		1A4EBE0C0FDA21CD000F4C9F /* init_.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = init_.c; path = lib/init_.c; sourceTree = "<group>"; };
 		1A53011C103E5A9700859416 /* sphere.obj.gso */ = {isa = PBXFileReference; lastKnownFileType = file; path = sphere.obj.gso; sourceTree = "<group>"; };
 		1A5BC5C9102B80FA001FEDD9 /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.obj; sourceTree = "<group>"; };
@@ -49,6 +76,9 @@
 		1A8888011079A52100E1E774 /* sheep.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sheep.mtl; path = "../../../projects/scheme/gambit-iphone-example/resources/sheep.mtl"; sourceTree = SOURCE_ROOT; };
 		1A8888021079A52100E1E774 /* sheep.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sheep.obj; path = "../../../projects/scheme/gambit-iphone-example/resources/sheep.obj"; sourceTree = SOURCE_ROOT; };
 		1A8BCDAF101A1BEA00DED70B /* box.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = box.obj; sourceTree = "<group>"; };
+		1A9D1AE21099E580001A93A4 /* line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = line.png; path = "../../../projects/scheme/gambit-iphone-example/resources/line.png"; sourceTree = SOURCE_ROOT; };
+		1A9D1AE61099E5EA001A93A4 /* line.pnx */ = {isa = PBXFileReference; lastKnownFileType = file; name = line.pnx; path = "../../../projects/scheme/gambit-iphone-example/resources/line.pnx"; sourceTree = SOURCE_ROOT; };
+		1A9D1B1F1099F783001A93A4 /* line.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = line.tiff; path = "../../../projects/scheme/gambit-iphone-example/resources/line.tiff"; sourceTree = SOURCE_ROOT; };
 		1AAF6B470FD9A049000698DA /* init.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = init.c; path = lib/init.c; sourceTree = "<group>"; };
 		1AC651260FE70FD1004C15CB /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = app/EAGLView.h; sourceTree = "<group>"; };
 		1AC651270FE70FD1004C15CB /* EAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EAGLView.m; path = app/EAGLView.m; sourceTree = "<group>"; };
@@ -75,6 +105,8 @@
 				28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */,
 				28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */,
 				1A861A8510916C0500706CC5 /* CoreGraphics.framework in Frameworks */,
+				1A1D5ACA109A349500ED980E /* OpenAL.framework in Frameworks */,
+				1A1D5ACE109A34A600ED980E /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +124,19 @@
 		1A8BCDAE101A1BEA00DED70B /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				1A1096C710AE0DF300BEA2A6 /* gradient.png */,
+				1A40308910AD3CCA0047E543 /* line2.png */,
+				1A40308510AD38E80047E543 /* explosion2.wav */,
+				1A1D5B40109B828600ED980E /* line2.tiff */,
+				1A1D5B2C109B5D3100ED980E /* explosion.wav */,
+				1A1D5B1C109A9F2F00ED980E /* shatter.wav */,
+				1A1D5B16109A9B6100ED980E /* thud.wav */,
+				1A1D5B08109A6D6D00ED980E /* bah.wav */,
+				1A1D5B09109A6D6D00ED980E /* moo.wav */,
+				1A1D5AB7109A344800ED980E /* noise.wav */,
+				1A9D1B1F1099F783001A93A4 /* line.tiff */,
+				1A9D1AE61099E5EA001A93A4 /* line.pnx */,
+				1A9D1AE21099E580001A93A4 /* line.png */,
 				1A861A1310916B3D00706CC5 /* sky.png */,
 				1A8888011079A52100E1E774 /* sheep.mtl */,
 				1A8888021079A52100E1E774 /* sheep.obj */,
@@ -136,6 +181,8 @@
 				28FD14FF0DC6FC520079059D /* OpenGLES.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				1A1D5AC9109A349500ED980E /* OpenAL.framework */,
+				1A1D5ACD109A34A600ED980E /* AudioToolbox.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -197,6 +244,19 @@
 				1A8888031079A52100E1E774 /* sheep.mtl in Resources */,
 				1A8888041079A52100E1E774 /* sheep.obj in Resources */,
 				1A861A1410916B3D00706CC5 /* sky.png in Resources */,
+				1A9D1AE31099E580001A93A4 /* line.png in Resources */,
+				1A9D1AE81099E5EA001A93A4 /* line.pnx in Resources */,
+				1A9D1B201099F783001A93A4 /* line.tiff in Resources */,
+				1A1D5AB8109A344800ED980E /* noise.wav in Resources */,
+				1A1D5B0A109A6D6D00ED980E /* bah.wav in Resources */,
+				1A1D5B0B109A6D6D00ED980E /* moo.wav in Resources */,
+				1A1D5B17109A9B6100ED980E /* thud.wav in Resources */,
+				1A1D5B1D109A9F2F00ED980E /* shatter.wav in Resources */,
+				1A1D5B2D109B5D3100ED980E /* explosion.wav in Resources */,
+				1A1D5B41109B828600ED980E /* line2.tiff in Resources */,
+				1A40308610AD38E80047E543 /* explosion2.wav in Resources */,
+				1A40308A10AD3CCA0047E543 /* line2.png in Resources */,
+				1A1096C810AE0DF300BEA2A6 /* gradient.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

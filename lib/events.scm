@@ -1,5 +1,9 @@
 ;;;; Events
 
+(declare (block)
+         (standard-bindings)
+         (extended-bindings))
+
 (define %%handlers (make-table))
 
 (define (install-event-handler name handler)

@@ -7,15 +7,33 @@
 		path = "/Users/james/projects/scheme/gambit-iphone-example/app/main.m";
 		sourceTree = "<absolute>";
 	};
-	1A3131C8107B06F90032CD59 /* PBXTextBookmark */ = {
+	1A1D5ADB109A369C00ED980E /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 1A861A1310916B3D00706CC5 /* sky.png */;
+	};
+	1A1D5ADC109A369C00ED980E /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 1AC651270FE70FD1004C15CB /* EAGLView.m */;
-		name = "EAGLView.m: 93";
+		fRef = 1A8888011079A52100E1E774 /* sheep.mtl */;
+		name = "sheep.mtl: 1";
 		rLen = 0;
-		rLoc = 2218;
+		rLoc = 0;
 		rType = 0;
-		vrLen = 973;
-		vrLoc = 1375;
+		vrLen = 514;
+		vrLoc = 0;
+	};
+	1A1D5B46109BFEF400ED980E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1A8888021079A52100E1E774 /* sheep.obj */;
+		name = "sheep.obj: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1223;
+		vrLoc = 0;
+	};
+	1A1D5B47109BFEF400ED980E /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 1A9D1B1F1099F783001A93A4 /* line.tiff */;
 	};
 	1A3B7340101900D300887149 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -26,6 +44,13 @@
 		rType = 0;
 		vrLen = 845;
 		vrLoc = 1377;
+	};
+	1A4EBE0C0FDA21CD000F4C9F /* init_.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {852, 172445}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 290}";
+		};
 	};
 	1A5300D6103E52D200859416 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -50,41 +75,6 @@
 		name = init.c;
 		path = "/Users/james/projects/scheme/gambit-iphone-example/lib/init.c";
 		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {742, 726089}}";
-			sepNavSelRange = "{1787486, 0}";
-			sepNavVisRange = "{101502, 1214}";
-		};
-	};
-	1A861A1910916B5600706CC5 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1A8888011079A52100E1E774 /* sheep.mtl */;
-		name = "sheep.mtl: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 514;
-		vrLoc = 0;
-	};
-	1A861AAB10916C1700706CC5 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1A8888011079A52100E1E774 /* sheep.mtl */;
-		name = "sheep.mtl: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 514;
-		vrLoc = 0;
-	};
-	1A861ADC1091744700706CC5 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1A8888011079A52100E1E774 /* sheep.mtl */;
-		name = "sheep.mtl: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 514;
-		vrLoc = 0;
 	};
 	1A861ADD1091744700706CC5 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -96,30 +86,19 @@
 		vrLen = 1214;
 		vrLoc = 101502;
 	};
-	1A861ADE1091744700706CC5 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 1A861A1310916B3D00706CC5 /* sky.png */;
-	};
-	1A861ADF1091744700706CC5 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 1A861A1310916B3D00706CC5 /* sky.png */;
-	};
 	1A8888011079A52100E1E774 /* sheep.mtl */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {742, 508}}";
+			sepNavIntBoundsRect = "{{0, 0}, {742, 519}}";
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRange = "{0, 514}";
 		};
 	};
-	1A8888671079AB6D00E1E774 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1AAF6B470FD9A049000698DA /* init.c */;
-		name = "init.c: 75664";
-		rLen = 0;
-		rLoc = 1787445;
-		rType = 0;
-		vrLen = 704;
-		vrLoc = 22;
+	1A8888021079A52100E1E774 /* sheep.obj */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {742, 45396}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1223}";
+		};
 	};
 	1A8888681079AB6D00E1E774 /* PlistBookmark */ = {
 		isa = PlistBookmark;
@@ -142,26 +121,6 @@
 		vrLen = 1152;
 		vrLoc = 3;
 	};
-	1A8CE7EE107B09C80050BEB5 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1A8888011079A52100E1E774 /* sheep.mtl */;
-		name = "sheep.mtl: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 514;
-		vrLoc = 0;
-	};
-	1A8CE809107B87580050BEB5 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1A8888011079A52100E1E774 /* sheep.mtl */;
-		name = "sheep.mtl: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 514;
-		vrLoc = 0;
-	};
 	1A9614811012282700A54EBA /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 1A062E371010F501002F8C30 /* main.m */;
@@ -174,21 +133,11 @@
 	};
 	1AAF6B470FD9A049000698DA /* init.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {852, 700388}}";
-			sepNavSelRange = "{1777853, 0}";
-			sepNavVisRange = "{0, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {936, 756054}}";
+			sepNavSelRange = "{106368, 0}";
+			sepNavVisRange = "{106218, 298}";
 			sepNavWindowFrame = "{{75, 0}, {894, 878}}";
 		};
-	};
-	1ABC508B10122BEC00811E0D /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1A85C29A10105263003E0CC8 /* init.c */;
-		name = "init.c: 5031";
-		rLen = 0;
-		rLoc = 160556;
-		rType = 0;
-		vrLen = 1084;
-		vrLoc = 160077;
 	};
 	1AC651260FE70FD1004C15CB /* EAGLView.h */ = {
 		uiCtxt = {
@@ -230,7 +179,7 @@
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
-		breakpointsEnabled = 1;
+		breakpointsEnabled = 0;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
@@ -276,9 +225,9 @@
 		);
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
-		activeBuildConfigurationName = "Debug iPhone";
+		activeBuildConfigurationName = Debug;
 		activeExecutable = 1ACA2F310FD4E7FC005851FB /* tosser */;
-		activeSDKPreference = iphoneos3.1;
+		activeSDKPreference = iphonesimulator3.1;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* tosser */;
 		addToTargets = (
 			1D6058900D05DD3D006BFB54 /* tosser */,
@@ -372,26 +321,20 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 277965609;
-			PBXWorkspaceStateSaveDate = 277965609;
+			PBXPerProjectTemplateStateSaveDate = 279902065;
+			PBXWorkspaceStateSaveDate = 279902065;
 		};
 		perUserProjectItems = {
-			1A3131C8107B06F90032CD59 = 1A3131C8107B06F90032CD59 /* PBXTextBookmark */;
-			1A3B7340101900D300887149 = 1A3B7340101900D300887149 /* PBXTextBookmark */;
-			1A5300D6103E52D200859416 = 1A5300D6103E52D200859416 /* PBXTextBookmark */;
-			1A861A1910916B5600706CC5 /* PBXTextBookmark */ = 1A861A1910916B5600706CC5 /* PBXTextBookmark */;
-			1A861AAB10916C1700706CC5 /* PBXTextBookmark */ = 1A861AAB10916C1700706CC5 /* PBXTextBookmark */;
-			1A861ADC1091744700706CC5 /* PBXTextBookmark */ = 1A861ADC1091744700706CC5 /* PBXTextBookmark */;
+			1A1D5ADB109A369C00ED980E /* PBXBookmark */ = 1A1D5ADB109A369C00ED980E /* PBXBookmark */;
+			1A1D5ADC109A369C00ED980E /* PBXTextBookmark */ = 1A1D5ADC109A369C00ED980E /* PBXTextBookmark */;
+			1A1D5B46109BFEF400ED980E /* PBXTextBookmark */ = 1A1D5B46109BFEF400ED980E /* PBXTextBookmark */;
+			1A1D5B47109BFEF400ED980E /* PBXBookmark */ = 1A1D5B47109BFEF400ED980E /* PBXBookmark */;
+			1A3B7340101900D300887149 /* PBXTextBookmark */ = 1A3B7340101900D300887149 /* PBXTextBookmark */;
+			1A5300D6103E52D200859416 /* PBXTextBookmark */ = 1A5300D6103E52D200859416 /* PBXTextBookmark */;
 			1A861ADD1091744700706CC5 /* PBXTextBookmark */ = 1A861ADD1091744700706CC5 /* PBXTextBookmark */;
-			1A861ADE1091744700706CC5 /* PBXBookmark */ = 1A861ADE1091744700706CC5 /* PBXBookmark */;
-			1A861ADF1091744700706CC5 /* PBXBookmark */ = 1A861ADF1091744700706CC5 /* PBXBookmark */;
-			1A8888671079AB6D00E1E774 = 1A8888671079AB6D00E1E774 /* PBXTextBookmark */;
-			1A8888681079AB6D00E1E774 = 1A8888681079AB6D00E1E774 /* PlistBookmark */;
-			1A8888691079AB6D00E1E774 = 1A8888691079AB6D00E1E774 /* PBXTextBookmark */;
-			1A8CE7EE107B09C80050BEB5 = 1A8CE7EE107B09C80050BEB5 /* PBXTextBookmark */;
-			1A8CE809107B87580050BEB5 = 1A8CE809107B87580050BEB5 /* PBXTextBookmark */;
-			1A9614811012282700A54EBA = 1A9614811012282700A54EBA /* PBXTextBookmark */;
-			1ABC508B10122BEC00811E0D = 1ABC508B10122BEC00811E0D /* PBXTextBookmark */;
+			1A8888681079AB6D00E1E774 /* PlistBookmark */ = 1A8888681079AB6D00E1E774 /* PlistBookmark */;
+			1A8888691079AB6D00E1E774 /* PBXTextBookmark */ = 1A8888691079AB6D00E1E774 /* PBXTextBookmark */;
+			1A9614811012282700A54EBA /* PBXTextBookmark */ = 1A9614811012282700A54EBA /* PBXTextBookmark */;
 		};
 		sourceControlManager = 1ACA2F450FD4E803005851FB /* Source Control */;
 		userBuildSettings = {

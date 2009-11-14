@@ -1,7 +1,27 @@
 
+(declare (block)
+         (standard-bindings)
+         (extended-bindings))
+
 (define (make-vec2d x y) (f64vector x y))
 (define (vec2d-x v) (f64vector-ref v 0))
 (define (vec2d-y v) (f64vector-ref v 1))
+
+(define (vec2d-add v1 v2)
+  (make-vec2d (fl+ (vec2d-x v1) (vec2d-x v2))
+              (fl+ (vec2d-y v1) (vec2d-y v2))))
+
+(define (vec2d-sub v1 v2)
+  (make-vec2d (fl- (vec2d-x v1) (vec2d-x v2))
+              (fl- (vec2d-y v1) (vec2d-y v2))))
+
+(define (vec2d-length v1)
+  (flsqrt (fl+ (fl* (vec2d-x v1) (vec2d-x v1))
+               (fl* (vec2d-y v1) (vec2d-y v1)))))
+
+(define (vec2d-scalar-mul v1 f)
+  (make-vec2d (fl* (vec2d-x v1) f)
+              (fl* (vec2d-y v1) f)))
 
 (define (make-vec3d x y z) (f64vector x y z))
 (define (vec3d-x v) (f64vector-ref v 0))

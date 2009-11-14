@@ -15,6 +15,10 @@
 ;;   (= updater :initialize )
 ;;   (= %%last-update :initializer (lambda () #f)))
 
+(declare (block)
+         (standard-bindings)
+         (extended-bindings))
+
 (define-type scene-object
   constructor: really-make-scene-object
   mesh
@@ -26,13 +30,17 @@
   acceleration
   callback
   %%last-update
-  data)
+  data
+  voice-source
+  thud-source)
 
 (define (make-scene-object mesh color pos #!optional rot scale vel accel update data)
   (really-make-scene-object mesh color pos rot scale vel accel
                             (or update (lambda (el) #t))
                             #f
-                            data))
+                            data
+                            #f
+                            #f))
 
 (define scene-list '())
 
@@ -71,14 +79,19 @@
              (reset-camera)
 
              (if color
-                 (glMaterialfv GL_FRONT_AND_BACK
-                               GL_DIFFUSE
-                               (vector->float-array
-                                (vector
-                                 (vec3d-x color)
-                                 (vec3d-y color)
-                                 (vec3d-z color)
-                                 1.))))
+                 (begin
+                   (glMaterialfv GL_FRONT_AND_BACK
+                                 GL_DIFFUSE
+                                 (vector->float-array
+                                  (vector
+                                   (vec3d-x color)
+                                   (vec3d-y color)
+                                   (vec3d-z color)
+                                   1.)))
+                   (glColor4f (vec3d-x color)
+                              (vec3d-y color)
+                              (vec3d-z color)
+                              1.)))
 
              (if pos
                  (glTranslatef (vec3d-x pos) (vec3d-y pos) (vec3d-z pos)))
@@ -101,7 +114,11 @@
                                              (vector->float-array
                                               (vector
                                                (vec3d-x d) (vec3d-y d) (vec3d-z d)
-                                               1.)))))
+                                               1.)))
+                               (glColor4f (vec3d-x d)
+                                          (vec3d-y d)
+                                          (vec3d-z d)
+                                          1.)))
                          (if (not (null? (obj-chunk-indices chunk)))
                              (glDrawElements GL_TRIANGLES
                                              (obj-chunk-num-indices chunk)
