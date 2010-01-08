@@ -424,6 +424,9 @@
 (define glTexImage2D (c-lambda (GLenum GLint GLenum GLsizei GLsizei GLint GLenum GLenum (pointer GLvoid)) void "glTexImage2D"))
 (define glTexParameteri (c-lambda (GLenum GLenum GLint) void "glTexParameteri"))
 (define glTexEnvi (c-lambda (GLenum GLenum GLint) void "glTexEnvi"))
+(define glTexEnvf (c-lambda (GLenum GLenum GLfloat) void "glTexEnvf"))
+(define glTexEnvfv (c-lambda (GLenum GLenum (pointer GLfloat)) void "glTexEnvfv"))
+(define glTexEnviv (c-lambda (GLenum GLenum (pointer GLint)) void "glTexEnviv"))
 
 (define glVertexPointer (c-lambda (GLint GLenum GLint GLfloat*) void "glVertexPointer"))
 (define glColorPointer (c-lambda (GLint GLenum GLint GLubyte*) void "glColorPointer"))
@@ -433,6 +436,7 @@
 (define glDisableClientState (c-lambda (GLenum) void "glDisableClientState"))
 (define glDrawArrays (c-lambda (GLenum GLint GLsizei) void "glDrawArrays"))
 (define glDrawElements (c-lambda (GLenum GLsizei GLenum (pointer GLvoid)) void "glDrawElements"))
+(define glLineWidth (c-lambda (GLfloat) void "glLineWidth"))
 
 (define glOrthof (c-lambda (GLfloat GLfloat GLfloat GLfloat GLfloat GLfloat) void "glOrthof"))
 (define glMatrixMode (c-lambda (GLenum) void "glMatrixMode"))
@@ -458,6 +462,9 @@
 (define glLightModelfv (c-lambda (GLenum (pointer GLfloat)) void "glLightModelfv"))
 
 (define glReadPixels (c-lambda (GLint GLint GLsizei GLsizei GLenum GLenum (pointer GLvoid)) void "glReadPixels"))
+
+;; (define glPushAttrib (c-lambda (GLbitfield) void "glPushAttrib"))
+;; (define glPopAttrib (c-lambda () void "glPopAttrib"))
 
 ;;; definitions generated from opengl, NOT opengl es, some of these work
 ;; (define glBitmap (c-lambda (GLsizei GLsizei GLfloat GLfloat GLfloat GLfloat (pointer GLubyte)) void "glBitmap"))
@@ -588,7 +595,6 @@
 ;; (define glLighti (c-lambda (GLenum GLenum GLint) void "glLighti"))
 ;; (define glLightiv (c-lambda (GLenum GLenum (pointer GLint)) void "glLightiv"))
 ;; (define glLineStipple (c-lambda (GLint GLushort) void "glLineStipple"))
-;; (define glLineWidth (c-lambda (GLfloat) void "glLineWidth"))
 ;; (define glListBase (c-lambda (GLuint) void "glListBase"))
 ;; (define glLoadMatrixd (c-lambda ((pointer GLfloat)) void "glLoadMatrixd"))
 ;; (define glLoadName (c-lambda (GLuint) void "glLoadName"))
@@ -632,12 +638,10 @@
 ;; (define glPolygonMode (c-lambda (GLenum GLenum) void "glPolygonMode"))
 ;; (define glPolygonOffset (c-lambda (GLfloat GLfloat) void "glPolygonOffset"))
 ;; (define glPolygonStipple (c-lambda ((pointer GLubyte)) void "glPolygonStipple"))
-;; (define glPopAttrib (c-lambda () void "glPopAttrib"))
 ;; (define glPopClientAttrib (c-lambda () void "glPopClientAttrib"))
 ;; (define glPopMatrix (c-lambda () void "glPopMatrix"))
 ;; (define glPopName (c-lambda () void "glPopName"))
 ;; (define glPrioritizeTextures (c-lambda (GLsizei (pointer GLuint) (pointer GLclampf)) void "glPrioritizeTextures"))
-;; (define glPushAttrib (c-lambda (GLbitfield) void "glPushAttrib"))
 ;; (define glPushClientAttrib (c-lambda (GLbitfield) void "glPushClientAttrib"))
 ;; (define glPushMatrix (c-lambda () void "glPushMatrix"))
 ;; (define glPushName (c-lambda (GLuint) void "glPushName"))
@@ -716,9 +720,6 @@
 ;; (define glTexCoord4iv (c-lambda ((pointer GLint)) void "glTexCoord4iv"))
 ;; (define glTexCoord4s (c-lambda (GLshort GLshort GLshort GLshort) void "glTexCoord4s"))
 ;; (define glTexCoord4sv (c-lambda ((pointer GLshort)) void "glTexCoord4sv"))
-;; (define glTexEnvf (c-lambda (GLenum GLenum GLfloat) void "glTexEnvf"))
-;; (define glTexEnvfv (c-lambda (GLenum GLenum (pointer GLfloat)) void "glTexEnvfv"))
-;; (define glTexEnviv (c-lambda (GLenum GLenum (pointer GLint)) void "glTexEnviv"))
 ;; (define glTexGend (c-lambda (GLenum GLenum GLfloat) void "glTexGend"))
 ;; (define glTexGendv (c-lambda (GLenum GLenum (pointer GLfloat)) void "glTexGendv"))
 ;; (define glTexGenf (c-lambda (GLenum GLenum GLfloat) void "glTexGenf"))

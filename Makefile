@@ -7,18 +7,25 @@
 ### only to generate C code. (Obviously, we can't run "gsc" from the
 ### iPhoneOS build since it's build for ARM.)
 
-gsc=/usr/local/Gambit-C/iPhoneSimulator3.1/bin/gsc
+gsc=/usr/local/Gambit-C/iPhoneSimulator-3.1.2/bin/gsc
 
 #### Main
 
-all: lib/init_.c config
+all: simul_config lib/init_.c
 
-lib/init_.c: lib/init.scm lib/ffi/gl.scm lib/util/srfi-1.scm lib/apps/*
+iphone: iphone_config lib/init_.c
+
+lib/init_.c: lib/init.scm lib/ffi/gl.scm lib/util/srfi-1.scm lib/animattack.scm
 	cd lib && $(gsc) -link init.scm
 
 config:
 	echo '(define root "$(CURDIR)")' > lib/config.scm
 
+simul_config: config 
+	echo '(define-expand-var SIMULATOR #t)' >> lib/config.scm
+
+iphone_config: config
+	echo '(define-expand-var SIMULATOR #f)' >> lib/config.scm
 
 #### UNUSED
 ### The following sections are UNUSED unless you want to play around

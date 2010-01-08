@@ -6,6 +6,14 @@
 
 (include "osx#.scm")
 
+;;; NSLog
+
+(define NSLog
+  (c-lambda (char-string) void #<<end-c-code
+   NSLog(@"%s", ___arg1);
+end-c-code
+))
+
 ;;; NSArray
 
 (define (NSArray->list arr)

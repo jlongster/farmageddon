@@ -54,9 +54,10 @@ int main(int argc, char *argv[]) {
 	setup_params.version = ___VERSION;
 	setup_params.linker = LINKER;
     setup_params.debug_settings = debug_settings;
-    
-	___setup(&setup_params);
 
+
+    ___setup(&setup_params);
+                                  
     int retVal = UIApplicationMain(argc, argv, nil, nil);
     
     ___cleanup();
