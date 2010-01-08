@@ -16,6 +16,21 @@
       lst
       (error name "assert-length failed")))
 
+(define (quad v1 v2 v3 v4)
+    (list v1 v2 v3 v1 v3 v4))
+
+(define (vec3d-list->vector . args)
+    (let ((v (make-vector (* (length args) 3))))
+      (let loop ((tail args)
+                 (i 0))
+        (if (null? tail)
+            v
+            (let ((vec (car tail)))
+              (vector-set! v (* i 3) (vec3d-x vec))
+              (vector-set! v (+ (* i 3) 1) (vec3d-y vec))
+              (vector-set! v (+ (* i 3) 2) (vec3d-z vec))
+              (loop (cdr tail) (+ i 1)))))))
+
 ;;;; materials
 
 (define-type material
@@ -98,7 +113,8 @@
   vertices
   normals
   chunks
-  bounding-box)
+  bounding-box
+  bounding-box-mesh)
 
 (define (make-bounding-box)
   (really-make-bounding-box 0. 0. 0. 0. 0. 0.))
@@ -107,7 +123,7 @@
   (really-make-obj-chunk #f '() mat))
 
 (define (make-obj)
-  (really-make-obj #f '() '() '() (make-bounding-box)))
+  (really-make-obj #f '() '() '() (make-bounding-box) #f))
 
 (define (obj-parse-vertex)
   (enforce-length "vertex" 3 (read-map exact->inexact)))
@@ -170,6 +186,58 @@
 (define (flip-and-vectorize data)
     (list->vector (reverse data)))
 
+(define (make-bounding-box-mesh obj avoid-c-vectors?)
+  (define-macro (bb attr)
+    `(,(string->symbol
+        (string-append "bounding-box-" (symbol->string attr)))
+      bbox))
+  
+  (let* ((bbox (obj-bounding-box obj))
+         (data
+          (apply vec3d-list->vector
+                 (append
+                  ;; Create counter-clockwise quads for each side of the
+                  ;; bounding box
+                  
+                  ;; min-x plane
+                  (quad (make-vec3d (bb min-x) (bb min-y) (bb min-z))
+                        (make-vec3d (bb min-x) (bb min-y) (bb max-z))
+                        (make-vec3d (bb min-x) (bb max-y) (bb max-z))
+                        (make-vec3d (bb min-x) (bb max-y) (bb min-z)))
+
+                  ;; max-x plane
+                  (quad (make-vec3d (bb max-x) (bb min-y) (bb min-z))
+                        (make-vec3d (bb max-x) (bb max-y) (bb min-z))
+                        (make-vec3d (bb max-x) (bb max-y) (bb max-z))
+                        (make-vec3d (bb max-x) (bb min-y) (bb max-z)))
+
+                  ;; min-z plane
+                  (quad (make-vec3d (bb min-x) (bb min-y) (bb min-z))
+                        (make-vec3d (bb min-x) (bb max-y) (bb min-z))
+                        (make-vec3d (bb max-x) (bb max-y) (bb min-z))
+                        (make-vec3d (bb max-x) (bb min-y) (bb min-z)))
+
+                  ;; max-z plane
+                  (quad (make-vec3d (bb min-x) (bb min-y) (bb max-z))
+                        (make-vec3d (bb max-x) (bb min-y) (bb max-z))                    
+                        (make-vec3d (bb max-x) (bb max-y) (bb max-z))
+                        (make-vec3d (bb min-x) (bb max-y) (bb max-z)))
+
+                  ;; min-y plane
+                  (quad (make-vec3d (bb min-x) (bb min-y) (bb min-z))
+                        (make-vec3d (bb max-x) (bb min-y) (bb min-z))
+                        (make-vec3d (bb max-x) (bb min-y) (bb max-z))
+                        (make-vec3d (bb min-x) (bb min-y) (bb max-z)))
+
+                  ;; max-y plane
+                  (quad (make-vec3d (bb min-x) (bb max-y) (bb min-z))
+                        (make-vec3d (bb min-x) (bb max-y) (bb max-z))
+                        (make-vec3d (bb max-x) (bb max-y) (bb max-z))
+                        (make-vec3d (bb max-x) (bb max-y) (bb min-z)))))))
+    (if avoid-c-vectors?
+        data
+        (vector->float-array data))))
+
 (define (obj-finalize obj avoid-c-vectors?)
   (if (not avoid-c-vectors?)
       (begin
@@ -179,7 +247,10 @@
         (obj-vertices-set! obj
                            (vector->float-array (obj-vertices obj)))
         (obj-normals-set! obj
-                          (vector->float-array (obj-normals obj))))))
+                          (vector->float-array (obj-normals obj)))))
+  (obj-bounding-box-mesh-set!
+   obj
+   (make-bounding-box-mesh obj avoid-c-vectors?)))
 
 (define (obj-chunk-finalize chunk avoid-c-vectors?)
   (if (not avoid-c-vectors?)
