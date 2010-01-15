@@ -40,8 +40,8 @@
 ;; load the game
 
 (expand-if SIMULATOR
-           (load (local-resource "lib/animattack"))
-           (include "animattack.scm"))
+           (load (local-resource "lib/farmageddon"))
+           (include "farmageddon.scm"))
 
 ;; provide entry points
 

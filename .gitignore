@@ -4,4 +4,4 @@ gl*.c
 init*.c
 build
 tosser.app
-lib/config.scm
+src/config.scm

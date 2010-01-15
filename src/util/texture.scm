@@ -3,7 +3,7 @@
          (standard-bindings)
          (extended-bindings))
 
-(include "ffi/ffi#.scm")
+(include "../ffi/ffi#.scm")
 
 (define (alloc-opengl-image)
   (with-alloc (img (make-unsigned-int-array 1))

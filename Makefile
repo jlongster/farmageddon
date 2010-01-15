@@ -27,6 +27,9 @@ simul_config: config
 iphone_config: config
 	echo '(define-expand-var SIMULATOR #f)' >> lib/config.scm
 
+clean:
+	rm -f lib/init_.c
+
 #### UNUSED
 ### The following sections are UNUSED unless you want to play around
 ### with more advanced ways of compilation and deployment.
