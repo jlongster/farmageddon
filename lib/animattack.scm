@@ -3,18 +3,22 @@
          (standard-bindings)
          (extended-bindings))
 
-(include "util/srfi-1.scm")
-(include "util/srfi-2.scm")
-(include "util/sort.scm")
-(include "vectors.scm")
-(include "events#.scm")
-(include "events.scm")
-(include "obj-loader2.scm")
-(include "scene.scm")
-(include "physics.scm")
-(include "util-3d.scm")
-(include "texture.scm")
-(include "intersection.scm")
+;; libraries
+
+(include "util/srfi/srfi-1.scm")
+(include "util/srfi/srfi-2.scm")
+(include "util/vectors.scm")
+(include "util/events#.scm")
+(include "util/events.scm")
+(include "util/obj-loader.scm")
+(include "util/scene.scm")
+(include "util/physics.scm")
+(include "util/standard-meshes.scm")
+(include "util/texture.scm")
+
+;; application components
+
+(include "lasers.scm")
 
 ;;; resources
 
@@ -149,22 +153,17 @@
 
 ;;; glass cracking
 
-(define %%crack-points '())
-(define %%cracks '())
-(define %%crack-dirty #f)
-
 (define (deviate n)
   (+ n (* (- (random-real) .5) 250.)))
-
-(define (add-point point)
-  (set! %%crack-points
-        (cons point %%crack-points)))
 
 (define-type crack
   point1
   point2
   color
   alpha)
+
+(define %%cracks '())
+(define %%crack-dirty #f)
 
 (define (add-crack point1 point2)
   (set! %%cracks
@@ -174,67 +173,49 @@
                           (+ (random-integer 120) 100))
               %%cracks)))
 
-(define-type point/distance
-  point
-  distance)
-
-(define (get-point-distance point1 point2)
-  (vec2d-length (make-vec2d (- (car point1) (car point2))
-                            (- (cdr point1) (cdr point2)))))
-
-(define (find-closest-points point1 x)
-  (let ((data (sort-list (map (lambda (point2)
-                                (make-point/distance
-                                 point2
-                                 (get-point-distance point1 point2)))
-                              %%crack-points)
-                         (lambda (p/dist1 p/dist2)
-                           (< (point/distance-distance p/dist1)
-                              (point/distance-distance p/dist2))))))
-    (map point/distance-point
-         (take data x))))
-
 (define (crack x y)
-  (define (add-random-crack point)
-    (let ((new-point (cons (deviate (car point))
-                           (deviate (cdr point)))))
-      (add-point new-point)
-      (add-crack point new-point)))
+  (define (rotate point degrees)
+    (let* ((rad (* (/ degrees 180) PI))
+           (rad-sin (sin rad))
+           (rad-cos (cos rad)))
+      (make-vec2d
+       (- (* (vec2d-x point) rad-cos)
+          (* (vec2d-y point) rad-sin))
+       (+ (* (vec2d-x point) rad-sin)
+          (* (vec2d-y point) rad-cos)))))
   
+  (define (random-closeby-point point)
+    (cons (deviate (car point))
+          (deviate (cdr point))))
+
+  (define (random-directed-point p1 p2)
+    (let ((p1 (make-vec2d (car p1) (cdr p1)))
+          (p2 (make-vec2d (car p2) (cdr p2))))
+      (let* ((vec1 (vec2d-sub p2 p1))
+             (vec2 (rotate vec1 (* (spread-number (random-real)) 45.)))
+             (point (vec2d-add p2 vec2)))
+        (cons (vec2d-x point)
+              (vec2d-y point)))))
+
+  (define (add-cracks-from-point p1)
+    (let ((p2 (random-closeby-point p1)))
+      (add-crack p1 p2)
+    
+      (let loop ((p1 p1)
+                 (p2 p2)
+                 (i (random-integer 3)))
+        (if (> i 0)
+            (let ((point (random-directed-point p1 p2)))
+              (add-crack p2 point)
+              (loop p2 point (- i 1)))))))
+
   (let ((point (cons x y)))
-    (if (not (null? %%cracks))
-        (let ((points (find-closest-points point
-                                           (+ (random-integer 3) 1))))
-          (if (= (random-integer 2) 0)
-              ;; Only add partial cracks
-              (for-each (lambda (point2)
-                          (let ((p1 (make-vec2d (car point) (cdr point)))
-                                (p2 (make-vec2d (car point2) (cdr point2))))
-                            (let* ((p3 (vec2d-add
-                                            p2
-                                            (vec2d-scalar-mul (vec2d-sub p1 p2)
-                                                              (+ (* (random-real) .5) .5))))
-                                   (point3 (cons (vec2d-x p3)
-                                                 (vec2d-y p3))))
-                              (add-point point3)
-                              (add-crack point2 point3))))
-                        points)
-              ;; Add completely new cracks
-              (begin
-                (add-point point)
-                (for-each (lambda (point2)
-                            (add-crack point2 point))
-                          points)
-                (let ((num-new-cracks (random-integer 3)))
-                  (unfold (lambda (i) (>= i num-new-cracks))
-                          (lambda (i) (add-random-crack point))
-                          (lambda (i) (+ i 1))
-                          0)))))
-        (begin
-          (add-point point)
-          (add-random-crack point)
-          (add-random-crack point)
-          (add-random-crack point))))
+    (let loop ((i 0))
+      (if (< i 35)
+          (begin
+            (add-cracks-from-point point)
+            (loop (+ i 1))))))
+
   (set! %%crack-dirty #t))
 
 (define %%crack-vertices #f)
@@ -628,98 +609,6 @@
         (play-audio source)
         (set! %%shatter-source source))))
 
-;; lasers
-
-(define %%lasers '())
-
-(define (render-laser deg point then now lifetime)
-  (let ((width (UIView-width (current-view)))
-        (height (UIView-height (current-view)))
-        (pers (current-perspective)))
-    (glLoadIdentity)
-    (glTranslatef (exact->inexact (* (/ (car point) width) (perspective-xmax pers)))
-                  (exact->inexact (* (/ (cdr point) height) (perspective-ymin pers)))
-                  0.)
-    (glRotatef deg 0. 0. 1.)
-    (glTranslatef 0. -.05 0.)
-    (glScalef 1.5 .1 1.)
-
-    ;; Freaking alpha-premultiplication that Cocoa does
-    ;; automatically. This simply allows me to fade out a
-    ;; textured polygon, which is broken due to Apple's
-    ;; crappy premultiplication which is forced on you.
-    ;; Basically, I premultiply the fade out into the
-    ;; color values using glColor4f since the texture
-    ;; environment is set to GL_MODULATE.
-    (glEnable GL_BLEND)
-    (glBlendFunc GL_ONE GL_ONE_MINUS_SRC_ALPHA)
-    (let ((fade (- 1. (/ (- now then)
-                         lifetime))))
-      (glColor4f fade fade fade fade))
-          
-    (image-render (case (random-integer 2)
-                    ((0) line-texture)
-                    ((1) line2-texture)))
-          
-    (glDisable GL_BLEND)
-    #t))
-
-(define (add-laser deg point lifetime)
-  (let ((then (real-time))
-        (explosion-source (make-audio-source explosion-audio)))
-    (alSourcef explosion-source AL_GAIN 1.)
-    ;; Play the explosion sound, and free it
-    (play-audio explosion-source)
-    ;; Ewwww, look at that ugly hack!
-    (thread-start!
-     (make-thread
-      (lambda ()
-        (thread-sleep! 1.3)
-        (free-audio-source explosion-source))))
-    
-    (set!
-     %%lasers
-     (cons 
-      (lambda ()
-        (let ((now (real-time)))
-          (if (>= (- now then) lifetime)
-              #f
-              (render-laser deg point then now lifetime))))
-      %%lasers))))
-
-(define (make-laser point)
-  (define (l)
-    (* (random-real) .4))
-  
-  ;; (add-laser 0. point (l))
-  ;; (add-laser 90. point (l))
-  ;; (add-laser 180. point (l))
-  ;; (add-laser 270. point (l))
-  ;; (add-laser (* (random-real) 15.)
-  ;;            point
-  ;;            (l))
-  ;; (add-laser (+ 90. (* (spread-number (random-real)) 15.))
-  ;;            point
-  ;;            (l))
-  (let ((deg (+ -90. (* (spread-number (random-real)) 40.))))
-    (add-laser (+ deg (* (spread-number (random-real)) 15.))
-               point
-               (l))
-    (add-laser deg
-               point
-               (l))))
-
-(define (render-lasers)
-  (set! %%lasers
-        (reverse
-         (fold (lambda (render-laser acc)
-                 (let ((result (render-laser)))
-                   (if result
-                       (cons render-laser acc)
-                       acc)))
-               '()
-               %%lasers))))
-
 ;; ================= levels ================
 
 ;;;; score
@@ -820,6 +709,7 @@
 (define gradient-texture #f)
 (define line-texture #f)
 (define line2-texture #f)
+(define star-texture #f)
 (define bah-audio #f)
 (define moo-audio #f)
 (define chicken-audio #f)
@@ -849,7 +739,8 @@
                             (CGImageRef-height image))))
   
   (let ((line (CGImageRef-load "line.png"))
-        (line2 (CGImageRef-load "line2.png")))
+        (line2 (CGImageRef-load "line2.png"))
+        (star (CGImageRef-load "star.png")))
     (set! line-texture (image-opengl-upload
                         (CGImageRef-data line)
                         (CGImageRef-width line)
@@ -857,7 +748,11 @@
     (set! line2-texture (image-opengl-upload
                          (CGImageRef-data line2)
                          (CGImageRef-width line2)
-                         (CGImageRef-height line2))))
+                         (CGImageRef-height line2)))
+    (set! star-texture (image-opengl-upload
+                        (CGImageRef-data star)
+                        (CGImageRef-width star)
+                        (CGImageRef-height star))))
   
   (init-audio)
   (set! bah-audio (load-audio "bah.wav"))

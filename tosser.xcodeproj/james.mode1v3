@@ -254,8 +254,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -301,6 +299,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>2</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
@@ -325,7 +324,7 @@
 							<real>186</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>81 55 1011 823 0 0 1440 878 </string>
+						<string>236 55 1011 823 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -341,7 +340,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>line.tiff</string>
+								<string>star.png</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -349,11 +348,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>line.tiff</string>
+										<string>star.png</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>1ACC5B5B10F7982000293FFC</string>
+										<string>1ACC5B93110031F900293FFC</string>
 										<key>history</key>
 										<array>
 											<string>1A9614811012282700A54EBA</string>
@@ -364,7 +363,9 @@
 											<string>1AA2D9C010AF2C3000BF3FB2</string>
 											<string>1AA2D9C110AF2C3000BF3FB2</string>
 											<string>1AA2D9C210AF2C3000BF3FB2</string>
-											<string>1A71B4A710F46470007E551C</string>
+											<string>1ACC5B90110031F900293FFC</string>
+											<string>1ACC5B91110031F900293FFC</string>
+											<string>1ACC5B92110031F900293FFC</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -378,7 +379,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {803, 474}}</string>
 								<key>RubberWindowFrame</key>
-								<string>81 55 1011 823 0 0 1440 878 </string>
+								<string>236 55 1011 823 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -386,6 +387,8 @@
 							<string>474pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -398,7 +401,7 @@
 								<key>Frame</key>
 								<string>{{0, 479}, {803, 303}}</string>
 								<key>RubberWindowFrame</key>
-								<string>81 55 1011 823 0 0 1440 878 </string>
+								<string>236 55 1011 823 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -545,7 +548,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>284661792.49014997</real>
+	<real>285225465.41853797</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
@@ -564,11 +567,11 @@
 		<string>1ACC5B5D10F7982000293FFC</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>/Users/james/projects/scheme/animattack/tosser.xcodeproj</string>
 		<string>1ACA2F3C0FD4E803005851FB</string>
+		<string>/Users/james/projects/scheme/animattack/tosser.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>81 55 1011 823 0 0 1440 878 </string>
+	<string>236 55 1011 823 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

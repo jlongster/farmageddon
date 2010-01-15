@@ -37,6 +37,7 @@
 		1AC651320FE70FE9004C15CB /* window.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AC651300FE70FE9004C15CB /* window.xib */; };
 		1AC651A70FE710DB004C15CB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AC651A60FE710DB004C15CB /* Info.plist */; };
 		1ACC5B2F10F6640200293FFC /* duck.obj.gso in Resources */ = {isa = PBXBuildFile; fileRef = 1ACC5B2E10F6640100293FFC /* duck.obj.gso */; };
+		1ACC5B8B10FFDB3B00293FFC /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACC5B8A10FFDB3B00293FFC /* star.png */; };
 		1AEA80C310B0777A0065D846 /* chicken.obj.gso in Resources */ = {isa = PBXBuildFile; fileRef = 1AEA80C110B0777A0065D846 /* chicken.obj.gso */; };
 		1AEA80C410B0777A0065D846 /* chicken.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1AEA80C210B0777A0065D846 /* chicken.wav */; };
 		1AEA80D710B091140065D846 /* life-bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AEA80D510B091140065D846 /* life-bar.png */; };
@@ -80,6 +81,7 @@
 		1AC651300FE70FE9004C15CB /* window.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = window.xib; path = app/window.xib; sourceTree = "<group>"; };
 		1AC651A60FE710DB004C15CB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1ACC5B2E10F6640100293FFC /* duck.obj.gso */ = {isa = PBXFileReference; lastKnownFileType = file; path = duck.obj.gso; sourceTree = "<group>"; };
+		1ACC5B8A10FFDB3B00293FFC /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		1AEA80C110B0777A0065D846 /* chicken.obj.gso */ = {isa = PBXFileReference; lastKnownFileType = file; path = chicken.obj.gso; sourceTree = "<group>"; };
 		1AEA80C210B0777A0065D846 /* chicken.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chicken.wav; sourceTree = "<group>"; };
 		1AEA80D510B091140065D846 /* life-bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "life-bar.png"; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 		1A8BCDAE101A1BEA00DED70B /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				1ACC5B8A10FFDB3B00293FFC /* star.png */,
 				1ACC5B2E10F6640100293FFC /* duck.obj.gso */,
 				1AEA80D510B091140065D846 /* life-bar.png */,
 				1AEA80D610B091140065D846 /* life-groove.png */,
@@ -249,6 +252,7 @@
 				1AEA80D710B091140065D846 /* life-bar.png in Resources */,
 				1AEA80D810B091140065D846 /* life-groove.png in Resources */,
 				1ACC5B2F10F6640200293FFC /* duck.obj.gso in Resources */,
+				1ACC5B8B10FFDB3B00293FFC /* star.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

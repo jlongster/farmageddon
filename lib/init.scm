@@ -19,7 +19,7 @@
 
 (expand-if SIMULATOR
            (begin
-             (include "util/remote-debugger/debuggee.scm")
+             (include "../emacs/remote-debugger/debuggee.scm")
              (rdi-set-host! "localhost:20000")
 
              (thread-start!
@@ -28,7 +28,7 @@
 
 ;; compile in all the ffis
 
-(include "resource.scm")
+(include "util/resource.scm")
 (include "ffi/ffi.scm")
 (include "ffi/gl.scm")
 (include "ffi/gl-util.scm")
