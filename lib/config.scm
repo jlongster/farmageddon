@@ -1,2 +1,2 @@
-(define root "/Users/james/projects/scheme/animattack")
+(define root "/Users/james/projects/scheme/farmageddon")
 (define-expand-var SIMULATOR #t)

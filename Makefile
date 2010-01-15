@@ -15,7 +15,7 @@ all: simul_config lib/init_.c
 
 iphone: iphone_config lib/init_.c
 
-lib/init_.c: lib/init.scm lib/ffi/gl.scm lib/util/srfi-1.scm lib/animattack.scm
+lib/init_.c: lib/init.scm lib/ffi/gl.scm lib/farmageddon.scm
 	cd lib && $(gsc) -link init.scm
 
 config:
