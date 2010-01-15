@@ -1,7 +1,7 @@
 
 (include "arrays#.scm")
 (include "ffi#.scm")
-(include "../util/tests.scm")
+(include "../lib/tests.scm")
 
 ;;; util
 

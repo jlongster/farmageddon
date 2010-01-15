@@ -5,16 +5,16 @@
 
 ;; libraries
 
-(include "util/srfi/srfi-1.scm")
-(include "util/srfi/srfi-2.scm")
-(include "util/vectors.scm")
-(include "util/events#.scm")
-(include "util/events.scm")
-(include "util/obj-loader.scm")
-(include "util/scene.scm")
-(include "util/physics.scm")
-(include "util/standard-meshes.scm")
-(include "util/texture.scm")
+(include "lib/srfi/srfi-1.scm")
+(include "lib/srfi/srfi-2.scm")
+(include "lib/vectors.scm")
+(include "lib/events#.scm")
+(include "lib/events.scm")
+(include "lib/obj-loader.scm")
+(include "lib/scene.scm")
+(include "lib/physics.scm")
+(include "lib/standard-meshes.scm")
+(include "lib/texture.scm")
 
 ;; application components
 

@@ -11,24 +11,24 @@ gsc=/usr/local/Gambit-C/iPhoneSimulator-3.1.2/bin/gsc
 
 #### Main
 
-all: simul_config lib/init_.c
+all: simul_config src/init_.c
 
-iphone: iphone_config lib/init_.c
+iphone: iphone_config src/init_.c
 
-lib/init_.c: lib/init.scm lib/ffi/gl.scm lib/farmageddon.scm
-	cd lib && $(gsc) -link init.scm
+src/init_.c: src/init.scm src/ffi/gl.scm src/farmageddon.scm
+	cd src && $(gsc) -link init.scm
 
 config:
-	echo '(define root "$(CURDIR)")' > lib/config.scm
+	echo '(define root "$(CURDIR)")' > src/config.scm
 
 simul_config: config 
-	echo '(define-expand-var SIMULATOR #t)' >> lib/config.scm
+	echo '(define-expand-var SIMULATOR #t)' >> src/config.scm
 
 iphone_config: config
-	echo '(define-expand-var SIMULATOR #f)' >> lib/config.scm
+	echo '(define-expand-var SIMULATOR #f)' >> src/config.scm
 
 clean:
-	rm -f lib/init_.c
+	rm -f src/init_.c
 
 #### UNUSED
 ### The following sections are UNUSED unless you want to play around
@@ -36,19 +36,15 @@ clean:
 
 #### Loadable modules
 ### These are here if you change the "include" statements in
-### lib/init.scm to "load" statements
+### src/init.scm to "load" statements
 
-lib/ffi/gl.o1: lib/ffi/gl.scm
-	rm -rf lib/ffi/gl.o1
-	cd lib/ffi && $(gsc) -debug gl.scm
+src/ffi/gl.o1: src/ffi/gl.scm
+	rm -rf src/ffi/gl.o1
+	cd src/ffi && $(gsc) -debug gl.scm
 
-lib/util/srfi-1.o1: lib/util/srfi-1.scm
-	rm -rf lib/util/srfi-1.o1
-	cd lib/util && $(gsc) -debug srfi-1.scm
-
-lib/graphics.o1: lib/graphics.scm
-	rm -rf lib/graphics.o1
-	cd lib && $(gsc) graphics.scm
+src/lib/srfi-1.o1: src/lib/srfi-1.scm
+	rm -rf src/lib/srfi-1.o1
+	cd src/lib && $(gsc) -debug srfi-1.scm
 
 #### Making tosser.app
 ### These are here for manual compilation and deployment of the app
@@ -63,7 +59,7 @@ sdk=/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator
 # gcc=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/arm-apple-darwin9-gcc-4.0.1
 # sdk=/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.0.sdk
 
-tosser.app: Info.plist app/main.m app/EAGLView.m lib/init_.c config
+tosser.app: Info.plist app/main.m app/EAGLView.m src/init_.c config
 	mkdir -p $(app_name)
 	cp Info.plist $(app_name)
 	ibtool --errors --warnings --notices \
@@ -82,7 +78,7 @@ tosser.app: Info.plist app/main.m app/EAGLView.m lib/init_.c config
     -I/usr/local/Gambit-C/iPhoneSimulator3.1/include \
     -L/usr/local/Gambit-C/iPhoneSimulator3.1/lib \
 	app/EAGLView.m app/tosserAppDelegate.m app/main.m \
-    lib/init*.c \
+    src/init*.c \
 	-o $(app_name)/$(exe_name)
 
 	cp -r resources/* $(app_name)

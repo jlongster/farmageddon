@@ -28,7 +28,7 @@
 
 ;; compile in all the ffis
 
-(include "util/resource.scm")
+(include "lib/resource.scm")
 (include "ffi/ffi.scm")
 (include "ffi/gl.scm")
 (include "ffi/gl-util.scm")
@@ -40,7 +40,7 @@
 ;; load the game
 
 (expand-if SIMULATOR
-           (load (local-resource "lib/farmageddon"))
+           (load (local-resource "src/farmageddon"))
            (include "farmageddon.scm"))
 
 ;; provide entry points
