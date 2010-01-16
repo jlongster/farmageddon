@@ -15,8 +15,6 @@
      NSInteger height = CGImageGetHeight(image);
      unsigned char *data = (unsigned char*)calloc(width*height, 4);
 
-     NSLog(@"%x %d %d", image, width, height);
-
      CGContextRef context = CGBitmapContextCreate(data,
                                                   width, height,
                                                   8, width * 4,
@@ -27,11 +25,6 @@
                         CGRectMake(0.0, 0.0, (float)width, (float)height),
                         image);
      CGContextRelease(context);
-
-     NSLog(@"[%d %d %d %d]", data[0], data[1], data[2], data[3]);
-     NSLog(@"[%d %d %d %d]", data[4], data[5], data[6], data[7]);
-     NSLog(@"[%d %d %d %d]", data[8], data[9], data[10], data[11]);
-     NSLog(@"[%d %d %d %d]", data[12], data[13], data[14], data[15]);
 
      return data;
  }

@@ -76,8 +76,6 @@
      alSourcef(sourceId, AL_PITCH, 1.0f);
      alSourcef(sourceId, AL_GAIN, 1.0f);
 
-     NSLog(@"PITCH: %d, GAIN: %d", AL_PITCH, AL_GAIN);
-     
      return sourceId;
  }
 

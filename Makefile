@@ -30,10 +30,6 @@ iphone_config: config
 clean:
 	rm -f src/init_.c
 
-#### UNUSED
-### The following sections are UNUSED unless you want to play around
-### with more advanced ways of compilation and deployment.
-
 #### Loadable modules
 ### These are here if you change the "include" statements in
 ### src/init.scm to "load" statements
@@ -45,44 +41,3 @@ src/ffi/gl.o1: src/ffi/gl.scm
 src/lib/srfi-1.o1: src/lib/srfi-1.scm
 	rm -rf src/lib/srfi-1.o1
 	cd src/lib && $(gsc) -debug srfi-1.scm
-
-#### Making tosser.app
-### These are here for manual compilation and deployment of the app
-
-app_name=tosser.app
-exe_name=tosser
-uuid=6105AA5B-02C7-4250-9D68-4789C9EE0ECF
-deploy_path=~/Library/'Application Support/iPhone Simulator'/User/Applications/$(uuid)
-
-gcc=/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2
-sdk=/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.sdk
-# gcc=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/arm-apple-darwin9-gcc-4.0.1
-# sdk=/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.0.sdk
-
-tosser.app: Info.plist app/main.m app/EAGLView.m src/init_.c config
-	mkdir -p $(app_name)
-	cp Info.plist $(app_name)
-	ibtool --errors --warnings --notices \
-		--output-format human-readable-text \
-		--compile $(app_name)/window.nib \
-		app/window.xib
-
-	$(gcc) -x objective-c -arch i386 -isysroot $(sdk) \
-	-D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 \
-	-mmacosx-version-min=10.5 \
-	-framework Foundation -framework UIKit \
-	-framework OpenGLES -framework QuartzCore \
-	-framework CoreGraphics \
-	-framework OpenAL -framework AudioToolbox \
-	-fvisibility=hidden -I/usr/local/include -D___LIBRARY -lgambc \
-    -I/usr/local/Gambit-C/iPhoneSimulator3.1/include \
-    -L/usr/local/Gambit-C/iPhoneSimulator3.1/lib \
-	app/EAGLView.m app/tosserAppDelegate.m app/main.m \
-    src/init*.c \
-	-o $(app_name)/$(exe_name)
-
-	cp -r resources/* $(app_name)
-
-deploy: tosser.app
-	rm -fr $(deploy_path)/$(app_name)
-	cp -r $(app_name) $(deploy_path)

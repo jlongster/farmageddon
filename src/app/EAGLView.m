@@ -19,7 +19,6 @@ extern "C" {
     void register_view(UIView*);
     void init();
     void render();
-    char* get_title();
     void did_accelerate(UIAccelerometer*, UIAcceleration*);
     void touches_began(NSSet*, UIEvent*);
     void touches_moved(NSSet*, UIEvent*);
@@ -48,8 +47,6 @@ extern "C" {
 @synthesize context;
 @synthesize animationTimer;
 @synthesize animationInterval;
-@synthesize label;
-
 
 // You must implement this
 + (Class)layerClass {
@@ -67,7 +64,7 @@ extern "C" {
                                                                  [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
 		
 		context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
-		
+
 		if (!context || ![EAGLContext setCurrentContext:context]) {
 			[self release];
 			return nil;
@@ -75,9 +72,9 @@ extern "C" {
 		
 		animationInterval = 1.0 / 60.0;
 
-        register_view(self);
-        init();
-        [self initAccelerometer];
+                register_view(self);
+                init();
+                [self initAccelerometer];
 	}
 	return self;
 }
@@ -117,10 +114,6 @@ extern "C" {
 //// Rendering
 
 - (void)drawView {
-    NSString *labelText = [[NSString alloc] initWithCString:(char*)get_title()
-                                            encoding: NSASCIIStringEncoding];
-    [self.label setText:labelText];
-		
     [EAGLContext setCurrentContext:context];
 	
     glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);

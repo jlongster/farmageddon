@@ -46,7 +46,7 @@ end-c-code
 
 (define make-NSString
   (c-lambda (char-string) NSString*
-            "___result = [[NSString alloc] initWithCString:___arg1 encoding:NSASCIIStringEncoding];"))
+            "___result_voidstar = [[NSString alloc] initWithCString:___arg1 encoding:NSASCIIStringEncoding];"))
 
 (define NSString-get-ascii-c-string
   (c-lambda (NSString*) char-string #<<end-c-code

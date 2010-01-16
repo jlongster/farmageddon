@@ -34,12 +34,9 @@
 	
 	NSTimer *animationTimer;
 	NSTimeInterval animationInterval;
-
-    IBOutlet UILabel *label;
 }
 
 @property NSTimeInterval animationInterval;
-@property (nonatomic, retain) UILabel *label;
                               
 - (void)startAnimation;
 - (void)stopAnimation;

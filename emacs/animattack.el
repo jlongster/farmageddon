@@ -6,7 +6,6 @@
   (interactive)
   (animattack-send-string "(set! %%life %%max-life)")
   (animattack-send-string "(set! %%cracks '())")
-  (animattack-send-string "(set! %%crack-points '())")
   (animattack-send-string "(set! %%crack-dirty #t)")
   (animattack-send-string "\n"))
 

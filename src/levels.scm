@@ -11,7 +11,7 @@
   (make-level "basic"
               (lambda ()
                 (set! LVL_FREQUENCY 2.)
-                (set! background-texture gradient-texture))
+                (set! background-texture sky-texture))
               values
               values
               (lambda ()

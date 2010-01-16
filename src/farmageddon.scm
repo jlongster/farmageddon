@@ -18,7 +18,8 @@
 
 ;; application components
 
-(include "lasers.scm")
+(include "weapons.scm")
+(include "glass.scm")
 
 ;;; resources
 
@@ -142,7 +143,7 @@
   (for-each (lambda (el)
               (let ((loc (UITouch-location el)))
                 (queue-intersection (car loc) (cdr loc))
-                (make-laser loc)
+                (add-hit-point loc)
                 ))
             touches))
 
@@ -151,179 +152,7 @@
 (define (spread-number fl)
   (- (* fl 2.) 1.))
 
-;;; glass cracking
-
-(define (deviate n)
-  (+ n (* (- (random-real) .5) 250.)))
-
-(define-type crack
-  point1
-  point2
-  color
-  alpha)
-
-(define %%cracks '())
-(define %%crack-dirty #f)
-
-(define (add-crack point1 point2)
-  (set! %%cracks
-        (cons (make-crack point1
-                          point2
-                          (+ (random-integer 100) 155)
-                          (+ (random-integer 120) 100))
-              %%cracks)))
-
-(define (crack x y)
-  (define (rotate point degrees)
-    (let* ((rad (* (/ degrees 180) PI))
-           (rad-sin (sin rad))
-           (rad-cos (cos rad)))
-      (make-vec2d
-       (- (* (vec2d-x point) rad-cos)
-          (* (vec2d-y point) rad-sin))
-       (+ (* (vec2d-x point) rad-sin)
-          (* (vec2d-y point) rad-cos)))))
-  
-  (define (random-closeby-point point)
-    (cons (deviate (car point))
-          (deviate (cdr point))))
-
-  (define (random-directed-point p1 p2)
-    (let ((p1 (make-vec2d (car p1) (cdr p1)))
-          (p2 (make-vec2d (car p2) (cdr p2))))
-      (let* ((vec1 (vec2d-sub p2 p1))
-             (vec2 (rotate vec1 (* (spread-number (random-real)) 45.)))
-             (point (vec2d-add p2 vec2)))
-        (cons (vec2d-x point)
-              (vec2d-y point)))))
-
-  (define (add-cracks-from-point p1)
-    (let ((p2 (random-closeby-point p1)))
-      (add-crack p1 p2)
-    
-      (let loop ((p1 p1)
-                 (p2 p2)
-                 (i (random-integer 3)))
-        (if (> i 0)
-            (let ((point (random-directed-point p1 p2)))
-              (add-crack p2 point)
-              (loop p2 point (- i 1)))))))
-
-  (let ((point (cons x y)))
-    (let loop ((i 0))
-      (if (< i 35)
-          (begin
-            (add-cracks-from-point point)
-            (loop (+ i 1))))))
-
-  (set! %%crack-dirty #t))
-
-(define %%crack-vertices #f)
-(define %%crack-colors #f)
-(define %%crack-vertices-length #f)
-
-(define %%screen-depth 10.)
-(define %%screen-width .2)
-
-(define (crack-to-polygon crack)
-  (let ((x1 (car (crack-point1 crack)))
-        (y1 (cdr (crack-point1 crack)))
-        (x2 (car (crack-point2 crack)))
-        (y2 (cdr (crack-point2 crack))))
-    (let ((p1 (apply make-vec3d (project x1 y1 10.)))
-          (p2 (apply make-vec3d (project x2 y2 10.))))
-      (quad p1 p2
-            (make-vec3d (vec3d-x p2)
-                        (+ (vec3d-y p2) 0.1)
-                        (+ (vec3d-z p2) %%screen-width))
-            (make-vec3d (vec3d-x p1)
-                        (+ (vec3d-y p1) 0.1)
-                        (+ (vec3d-z p1) %%screen-width))))))
-
-(define (crack-to-lines crack)
-  (let ((width (UIView-width (current-view)))
-        (height (UIView-height (current-view)))
-        (x1 (car (crack-point1 crack)))
-        (y1 (cdr (crack-point1 crack)))
-        (x2 (car (crack-point2 crack)))
-        (y2 (cdr (crack-point2 crack))))
-    (list (/ (exact->inexact x1) width)
-          (/ (exact->inexact y1) height)
-          (/ (exact->inexact x2) width)
-          (/ (exact->inexact y2) height))))
-
-(define (crack-to-color crack num-verts)
-  (let ((health-inv (- 1. (get-health))))
-    (apply
-     append
-     (unfold (lambda (i) (>= i num-verts))
-             (lambda (i) (list 200 200 255 (crack-alpha crack)))
-             (lambda (i) (+ i 1))
-             0))))
-
-(define (cache-cracks)
-  (let* ((vertices (list->vector
-                    (fold (lambda (crack acc)
-                            (append (crack-to-lines crack)
-                                    acc))
-                          '()
-                          %%cracks)))
-         (colors (list->vector
-                  (fold (lambda (crack acc)
-                          (append (crack-to-color crack 4)
-                                  acc))
-                        '()
-                        %%cracks))))
-    (set! %%crack-vertices (vector->float-array vertices))
-    (set! %%crack-colors (vector->unsigned-int8-array colors))
-    (set! %%crack-vertices-length (* (length %%cracks) 2))
-    (set! %%crack-dirty #f)))
-
-(define (render-cracks)
-  (if %%crack-dirty
-      (cache-cracks))
-  
-  (glLoadIdentity)
-  
-  (if %%crack-vertices
-      (begin
-        (glVertexPointer 2 GL_FLOAT 0 %%crack-vertices)
-        (glEnableClientState GL_VERTEX_ARRAY)
-        (glColorPointer 4 GL_UNSIGNED_BYTE 0 %%crack-colors)
-        (glEnableClientState GL_COLOR_ARRAY)
-
-        (glDisable GL_CULL_FACE)
-        (glDisable GL_DEPTH_TEST)
-        (glDisable GL_LIGHTING)
-        (glEnable GL_BLEND)
-        (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)
-        (glLineWidth 2.)
-        (glDrawArrays GL_LINES 0 %%crack-vertices-length)
-        (glDisable GL_BLEND)
-        (glEnable GL_LIGHTING)
-        (glDisableClientState GL_COLOR_ARRAY)
-        (glEnable GL_DEPTH_TEST)
-        (glEnable GL_CULL_FACE))))
-
 ;;; mouse picking
-
-;; (define (find-entity-intersection x y z)
-;;   (let loop ((tail %%entities))
-;;     (if (null? tail)
-;;         #f
-;;         (let* ((obj (car tail))
-;;                (mesh (scene-object-mesh obj))
-;;                (bb (obj-bounding-box mesh)))
-;;           (if (ray-box-intersection (bounding-box-min-x bb)
-;;                                     (bounding-box-min-y bb)
-;;                                     (bounding-box-min-z bb)
-;;                                     (bounding-box-max-x bb)
-;;                                     (bounding-box-max-y bb)
-;;                                     (bounding-box-max-z bb)
-;;                                     0. 0. 0.
-;;                                     x y z)
-;;               obj
-;;               (loop (cdr tail)))))))
 
 (define %%color-index 0)
 (define %%color-map (make-vector 256 #f))
@@ -421,14 +250,16 @@
     (if (< (vec3d-z pos) %%screen-depth)
         (begin
           (impact el)
-          (if (not (no-more-life?))
+          (if (no-more-life?)
+              #f
               (begin
                 (vec3d-z-set! pos %%screen-depth)
                 (apply crack
                        (unproject (vec3d-x pos) (vec3d-y pos) (vec3d-z pos)))
                 (play-thud-for-entity el)
                 (scene-object-velocity-set! el (make-vec3d 0. 0. 0.))
-                (scene-object-acceleration-set! el (make-vec3d 0. -10. 0.))))))))
+                (scene-object-acceleration-set! el (make-vec3d 0. -10. 0.))
+                #t))))))
 
 (define (%%get-random-time)
   (+ (real-time) (* (random-real) LVL_FREQUENCY)))
@@ -707,9 +538,6 @@
 (define background-texture #f)
 (define sky-texture #f)
 (define gradient-texture #f)
-(define line-texture #f)
-(define line2-texture #f)
-(define star-texture #f)
 (define bah-audio #f)
 (define moo-audio #f)
 (define chicken-audio #f)
@@ -737,22 +565,8 @@
                             (CGImageRef-data image)
                             (CGImageRef-width image)
                             (CGImageRef-height image))))
-  
-  (let ((line (CGImageRef-load "line.png"))
-        (line2 (CGImageRef-load "line2.png"))
-        (star (CGImageRef-load "star.png")))
-    (set! line-texture (image-opengl-upload
-                        (CGImageRef-data line)
-                        (CGImageRef-width line)
-                        (CGImageRef-height line)))
-    (set! line2-texture (image-opengl-upload
-                         (CGImageRef-data line2)
-                         (CGImageRef-width line2)
-                         (CGImageRef-height line2)))
-    (set! star-texture (image-opengl-upload
-                        (CGImageRef-data star)
-                        (CGImageRef-width star)
-                        (CGImageRef-height star))))
+
+  (weapons-init)
   
   (init-audio)
   (set! bah-audio (load-audio "bah.wav"))
@@ -822,8 +636,6 @@
     (glLoadIdentity)
     (ortho 0.0 1.0 1.5 0.0 -1.0 1.0)
     (glMatrixMode GL_MODELVIEW)
-    (render-lasers))
+    (render-weapons))
   (##gc))
 
-(define (get-title)
-  "")

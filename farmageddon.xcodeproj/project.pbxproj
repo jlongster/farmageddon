@@ -9,8 +9,13 @@
 /* Begin PBXBuildFile section */
 		1A1D5ACA109A349500ED980E /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A1D5AC9109A349500ED980E /* OpenAL.framework */; };
 		1A1D5ACE109A34A600ED980E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A1D5ACD109A34A600ED980E /* AudioToolbox.framework */; };
-		1A4EBE0D0FDA21CD000F4C9F /* init_.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EBE0C0FDA21CD000F4C9F /* init_.c */; };
 		1A861A8510916C0500706CC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A861A8410916C0500706CC5 /* CoreGraphics.framework */; };
+		1A8AAD811100F83C006ABDA6 /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AAD7C1100F83C006ABDA6 /* EAGLView.m */; };
+		1A8AAD821100F83C006ABDA6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AAD7D1100F83C006ABDA6 /* main.m */; };
+		1A8AAD831100F83C006ABDA6 /* tosserAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AAD7F1100F83C006ABDA6 /* tosserAppDelegate.m */; };
+		1A8AAD841100F83C006ABDA6 /* window.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A8AAD801100F83C006ABDA6 /* window.xib */; };
+		1A8AAD871100F85B006ABDA6 /* init_.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AAD851100F85B006ABDA6 /* init_.c */; };
+		1A8AAD881100F85B006ABDA6 /* init.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AAD861100F85B006ABDA6 /* init.c */; };
 		1AA2D96610AF23B400BF3FB2 /* bah.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1AA2D92F10AF23B400BF3FB2 /* bah.wav */; };
 		1AA2D97310AF23B400BF3FB2 /* cow.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 1AA2D93C10AF23B400BF3FB2 /* cow.mtl */; };
 		1AA2D97410AF23B400BF3FB2 /* cow.obj in Resources */ = {isa = PBXBuildFile; fileRef = 1AA2D93D10AF23B400BF3FB2 /* cow.obj */; };
@@ -30,12 +35,8 @@
 		1AA2D99C10AF23B400BF3FB2 /* thud.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1AA2D96510AF23B400BF3FB2 /* thud.wav */; };
 		1AA2DA2410AF442A00BF3FB2 /* cow.obj.gso in Resources */ = {isa = PBXBuildFile; fileRef = 1AA2DA2210AF442A00BF3FB2 /* cow.obj.gso */; };
 		1AA2DA2510AF442A00BF3FB2 /* sheep.obj.gso in Resources */ = {isa = PBXBuildFile; fileRef = 1AA2DA2310AF442A00BF3FB2 /* sheep.obj.gso */; };
-		1AAF6B480FD9A049000698DA /* init.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AAF6B470FD9A049000698DA /* init.c */; };
-		1AC6512C0FE70FD1004C15CB /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AC651270FE70FD1004C15CB /* EAGLView.m */; };
-		1AC6512D0FE70FD1004C15CB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AC651280FE70FD1004C15CB /* main.m */; };
-		1AC6512E0FE70FD1004C15CB /* tosserAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AC6512A0FE70FD1004C15CB /* tosserAppDelegate.m */; };
-		1AC651320FE70FE9004C15CB /* window.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AC651300FE70FE9004C15CB /* window.xib */; };
-		1AC651A70FE710DB004C15CB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AC651A60FE710DB004C15CB /* Info.plist */; };
+		1AAB11CB1100FDF6005EAADF /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AAB11CA1100FDF6005EAADF /* icon.png */; };
+		1AC53D5011016A470070F366 /* line3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AC53D4F11016A470070F366 /* line3.png */; };
 		1ACC5B2F10F6640200293FFC /* duck.obj.gso in Resources */ = {isa = PBXBuildFile; fileRef = 1ACC5B2E10F6640100293FFC /* duck.obj.gso */; };
 		1ACC5B8B10FFDB3B00293FFC /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACC5B8A10FFDB3B00293FFC /* star.png */; };
 		1AEA80C310B0777A0065D846 /* chicken.obj.gso in Resources */ = {isa = PBXBuildFile; fileRef = 1AEA80C110B0777A0065D846 /* chicken.obj.gso */; };
@@ -51,8 +52,15 @@
 /* Begin PBXFileReference section */
 		1A1D5AC9109A349500ED980E /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = /System/Library/Frameworks/OpenAL.framework; sourceTree = "<absolute>"; };
 		1A1D5ACD109A34A600ED980E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
-		1A4EBE0C0FDA21CD000F4C9F /* init_.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = init_.c; path = lib/init_.c; sourceTree = "<group>"; };
 		1A861A8410916C0500706CC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		1A8AAD7B1100F83C006ABDA6 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = src/app/EAGLView.h; sourceTree = "<group>"; };
+		1A8AAD7C1100F83C006ABDA6 /* EAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EAGLView.m; path = src/app/EAGLView.m; sourceTree = "<group>"; };
+		1A8AAD7D1100F83C006ABDA6 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = src/app/main.m; sourceTree = "<group>"; };
+		1A8AAD7E1100F83C006ABDA6 /* tosserAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tosserAppDelegate.h; path = src/app/tosserAppDelegate.h; sourceTree = "<group>"; };
+		1A8AAD7F1100F83C006ABDA6 /* tosserAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = tosserAppDelegate.m; path = src/app/tosserAppDelegate.m; sourceTree = "<group>"; };
+		1A8AAD801100F83C006ABDA6 /* window.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = window.xib; path = src/app/window.xib; sourceTree = "<group>"; };
+		1A8AAD851100F85B006ABDA6 /* init_.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = init_.c; path = src/init_.c; sourceTree = "<group>"; };
+		1A8AAD861100F85B006ABDA6 /* init.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = init.c; path = src/init.c; sourceTree = "<group>"; };
 		1AA2D92F10AF23B400BF3FB2 /* bah.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bah.wav; sourceTree = "<group>"; };
 		1AA2D93C10AF23B400BF3FB2 /* cow.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cow.mtl; sourceTree = "<group>"; };
 		1AA2D93D10AF23B400BF3FB2 /* cow.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cow.obj; sourceTree = "<group>"; };
@@ -72,14 +80,9 @@
 		1AA2D96510AF23B400BF3FB2 /* thud.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = thud.wav; sourceTree = "<group>"; };
 		1AA2DA2210AF442A00BF3FB2 /* cow.obj.gso */ = {isa = PBXFileReference; lastKnownFileType = file; path = cow.obj.gso; sourceTree = "<group>"; };
 		1AA2DA2310AF442A00BF3FB2 /* sheep.obj.gso */ = {isa = PBXFileReference; lastKnownFileType = file; path = sheep.obj.gso; sourceTree = "<group>"; };
-		1AAF6B470FD9A049000698DA /* init.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = init.c; path = lib/init.c; sourceTree = "<group>"; };
-		1AC651260FE70FD1004C15CB /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = app/EAGLView.h; sourceTree = "<group>"; };
-		1AC651270FE70FD1004C15CB /* EAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EAGLView.m; path = app/EAGLView.m; sourceTree = "<group>"; };
-		1AC651280FE70FD1004C15CB /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = app/main.m; sourceTree = "<group>"; };
-		1AC651290FE70FD1004C15CB /* tosserAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tosserAppDelegate.h; path = app/tosserAppDelegate.h; sourceTree = "<group>"; };
-		1AC6512A0FE70FD1004C15CB /* tosserAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = tosserAppDelegate.m; path = app/tosserAppDelegate.m; sourceTree = "<group>"; };
-		1AC651300FE70FE9004C15CB /* window.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = window.xib; path = app/window.xib; sourceTree = "<group>"; };
-		1AC651A60FE710DB004C15CB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1AAB11BD1100FBA2005EAADF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = src/app/Info.plist; sourceTree = "<group>"; };
+		1AAB11CA1100FDF6005EAADF /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		1AC53D4F11016A470070F366 /* line3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = line3.png; sourceTree = "<group>"; };
 		1ACC5B2E10F6640100293FFC /* duck.obj.gso */ = {isa = PBXFileReference; lastKnownFileType = file; path = duck.obj.gso; sourceTree = "<group>"; };
 		1ACC5B8A10FFDB3B00293FFC /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		1AEA80C110B0777A0065D846 /* chicken.obj.gso */ = {isa = PBXFileReference; lastKnownFileType = file; path = chicken.obj.gso; sourceTree = "<group>"; };
@@ -87,7 +90,7 @@
 		1AEA80D510B091140065D846 /* life-bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "life-bar.png"; sourceTree = "<group>"; };
 		1AEA80D610B091140065D846 /* life-groove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "life-groove.png"; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D6058910D05DD3D006BFB54 /* tosser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tosser.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* farmageddon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = farmageddon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		28FD14FF0DC6FC520079059D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		28FD15070DC6FC5B0079059D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -114,7 +117,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* tosser.app */,
+				1D6058910D05DD3D006BFB54 /* farmageddon.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -122,6 +125,8 @@
 		1A8BCDAE101A1BEA00DED70B /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				1AC53D4F11016A470070F366 /* line3.png */,
+				1AAB11CA1100FDF6005EAADF /* icon.png */,
 				1ACC5B8A10FFDB3B00293FFC /* star.png */,
 				1ACC5B2E10F6640100293FFC /* duck.obj.gso */,
 				1AEA80D510B091140065D846 /* life-bar.png */,
@@ -154,16 +159,16 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				1AAB11BD1100FBA2005EAADF /* Info.plist */,
+				1A8AAD851100F85B006ABDA6 /* init_.c */,
+				1A8AAD861100F85B006ABDA6 /* init.c */,
+				1A8AAD7B1100F83C006ABDA6 /* EAGLView.h */,
+				1A8AAD7C1100F83C006ABDA6 /* EAGLView.m */,
+				1A8AAD7D1100F83C006ABDA6 /* main.m */,
+				1A8AAD7E1100F83C006ABDA6 /* tosserAppDelegate.h */,
+				1A8AAD7F1100F83C006ABDA6 /* tosserAppDelegate.m */,
+				1A8AAD801100F83C006ABDA6 /* window.xib */,
 				1A8BCDAE101A1BEA00DED70B /* resources */,
-				1AC651A60FE710DB004C15CB /* Info.plist */,
-				1AC651300FE70FE9004C15CB /* window.xib */,
-				1AC651260FE70FD1004C15CB /* EAGLView.h */,
-				1AC651270FE70FD1004C15CB /* EAGLView.m */,
-				1AC651280FE70FD1004C15CB /* main.m */,
-				1AC651290FE70FD1004C15CB /* tosserAppDelegate.h */,
-				1AC6512A0FE70FD1004C15CB /* tosserAppDelegate.m */,
-				1A4EBE0C0FDA21CD000F4C9F /* init_.c */,
-				1AAF6B470FD9A049000698DA /* init.c */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -187,9 +192,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* tosser */ = {
+		1D6058900D05DD3D006BFB54 /* farmageddon */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "tosser" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "farmageddon" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -199,9 +204,9 @@
 			);
 			dependencies = (
 			);
-			name = tosser;
+			name = farmageddon;
 			productName = tosser;
-			productReference = 1D6058910D05DD3D006BFB54 /* tosser.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* farmageddon.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -209,14 +214,14 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "tosser" */;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "farmageddon" */;
 			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* tosser */,
+				1D6058900D05DD3D006BFB54 /* farmageddon */,
 			);
 		};
 /* End PBXProject section */
@@ -226,8 +231,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AC651320FE70FE9004C15CB /* window.xib in Resources */,
-				1AC651A70FE710DB004C15CB /* Info.plist in Resources */,
 				1AA2D96610AF23B400BF3FB2 /* bah.wav in Resources */,
 				1AA2D97310AF23B400BF3FB2 /* cow.mtl in Resources */,
 				1AA2D97410AF23B400BF3FB2 /* cow.obj in Resources */,
@@ -253,6 +256,9 @@
 				1AEA80D810B091140065D846 /* life-groove.png in Resources */,
 				1ACC5B2F10F6640200293FFC /* duck.obj.gso in Resources */,
 				1ACC5B8B10FFDB3B00293FFC /* star.png in Resources */,
+				1A8AAD841100F83C006ABDA6 /* window.xib in Resources */,
+				1AAB11CB1100FDF6005EAADF /* icon.png in Resources */,
+				1AC53D5011016A470070F366 /* line3.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,11 +269,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AAF6B480FD9A049000698DA /* init.c in Sources */,
-				1A4EBE0D0FDA21CD000F4C9F /* init_.c in Sources */,
-				1AC6512C0FE70FD1004C15CB /* EAGLView.m in Sources */,
-				1AC6512D0FE70FD1004C15CB /* main.m in Sources */,
-				1AC6512E0FE70FD1004C15CB /* tosserAppDelegate.m in Sources */,
+				1A8AAD811100F83C006ABDA6 /* EAGLView.m in Sources */,
+				1A8AAD821100F83C006ABDA6 /* main.m in Sources */,
+				1A8AAD831100F83C006ABDA6 /* tosserAppDelegate.m in Sources */,
+				1A8AAD871100F85B006ABDA6 /* init_.c in Sources */,
+				1A8AAD881100F85B006ABDA6 /* init.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,9 +325,9 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = tosser_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
-				PRODUCT_NAME = tosser;
+				GCC_PREFIX_HEADER = src/app/farmageddon_Prefix.pch;
+				INFOPLIST_FILE = src/app/Info.plist;
+				PRODUCT_NAME = farmageddon;
 			};
 			name = "Debug iPhone";
 		};
@@ -333,9 +339,9 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = tosser_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
-				PRODUCT_NAME = tosser;
+				GCC_PREFIX_HEADER = src/app/farmageddon_Prefix.pch;
+				INFOPLIST_FILE = src/app/Info.plist;
+				PRODUCT_NAME = farmageddon;
 			};
 			name = Debug;
 		};
@@ -345,9 +351,9 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = tosser_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
-				PRODUCT_NAME = tosser;
+				GCC_PREFIX_HEADER = src/app/farmageddon_Prefix.pch;
+				INFOPLIST_FILE = src/app/Info.plist;
+				PRODUCT_NAME = farmageddon;
 			};
 			name = Release;
 		};
@@ -404,7 +410,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "tosser" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "farmageddon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
@@ -414,7 +420,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "tosser" */ = {
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "farmageddon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,

@@ -15,16 +15,10 @@
 
 (include "config.scm")
 
-;; debugger
+;; SLIME support
 
 (expand-if SIMULATOR
-           (begin
-             (include "../emacs/remote-debugger/debuggee.scm")
-             (rdi-set-host! "localhost:20000")
-
-             (thread-start!
-              (make-thread
-               (lambda () (##repl-debug-main))))))
+           (include "/Users/james/projects/scheme/gambit/swank-gambit/swank-gambit.scm"))
 
 ;; compile in all the ffis
 
@@ -50,6 +44,3 @@
 
 (c-define (c-render) () void "render" ""
   (render))
-
-(c-define (c-get-title) () char-string "get_title" ""
-  (get-title))
