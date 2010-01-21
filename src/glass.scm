@@ -1,27 +1,42 @@
 ;;;; glass simulation
 ;;; Simulates a piece of glass which cracks 
 
-(define (deviate n)
-  (+ n (* (- (random-real) .5) 250.)))
+;; ======================================================
+;; new implementation
 
 (define-type crack
-  point1
-  point2
-  color
-  alpha)
+  id: 6B57C01C-D776-4455-BA06-8F52567184DF
+  constructor: really-make-crack
+  vertex-buffer
+  color-buffer
+  num-vertices)
 
-(define %%cracks '())
-(define %%crack-dirty #f)
+(define PRELOADED-CRACKS '())
+(define EXISTING-CRACKS '())
+(define NUM-PRELOADED 10)
+(define NUM-LINES 35)
+(define LINE-SPREAD 3)
 
-(define (add-crack point1 point2)
-  (set! %%cracks
-        (cons (make-crack point1
-                          point2
-                          (+ (random-integer 100) 155)
-                          (+ (random-integer 120) 100))
-              %%cracks)))
+(define (load-randomized-cracks)
+  (set! PRELOADED-CRACKS
+        (unfold (lambda (i) (>= i NUM-PRELOADED))
+                (lambda (i) (make-crack))
+                (lambda (i) (+ i 1))
+                0)))
 
 (define (crack x y)
+  (if (not (null? PRELOADED-CRACKS))
+      (let ((crack (car PRELOADED-CRACKS))
+            (tail (cdr PRELOADED-CRACKS)))
+        (set! PRELOADED-CRACKS tail)
+        (set! EXISTING-CRACKS
+              (cons (list crack x y)
+                    EXISTING-CRACKS)))))
+
+(define (make-crack)
+  (define (random-scaled-float)
+    (* (- (random-real) .5) 250.))
+
   (define (rotate x y degrees)
     (let* ((rad (* (/ degrees 180) PI))
            (rad-sin (sin rad))
@@ -32,10 +47,10 @@
        (+ (* x rad-sin)
           (* y rad-cos)))))
   
-  (define (random-closeby-point point)
-    (cons (deviate (car point))
-          (deviate (cdr point))))
-
+  (define (random-point)
+    (cons (random-scaled-float)
+          (random-scaled-float)))
+  
   (define (random-directed-point p1 p2)
     (let* ((x (- (car p2) (car p1)))
            (y (- (cdr p2) (cdr p1)))
@@ -43,110 +58,82 @@
       (cons (+ (car p2) (car rotated))
             (+ (cdr p2) (cdr rotated)))))
 
-  (define (add-cracks-from-point p1)
-    (let ((p2 (random-closeby-point p1)))
-      (add-crack p1 p2)
-    
-      (let loop ((p1 p1)
-                 (p2 p2)
-                 (i (random-integer 3)))
+  (define (make-line)
+    (let ((first-point (random-point)))
+      (let loop ((vertex-data (list 0. 0.
+                                    (car first-point)
+                                    (cdr first-point)))
+                 (p1 (cons 0. 0.))
+                 (p2 first-point)
+                 (i (random-integer LINE-SPREAD)))
         (if (> i 0)
             (let ((point (random-directed-point p1 p2)))
-              (add-crack p2 point)
-              (loop p2 point (- i 1)))))))
+              (loop (append (list (car p2) (cdr p2)
+                                  (car point) (cdr point))
+                            vertex-data)
+                    p2
+                    point
+                    (- i 1)))
+            vertex-data))))
 
-  (let ((point (cons x y)))
-    (let loop ((i 0))
-      (if (< i 35)
-          (begin
-            (add-cracks-from-point point)
-            (loop (+ i 1))))))
+  (let loop ((lines 0)
+             (vertex-data '()))
+    (if (< lines NUM-LINES)
+        (loop (+ lines 1)
+              (append (make-line)
+                      vertex-data))
+        (really-make-crack
+         (make-crack-vertex-buffer vertex-data)
+         (make-crack-color-buffer vertex-data)
+         (/ (length vertex-data) 2)))))
 
-  (set! %%crack-dirty #t))
+(define (make-crack-vertex-buffer vertex-data)
+  (vector->float-array
+   (list->vector vertex-data)))
 
-(define %%crack-vertices #f)
-(define %%crack-colors #f)
-(define %%crack-vertices-length #f)
-
-(define %%screen-depth 10.)
-(define %%screen-width .2)
-
-(define (crack-to-polygon crack)
-  (let ((x1 (car (crack-point1 crack)))
-        (y1 (cdr (crack-point1 crack)))
-        (x2 (car (crack-point2 crack)))
-        (y2 (cdr (crack-point2 crack))))
-    (let ((p1 (apply make-vec3d (project x1 y1 10.)))
-          (p2 (apply make-vec3d (project x2 y2 10.))))
-      (quad p1 p2
-            (make-vec3d (vec3d-x p2)
-                        (+ (vec3d-y p2) 0.1)
-                        (+ (vec3d-z p2) %%screen-width))
-            (make-vec3d (vec3d-x p1)
-                        (+ (vec3d-y p1) 0.1)
-                        (+ (vec3d-z p1) %%screen-width))))))
-
-(define (crack-to-lines crack)
-  (let ((width (UIView-width (current-view)))
-        (height (UIView-height (current-view)))
-        (x1 (car (crack-point1 crack)))
-        (y1 (cdr (crack-point1 crack)))
-        (x2 (car (crack-point2 crack)))
-        (y2 (cdr (crack-point2 crack))))
-    (list (/ (exact->inexact x1) width)
-          (/ (exact->inexact y1) height)
-          (/ (exact->inexact x2) width)
-          (/ (exact->inexact y2) height))))
-
-(define (crack-to-color crack num-verts)
-  (let ((health-inv (- 1. (get-health))))
-    (apply
-     append
-     (unfold (lambda (i) (>= i num-verts))
-             (lambda (i) (list 200 200 255 (crack-alpha crack)))
-             (lambda (i) (+ i 1))
-             0))))
-
-(define (cache-cracks)
-  (let* ((vertices (list->vector
-                    (fold (lambda (crack acc)
-                            (append (crack-to-lines crack)
-                                    acc))
-                          '()
-                          %%cracks)))
-         (colors (list->vector
-                  (fold (lambda (crack acc)
-                          (append (crack-to-color crack 4)
-                                  acc))
-                        '()
-                        %%cracks))))
-    (set! %%crack-vertices (vector->float-array vertices))
-    (set! %%crack-colors (vector->unsigned-int8-array colors))
-    (set! %%crack-vertices-length (* (length %%cracks) 2))
-    (set! %%crack-dirty #f)))
+(define (make-crack-color-buffer vertex-data)
+  (let ((num-vertex (/ (length vertex-data) 2)))
+    (let loop ((acc '())
+               (i 0))
+      (if (< i num-vertex)
+          (let ((color (list 200 200 255
+                             (+ (random-integer 120) 100))))
+            (loop (append color color acc)
+                  (+ i 1)))
+          (vector->unsigned-int8-array
+           (list->vector acc))))))
 
 (define (render-cracks)
-  (if %%crack-dirty
-      (cache-cracks))
-  
-  (glLoadIdentity)
-  
-  (if %%crack-vertices
-      (begin
-        (glVertexPointer 2 GL_FLOAT 0 %%crack-vertices)
-        (glEnableClientState GL_VERTEX_ARRAY)
-        (glColorPointer 4 GL_UNSIGNED_BYTE 0 %%crack-colors)
-        (glEnableClientState GL_COLOR_ARRAY)
+  (for-each
+   (lambda (crack-info)
+     (apply render-crack crack-info))
+   EXISTING-CRACKS))
 
-        (glDisable GL_CULL_FACE)
-        (glDisable GL_DEPTH_TEST)
-        (glDisable GL_LIGHTING)
-        (glEnable GL_BLEND)
-        (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)
-        (glLineWidth 2.)
-        (glDrawArrays GL_LINES 0 %%crack-vertices-length)
-        (glDisable GL_BLEND)
-        (glEnable GL_LIGHTING)
-        (glDisableClientState GL_COLOR_ARRAY)
-        (glEnable GL_DEPTH_TEST)
-        (glEnable GL_CULL_FACE))))
+(define (render-crack crack x y)
+  (glLoadIdentity)
+
+  (glVertexPointer 2 GL_FLOAT 0 (crack-vertex-buffer crack))
+  (glEnableClientState GL_VERTEX_ARRAY)
+  (glColorPointer 4 GL_UNSIGNED_BYTE 0 (crack-color-buffer crack))
+  (glEnableClientState GL_COLOR_ARRAY)
+
+  (let ((width (UIView-width (current-view)))
+        (height (UIView-height (current-view))))
+    (glTranslatef (/ x width)
+                  (/ y height)
+                  0.)
+    (glScalef (/ 1. width) (/ 1.5 height) 1.))
+
+  (glDisable GL_CULL_FACE)
+  (glDisable GL_DEPTH_TEST)
+  (glDisable GL_LIGHTING)
+  (glEnable GL_BLEND)
+  (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)
+  (glLineWidth 2.)
+
+  (glDrawArrays GL_LINES 0 (crack-num-vertices crack))
+  (glDisable GL_BLEND)
+  (glEnable GL_LIGHTING)
+  (glDisableClientState GL_COLOR_ARRAY)
+  (glEnable GL_DEPTH_TEST)
+  (glEnable GL_CULL_FACE))

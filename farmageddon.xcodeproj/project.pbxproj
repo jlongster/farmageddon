@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1A1D5ACA109A349500ED980E /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A1D5AC9109A349500ED980E /* OpenAL.framework */; };
 		1A1D5ACE109A34A600ED980E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A1D5ACD109A34A600ED980E /* AudioToolbox.framework */; };
+		1A35A03A110535D70089D30B /* title.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A35A039110535D70089D30B /* title.png */; };
 		1A861A8510916C0500706CC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A861A8410916C0500706CC5 /* CoreGraphics.framework */; };
 		1A8AAD811100F83C006ABDA6 /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AAD7C1100F83C006ABDA6 /* EAGLView.m */; };
 		1A8AAD821100F83C006ABDA6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AAD7D1100F83C006ABDA6 /* main.m */; };
@@ -52,6 +53,7 @@
 /* Begin PBXFileReference section */
 		1A1D5AC9109A349500ED980E /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = /System/Library/Frameworks/OpenAL.framework; sourceTree = "<absolute>"; };
 		1A1D5ACD109A34A600ED980E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
+		1A35A039110535D70089D30B /* title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title.png; sourceTree = "<group>"; };
 		1A861A8410916C0500706CC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		1A8AAD7B1100F83C006ABDA6 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = src/app/EAGLView.h; sourceTree = "<group>"; };
 		1A8AAD7C1100F83C006ABDA6 /* EAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EAGLView.m; path = src/app/EAGLView.m; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 		1A8BCDAE101A1BEA00DED70B /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				1A35A039110535D70089D30B /* title.png */,
 				1AC53D4F11016A470070F366 /* line3.png */,
 				1AAB11CA1100FDF6005EAADF /* icon.png */,
 				1ACC5B8A10FFDB3B00293FFC /* star.png */,
@@ -259,6 +262,7 @@
 				1A8AAD841100F83C006ABDA6 /* window.xib in Resources */,
 				1AAB11CB1100FDF6005EAADF /* icon.png in Resources */,
 				1AC53D5011016A470070F366 /* line3.png in Resources */,
+				1A35A03A110535D70089D30B /* title.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

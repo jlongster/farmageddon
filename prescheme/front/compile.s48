@@ -1,0 +1,9 @@
+;; do this: ,exec ,load compile.s48
+
+(config '(load "packages.scm"))
+
+(user '(run (prescheme-compiler
+             'farmageddon
+             '("packages.scm")
+             'farmageddon-init
+             "prescheme.c")))

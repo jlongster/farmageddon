@@ -1,0 +1,7 @@
+#! /bin/sh
+
+gcc -no-cpp-precomp -Wall -W -Wno-unused -O1 -fno-math-errno -fschedule-insns2 \
+    -fno-trapping-math -fno-strict-aliasing -fwrapv -fmodulo-sched \
+    -freschedule-modulo-scheduled-loops -fomit-frame-pointer \
+    -fPIC -fno-common -mieee-fp -D___SINGLE_HOST \
+    -I"/usr/local/scheme48/current/c" "$@"

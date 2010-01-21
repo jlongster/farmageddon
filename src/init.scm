@@ -17,15 +17,23 @@
 
 ;; SLIME support
 
+;; (expand-if SIMULATOR
+;;            (include "/Users/james/projects/scheme/gambit/swank-gambit/swank-gambit.scm"))
+
 (expand-if SIMULATOR
-           (include "/Users/james/projects/scheme/gambit/swank-gambit/swank-gambit.scm"))
+           (begin
+             (include "../emacs/remote-debugger/debuggee.scm")
+             (rdi-set-host! "localhost:20000")
+
+             (thread-start!
+              (make-thread
+               (lambda () (##repl-debug-main))))))
 
 ;; compile in all the ffis
 
 (include "lib/resource.scm")
 (include "ffi/ffi.scm")
 (include "ffi/gl.scm")
-(include "ffi/gl-util.scm")
 (include "ffi/osx.scm")
 (include "ffi/iphone.scm")
 (include "ffi/image.scm")
