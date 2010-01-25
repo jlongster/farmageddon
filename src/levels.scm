@@ -26,16 +26,7 @@
   ;; acceleration of 11 m/s as a reference point.
   (set! GRAVITY (make-vec3d 0. -11. 0.)))
 
-(define-macro (implement-level-type . fields)
-  (define (symbol-append . syms)
-    (string->symbol
-     (apply string-append
-            (map (lambda (sym)
-                   (if (symbol? sym)
-                       (symbol->string sym)
-                       sym))
-                 syms))))
-  
+(define-macro (implement-level-type . fields) 
   `(begin
      (define-type level ,@fields)
 

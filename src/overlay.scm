@@ -57,7 +57,7 @@
             (glEnable GL_BLEND)
             (glBlendFunc GL_ONE GL_ONE_MINUS_SRC_ALPHA)
             (glTranslatef (exact->inexact (* i .1)) 0. 0.)
-            (glScalef .1 .1 .1)
+            (glScalef .1 (/ .1 1.5) 1.)
             
             (image-render star-texture)
             

@@ -51,34 +51,42 @@
 
 (define title-texture #f)
 
-(define 2d-projection-matrix
+(define 2d-perspective
   (ortho 0.0 1.0 1.0 0.0 -1.0 1.0))
+
+(define 2d-ratio-perspective
+  (ortho 0.0 1.0 1.5 0.0 -1.0 1.0))
 
 (define-screen title-screen
   init: (lambda ()
-          (let ((image (CGImageRef-load "title.png")))
-            (set! title-texture (image-opengl-upload
-                                 (CGImageRef-data image)
-                                 (CGImageRef-width image)
-                                 (CGImageRef-height image))))
+          (set! title-texture (image-opengl-load "title.png"))
+          #;
           (scene-list-add
            (make-2d-object
-            2d-projection-matrix
+            2d-perspective
+            update: (lambda (obj)
+                      (eq? (current-screen) title-screen))
             texture: title-texture)))
   run: (lambda ()
          (scene-list-update))
-  render: (lambda ()            
+  render: (lambda ()
             (scene-list-render))
   touches-began: (lambda (touches event)
                    (scene-list-add
-                    (make-fader
-                     .5
+                    (make-tween
+                     (make-2d-object
+                      2d-perspective
+                      color: (make-vec4d 0. 0. 0. 0.))
+                     length: .5
+                     alpha: 1.
                      (lambda ()
+                       (set-screen! level-screen)
                        (scene-list-add
-                        (make-fader
-                         .5
-                         (lambda ()
-                           (set-screen! level-screen)))))))))
+                        (make-tween
+                         (make-2d-object
+                          2d-perspective
+                          color: (make-vec4d 0. 0. 0. 1.))
+                         length: 2.5
+                         alpha: 0.)))))))
 
 (include "level-screen.scm")
-

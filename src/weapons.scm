@@ -63,7 +63,7 @@
                                       (spread-number (random-real)))))
              (lambda (i) (+ i 1))
              0))
-   .3
+   5.
    (real-time)))
 
 (define (add-lightning lightning)
@@ -135,14 +135,14 @@
 
     ;; Render the "dust"
     (glLoadIdentity)
-    (let* ((size .1)
+    (let* ((size .05)
            (half-size (/ size 2)))
       (glTranslatef x y 0.)
       (glRotatef (* time-passed 180) 0. 0. 1.)
       (glTranslatef (- half-size) (- half-size) 0.)
       (glScalef size size 1.))
     (image-render star-texture)
-    
+
     (glDisable GL_BLEND)
     #t))
 

@@ -10,6 +10,12 @@
     (glGenTextures 1 img)
     (unsigned-int-array-ref img 0)))
 
+(define (image-opengl-load name)
+  (let ((image (CGImageRef-load name)))
+    (image-opengl-upload (CGImageRef-data image)
+                         (CGImageRef-width image)
+                         (CGImageRef-height image))))
+
 (define (image-opengl-upload data width height)
   (let ((tex (alloc-opengl-image)))
     (glBindTexture GL_TEXTURE_2D tex)

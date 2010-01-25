@@ -17,9 +17,9 @@
   (vector-ref %%color-map index))
 
 (define (render-bounding-box obj)
-  (let ((pos (scene-object-position obj))
-        (rot (scene-object-rotation obj))
-        (scale (scene-object-scale obj)))
+  (let ((pos (mesh-object-position obj))
+        (rot (mesh-object-rotation obj))
+        (scale (mesh-object-scale obj)))
 
     (glLoadIdentity)
 
@@ -35,11 +35,11 @@
     (if scale
         (glScalef (vec3d-x scale) (vec3d-y scale) (vec3d-z scale)))
     
-    (glColor4f (exact->inexact (/ (scene-object-data obj) 255.)) 1. 1. 1.)
+    (glColor4f (exact->inexact (/ (mesh-object-data obj) 255.)) 1. 1. 1.)
     
     (glVertexPointer
      3 GL_FLOAT 0
-     (obj-bounding-box-mesh (scene-object-mesh obj)))
+     (obj-bounding-box-mesh (mesh-object-mesh obj)))
     (glEnableClientState GL_VERTEX_ARRAY)
     (glDisable GL_LIGHTING)
     (glDisable GL_FOG)
@@ -67,25 +67,14 @@
 (define (render-intersection-buffer)
   (glClearColor 0. 0. 0. 1.)
   (glClear (bitwise-ior GL_COLOR_BUFFER_BIT GL_DEPTH_BUFFER_BIT))
+
+  (load-perspective 3d-perspective)
   
-  (let* ((width (UIView-width (current-view)))
-         (height (UIView-height (current-view)))
-         (fov 40.)
-         (aspect (/ width height)))
-    (glMatrixMode GL_PROJECTION)
-    (glLoadIdentity)
-    (perspective fov aspect 1. 1000.)
-    (lookat (make-vec3d 0. 0. 0.)
-            (make-vec3d 0. 0. 1.)
-            (make-vec3d 0. 1. 0.))
-    (glMatrixMode GL_MODELVIEW)
-    (glLoadIdentity))
-  
-  (run-render-queue
-   (map (lambda (el)
-          (lambda ()
-            (render-bounding-box el)))
-        scene-list)))
+  (scene-list-render
+   (lambda (obj)
+     (lambda ()
+       (if (mesh-object? obj)
+           (render-bounding-box el))))))
 
 (define (handle-intersections)
   (define (bounds n x y)

@@ -351,7 +351,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>1A35A0361105086A0089D30B</string>
+										<string>1ABC066A110E01B100879AEC</string>
 										<key>history</key>
 										<array>
 											<string>1A9614811012282700A54EBA</string>
@@ -368,7 +368,7 @@
 											<string>1AC53D7F110184FA0070F366</string>
 											<string>1AC53D80110184FA0070F366</string>
 											<string>1AC53D81110184FA0070F366</string>
-											<string>1AF34F7E1102C02C003CFEDD</string>
+											<string>1A35A0361105086A0089D30B</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -380,14 +380,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {803, 422}}</string>
+								<string>{{0, 0}, {803, 412}}</string>
 								<key>RubberWindowFrame</key>
 								<string>138 55 1011 823 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>422pt</string>
+							<string>412pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -400,14 +400,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 427}, {803, 355}}</string>
+								<string>{{0, 417}, {803, 365}}</string>
 								<key>RubberWindowFrame</key>
 								<string>138 55 1011 823 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>355pt</string>
+							<string>365pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -426,9 +426,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>1A359FC61102F37C0089D30B</string>
+				<string>1ABC066B110E01B100879AEC</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>1A359FC71102F37C0089D30B</string>
+				<string>1ABC066C110E01B100879AEC</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -549,7 +549,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>285542506.16507399</real>
+	<real>286130609.94062102</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
@@ -564,12 +564,8 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1A359FE21103AEB80089D30B</string>
-		<string>1A359FE31103AEB80089D30B</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>1ACA2F3C0FD4E803005851FB</string>
 		<string>/Users/james/projects/scheme/farmageddon/farmageddon.xcodeproj</string>
-		<string>1C78EAAD065D492600B07095</string>
 	</array>
 	<key>WindowString</key>
 	<string>138 55 1011 823 0 0 1440 878 </string>
@@ -610,8 +606,6 @@
 							<string>0pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -651,7 +645,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1ACA2F3C0FD4E803005851FB</string>
-				<string>1A359FC81102F37C0089D30B</string>
+				<string>1ABC066D110E01B100879AEC</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -662,7 +656,7 @@
 			<key>WindowToolGUID</key>
 			<string>1ACA2F3C0FD4E803005851FB</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>

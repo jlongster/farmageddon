@@ -7,7 +7,7 @@
 (define LIFE MAX-LIFE)
 
 (define (get-damage el)
-  (let ((mesh (scene-object-mesh el)))
+  (let ((mesh (mesh-object-mesh el)))
     (cond
      ((eq? mesh cow-mesh) 2)
      ((eq? mesh sheep-mesh) 1)
@@ -41,7 +41,7 @@
   (set! SCORE 0))
 
 (define (goal-met?)
-  (>= (current-level-goal) (score)))
+  (>= (score) (current-level-goal)))
 
 (define (goal-left)
   (- (current-level-goal) (score)))

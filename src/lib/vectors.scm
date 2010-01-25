@@ -4,6 +4,7 @@
          (extended-bindings))
 
 (define (make-vec2d x y) (f64vector x y))
+(define (vec2d-copy v) (f64vector-copy v))
 (define (vec2d-x v) (f64vector-ref v 0))
 (define (vec2d-y v) (f64vector-ref v 1))
 
@@ -24,6 +25,7 @@
               (fl* (vec2d-y v1) f)))
 
 (define (make-vec3d x y z) (f64vector x y z))
+(define (vec3d-copy v) (f64vector-copy v))
 (define (vec3d-x v) (f64vector-ref v 0))
 (define (vec3d-y v) (f64vector-ref v 1))
 (define (vec3d-z v) (f64vector-ref v 2))
@@ -32,10 +34,15 @@
 (define (vec3d-z-set! v f) (f64vector-set! v 2 f))
 
 (define (make-vec4d x y z w) (f64vector x y z w))
+(define (vec4d-copy v) (f64vector-copy v))
 (define (vec4d-x v) (f64vector-ref v 0))
 (define (vec4d-y v) (f64vector-ref v 1))
 (define (vec4d-z v) (f64vector-ref v 2))
 (define (vec4d-w v) (f64vector-ref v 3))
+(define (vec4d-x-set! v f) (f64vector-set! v 0 f))
+(define (vec4d-y-set! v f) (f64vector-set! v 1 f))
+(define (vec4d-z-set! v f) (f64vector-set! v 2 f))
+(define (vec4d-w-set! v f) (f64vector-set! v 3 f))
 
 (define (vec3d-op v1 v2 op)
   (make-vec3d (op (vec3d-x v1) (vec3d-x v2))

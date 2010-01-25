@@ -9,42 +9,42 @@
 
 (define (update-physics obj)
   (let* ((now (real-time))
-         (last (or (scene-object-%%last-update obj) now))
+         (last (or (mesh-object-last-update obj) now))
          (change (- now last)))
     (apply-acceleration obj change)
     (apply-velocity obj change)    
-    (scene-object-%%last-update-set! obj now)))
+    (mesh-object-%%last-update-set! obj now)))
 
 (define (apply-acceleration obj change)
-  (let ((velocity (scene-object-velocity obj)))
+  (let ((velocity (mesh-object-velocity obj)))
     (if velocity
         (let* ((acceleration (global-acceleration obj))
                (change (vec3d-scalar-mul acceleration change)))
-          (scene-object-velocity-set!
+          (mesh-object-velocity-set!
            obj
-           (vec3d-add (scene-object-velocity obj)
+           (vec3d-add (mesh-object-velocity obj)
                       change))))))
 
 (define (apply-velocity obj change)
-  (let ((velocity (scene-object-velocity obj)))
+  (let ((velocity (mesh-object-velocity obj)))
     (if velocity
         (let ((change (vec3d-scalar-mul velocity change)))
-          (scene-object-position-set!
+          (mesh-object-position-set!
            obj
-           (vec3d-add (scene-object-position obj)
+           (vec3d-add (mesh-object-position obj)
                       change))))))
 
 (define (global-acceleration obj)
   ;; apply gravity
-  (let ((accel (scene-object-acceleration obj)))
+  (let ((accel (mesh-object-acceleration obj)))
     (if accel
         (vec3d-add accel GRAVITY)
         GRAVITY)))
 
 (define (kick v)
   (for-each (lambda (el)
-              (if (scene-object-velocity el)
-                  (scene-object-velocity-set!
+              (if (mesh-object-velocity el)
+                  (mesh-object-velocity-set!
                    el
-                   (vec3d-add v (scene-object-velocity el)))))
+                   (vec3d-add v (mesh-object-velocity el)))))
             scene-list))

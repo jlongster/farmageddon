@@ -31,7 +31,7 @@
 (define (spread-number fl)
   (- (* fl 2.) 1.))
 
-(define 3d-projection-matrix #f)
+(define 3d-perspective #f)
 
 ;; x, y, and z should be in world coords relative to the camera
 (define (unproject x y z)
@@ -71,16 +71,18 @@
 ;; init
 
 (define (level-screen-init)
-
-  (set! 3d-projection-matrix
-        (4x4matrix-multiply
-         (perspective 40.
-                      (/ (UIView-width (current-view))
-                         (UIView-height (current-view)))
-                      1. 1000.)
-         (lookat (make-vec3d 0. 0. 0.)
-                 (make-vec3d 0. 0. 1.)
-                 (make-vec3d 0. 1. 0.))))
+  (let ((3d-pers (perspective 40.
+                              (/ (UIView-width (current-view))
+                                 (UIView-height (current-view)))
+                              1. 1000.)))
+    (perspective-matrix-set!
+     3d-pers
+     (4x4matrix-multiply
+      (lookat (make-vec3d 0. 0. 0.)
+              (make-vec3d 0. 0. 1.)
+              (make-vec3d 0. 1. 0.))
+      (perspective-matrix 3d-pers)))
+    (set! 3d-perspective 3d-pers))
 
   (glEnable GL_DEPTH_TEST)
   (glEnable GL_CULL_FACE)
@@ -118,11 +120,11 @@
 ;; updating and processing events
 
 (define (level-screen-run)
-  (setup-3d-scene)
+  (load-perspective 3d-perspective)
 
   (handle-intersections)
   (scene-list-update global-update)
-  
+
   (if (goal-met?)
       (on-win)
       (possibly-make-entity))
@@ -144,29 +146,20 @@
 ;; rendering
 
 (define (level-screen-render)
-  (glClearColor 0. 0. 0. 1.)
-  (glClear (bitwise-ior GL_COLOR_BUFFER_BIT GL_DEPTH_BUFFER_BIT))
-
   ;; background
   (if (current-background-texture)
       (begin
-        (glMatrixMode GL_PROJECTION)
-        (glLoadIdentity)
-        (glOrthof 0.0 1.0 1.0 0.0 -1.0 1.0)
-        (glMatrixMode GL_MODELVIEW)
-        (glLoadIdentity)
+        (load-perspective 2d-perspective)
         (glColor4f 1. 1. 1. 1.)
         (image-render (current-background-texture))))
 
   ;; 3d
-  (setup-3d-scene)
   (scene-list-render)
 
   ;; overlay
 
-  (ortho 0.0 1.0 1.5 0.0 -1.0 1.0)
-
-
+  (load-perspective 2d-perspective)
+  
   (if (not (life-is-dead?))
       (render-cracks))
   

@@ -17,7 +17,7 @@
 		);
 		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
 		rLen = 0;
-		rLoc = 9223372036854775807;
+		rLoc = 9223372036854775808;
 	};
 	1A359FD81102FAB70089D30B /* PlistBookmark */ = {
 		isa = PlistBookmark;
@@ -29,7 +29,7 @@
 		);
 		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
 		rLen = 0;
-		rLoc = 9223372036854775807;
+		rLoc = 9223372036854775808;
 	};
 	1A359FE01103AEB80089D30B /* PlistBookmark */ = {
 		isa = PlistBookmark;
@@ -41,7 +41,7 @@
 		);
 		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
 		rLen = 0;
-		rLoc = 9223372036854775807;
+		rLoc = 9223372036854775808;
 	};
 	1A35A02A1104E9090089D30B /* PlistBookmark */ = {
 		isa = PlistBookmark;
@@ -52,7 +52,7 @@
 		);
 		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
 		rLen = 0;
-		rLoc = 9223372036854775807;
+		rLoc = 9223372036854775808;
 	};
 	1A35A0361105086A0089D30B /* PlistBookmark */ = {
 		isa = PlistBookmark;
@@ -64,7 +64,7 @@
 		);
 		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
 		rLen = 0;
-		rLoc = 9223372036854775807;
+		rLoc = 9223372036854775808;
 	};
 	1A3B7340101900D300887149 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -149,6 +149,18 @@
 	1AAB11C71100FBD9005EAADF /* PBXBookmark */ = {
 		isa = PBXBookmark;
 		fRef = 1ACC5B8A10FFDB3B00293FFC /* star.png */;
+	};
+	1ABC066A110E01B100879AEC /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UIStatusBarHidden,
+		);
+		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
 	};
 	1AC53D7B110184FA0070F366 /* PBXBookmark */ = {
 		isa = PBXBookmark;
@@ -367,21 +379,22 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 285406062;
-			PBXWorkspaceStateSaveDate = 285406062;
+			PBXPerProjectTemplateStateSaveDate = 286130607;
+			PBXWorkspaceStateSaveDate = 286130607;
 		};
 		perUserProjectItems = {
-			1A359FC51102F37C0089D30B /* PlistBookmark */ = 1A359FC51102F37C0089D30B /* PlistBookmark */;
-			1A359FD81102FAB70089D30B /* PlistBookmark */ = 1A359FD81102FAB70089D30B /* PlistBookmark */;
-			1A359FE01103AEB80089D30B /* PlistBookmark */ = 1A359FE01103AEB80089D30B /* PlistBookmark */;
-			1A35A02A1104E9090089D30B /* PlistBookmark */ = 1A35A02A1104E9090089D30B /* PlistBookmark */;
-			1A35A0361105086A0089D30B /* PlistBookmark */ = 1A35A0361105086A0089D30B /* PlistBookmark */;
+			1A359FC51102F37C0089D30B = 1A359FC51102F37C0089D30B /* PlistBookmark */;
+			1A359FD81102FAB70089D30B = 1A359FD81102FAB70089D30B /* PlistBookmark */;
+			1A359FE01103AEB80089D30B = 1A359FE01103AEB80089D30B /* PlistBookmark */;
+			1A35A02A1104E9090089D30B = 1A35A02A1104E9090089D30B /* PlistBookmark */;
+			1A35A0361105086A0089D30B = 1A35A0361105086A0089D30B /* PlistBookmark */;
 			1A3B7340101900D300887149 = 1A3B7340101900D300887149 /* PBXTextBookmark */;
 			1A861ADD1091744700706CC5 = 1A861ADD1091744700706CC5 /* PBXTextBookmark */;
 			1A9614811012282700A54EBA = 1A9614811012282700A54EBA /* PBXTextBookmark */;
 			1AA2D9C010AF2C3000BF3FB2 = 1AA2D9C010AF2C3000BF3FB2 /* PBXBookmark */;
 			1AA2D9C210AF2C3000BF3FB2 = 1AA2D9C210AF2C3000BF3FB2 /* PBXBookmark */;
 			1AAB11C71100FBD9005EAADF = 1AAB11C71100FBD9005EAADF /* PBXBookmark */;
+			1ABC066A110E01B100879AEC /* PlistBookmark */ = 1ABC066A110E01B100879AEC /* PlistBookmark */;
 			1AC53D7B110184FA0070F366 = 1AC53D7B110184FA0070F366 /* PBXBookmark */;
 			1AC53D7C110184FA0070F366 = 1AC53D7C110184FA0070F366 /* PBXBookmark */;
 			1AC53D7D110184FA0070F366 = 1AC53D7D110184FA0070F366 /* PBXTextBookmark */;

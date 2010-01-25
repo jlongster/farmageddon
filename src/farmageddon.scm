@@ -6,6 +6,7 @@
 ;; libraries
 
 (include "ffi/ffi#.scm")
+(include "lib/macros.scm")
 (include "lib/srfi/srfi-1.scm")
 (include "lib/srfi/srfi-2.scm")
 (include "lib/srfi/sort.scm")
@@ -16,13 +17,24 @@
 (include "lib/scene.scm")
 (include "lib/physics.scm")
 (include "lib/standard-meshes.scm")
-(include "lib/standard-scene-objects.scm")
+(include "lib/tween.scm")
 (include "lib/texture.scm")
-(include "lib/perspective.scm")
+(include "lib/matrix-util.scm")
 
 ;; install all the screens of the game
 
 (include "screens.scm")
+
+;; various global state
+
+(define current-perspective (make-parameter #f))
+
+(define (load-perspective pers)
+  (current-perspective pers)
+  (glMatrixMode GL_PROJECTION)
+  (glLoadMatrixf (perspective-matrix pers))
+  (glMatrixMode GL_MODELVIEW)
+  (glLoadIdentity))
 
 ;;; app
 
@@ -30,8 +42,8 @@
   (define (saturate n)
     (min 1. (max 0. n)))
 
-  (let ((source (scene-object-voice-source obj))
-        (pos (scene-object-position obj)))
+  (let ((source (mesh-object-voice-source obj))
+        (pos (mesh-object-position obj)))
     #t
     #;
     (alSourcef source
@@ -42,19 +54,21 @@
 (define SCREEN-DEPTH 10.)
 
 (define (global-update el)
-  (update-physics el)
-  (update-audio el)
-  (let ((pos (scene-object-position el)))
-    (if (< (vec3d-z pos) SCREEN-DEPTH)
-        (begin
-          (life-decrease! el)
-          (vec3d-z-set! pos SCREEN-DEPTH)
-          (apply crack
-                 (unproject (vec3d-x pos) (vec3d-y pos) (vec3d-z pos)))
-          (play-thud-for-entity el)
-          (scene-object-velocity-set! el (make-vec3d 0. 0. 0.))
-          (scene-object-acceleration-set! el (make-vec3d 0. -10. 0.))
-          #t))))
+  (if (mesh-object? el)
+      (begin
+        (update-physics el)
+        (update-audio el)
+        (let ((pos (mesh-object-position el)))
+          (if (< (vec3d-z pos) SCREEN-DEPTH)
+              (begin
+                (life-decrease! el)
+                (vec3d-z-set! pos SCREEN-DEPTH)
+                (apply crack
+                       (unproject (vec3d-x pos) (vec3d-y pos) (vec3d-z pos)))
+                (play-thud-for-entity el)
+                (mesh-object-velocity-set! el (make-vec3d 0. 0. 0.))
+                (mesh-object-acceleration-set! el (make-vec3d 0. -10. 0.))
+                #t))))))
 
 (define (%%get-random-time)
   (+ (real-time) (* (random-real)
@@ -93,40 +107,38 @@
                           (+ 25.5 (spread-number (random-real)))
                           (* (vec3d-z to-eye) thrust))))
     (let ((obj (make-mesh-object
-                3d-projection-matrix
-                (random-mesh)
-                #f
-                pos
-                (make-vec4d (random-real)
-                            (random-real)
-                            0.
-                            230.)
-                (make-vec3d ENTITY_SCALE ENTITY_SCALE ENTITY_SCALE)
-                vel
-                #f
-                (let ((speed (* (random-real) 4.)))
-                  (lambda (this)
-                    (scene-object-rotation-set!
-                     this
-                     (vec4d-add (scene-object-rotation this)
-                                (make-vec4d 0. 0. 0. speed)))
-                    (let* ((pos (scene-object-position this))
-                           (screen-y (cadr (unproject (vec3d-x pos)
-                                                      (vec3d-y pos)
-                                                      (vec3d-z pos))))
-                           (screen-height (UIView-height (current-view))))
-                      (if (> screen-y (+ screen-height 100))
-                          (begin
-                            (on-entity-remove this)
-                            (release-color-index (scene-object-data this))
-                            #f)
-                          this)))))))
+                3d-perspective
+                mesh: (random-mesh)
+                position: pos
+                rotation: (make-vec4d (random-real)
+                                      (random-real)
+                                      0.
+                                      1.)
+                scale: (make-vec3d ENTITY_SCALE ENTITY_SCALE ENTITY_SCALE)
+                velocity: vel
+                update: (let ((speed (* (random-real) 4.)))
+                          (lambda (this)
+                            (mesh-object-rotation-set!
+                             this
+                             (vec4d-add (mesh-object-rotation this)
+                                        (make-vec4d 0. 0. 0. speed)))
+                            (let* ((pos (mesh-object-position this))
+                                   (screen-y (cadr (unproject (vec3d-x pos)
+                                                              (vec3d-y pos)
+                                                              (vec3d-z pos))))
+                                   (screen-height (UIView-height (current-view))))
+                              (if (> screen-y (+ screen-height 100))
+                                  (begin
+                                    (on-entity-remove this)
+                                    (release-color-index (mesh-object-data this))
+                                    #f)
+                                  this)))))))
       (play-voice-for-entity obj)
-      (scene-object-data-set! obj (get-next-color-index obj))
+      (mesh-object-data-set! obj (get-next-color-index obj))
       obj)))
 
 (define (play-voice-for-entity obj)
-  (let* ((mesh (scene-object-mesh obj))
+  (let* ((mesh (mesh-object-mesh obj))
          (buffer
           (cond
            ((eq? cow-mesh mesh) moo-audio)
@@ -136,16 +148,16 @@
     (if buffer
         (let ((source (make-audio-source buffer)))
           (play-audio source)
-          (scene-object-voice-source-set! obj source)))))
+          (mesh-object-voice-source-set! obj source)))))
 
 (define (play-thud-for-entity obj)
   (let ((source (make-audio-source thud-audio)))
     (play-audio source)
-    (scene-object-thud-source-set! obj source)))
+    (mesh-object-thud-source-set! obj source)))
 
 (define (on-entity-remove obj)
-  (let ((voice-source (scene-object-voice-source obj))
-        (thud-source (scene-object-thud-source obj)))
+  (let ((voice-source (mesh-object-voice-source obj))
+        (thud-source (mesh-object-thud-source obj)))
     (if thud-source
         (begin
           (stop-audio thud-source)
@@ -155,8 +167,8 @@
         (begin
           (stop-audio voice-source)
           (free-audio-source voice-source))))
-  (scene-object-voice-source-set! obj #f)
-  (scene-object-thud-source-set! obj #f))
+  (mesh-object-voice-source-set! obj #f)
+  (mesh-object-thud-source-set! obj #f))
 
 (define (on-entity-kill obj)
   (score-increase))
@@ -172,6 +184,9 @@
   ((screen-init level-screen)))
 
 (define (render)
+  (glClearColor 0. 0. 0. 1.)
+  (glClear (bitwise-ior GL_COLOR_BUFFER_BIT GL_DEPTH_BUFFER_BIT))
+
   (current-screen-run)
   (current-screen-render)
   (##gc))

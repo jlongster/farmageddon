@@ -6,16 +6,49 @@
          (standard-bindings)
          (extended-bindings))
 
+;; `implement-generic-field` uses some cruddy glue to pull together
+;; our scene object types into something which looks like a type
+;; system with inheritance. Future versions will use a real object
+;; system with generic functions such as Meroon.
+
+(define-macro (implement-generic-field name)
+  `(begin
+     (define (,(symbol-append "generic-object-" name) obj)
+       (cond
+        ((mesh-object? obj) (,(symbol-append "mesh-object-" name) obj))
+        ((2d-object? obj) (,(symbol-append "2d-object-" name) obj))
+        ((scene-object? obj) (,(symbol-append "scene-object-" name) obj))
+        (else (error "Unsupported scene object type: " obj))))
+     (define (,(symbol-append "generic-object-" name "-set!") obj val)
+       (cond
+        ((mesh-object? obj)
+         (,(symbol-append "mesh-object-" name "-set!") obj val))
+        ((2d-object? obj)
+         (,(symbol-append "2d-object-" name "-set!") obj val))
+        ((scene-object? obj)
+         (,(symbol-append "scene-object-" name "-set!") obj val))
+        (else (error "Unsupported scene object type: " obj))))))
+
+;; various scene object types
+
 (define-type scene-object
   id: 21E2B5C7-B69C-4FFD-899C-00484031261A
-  projection-matrix
+  constructor: really-make-scene-object
+  perspective
   render-proc
-  update-proc)
+  update-proc
+  mark)
+
+(define (make-scene-object pers render-proc update-proc)
+  (really-make-scene-object pers
+                            render-proc
+                            update-proc
+                            #f))
 
 (define-type mesh-object
   id: 54553028-EBFD-463B-8E91-D55DE37B4FBF
   constructor: really-make-mesh-object
-  projection-matrix
+  perspective
   mesh
   color
   position
@@ -23,46 +56,62 @@
   scale
   velocity
   acceleration
+  render-proc
   update-proc
-  %%last-update
   data
+  last-update
   voice-source
-  thud-source)
+  thud-source
+  mark)
 
-(define (make-mesh-object proj-matrix mesh color pos #!optional rot scale vel accel update data)
-  (really-make-mesh-object proj-matrix
-                           mesh color pos rot scale vel accel
-                           (or update values)
-                           #f
+(define (make-mesh-object pers
+                          #!key
+                          mesh
+                          color position rotation scale
+                          velocity acceleration
+                          render update
+                          data)
+  (really-make-mesh-object pers
+                           mesh
+                           color position rotation scale
+                           velocity acceleration
+                           (or render mesh-object-render)
+                           update
                            data
+                           #f
+                           #f
                            #f
                            #f))
 
 (define-type 2d-object
   id: EB4CFD52-6E14-4C9A-AF49-D8B70334B653
   constructor: really-make-2d-object
-  projection-matrix
-  update-proc
+  perspective
   color
   position
   rotation
   scale
-  texture)
+  texture
+  render-proc
+  update-proc
+  mark)
 
-(define (make-2d-object proj-matrix
+(define (make-2d-object pers
                         #!key
-                        update
-                        color position rotation scale texture)
-  (really-make-2d-object proj-matrix
-                         (or update values)
+                        color position rotation scale texture
+                        render update)
+  (really-make-2d-object pers
                          color
                          position
                          rotation
                          scale
-                         texture))
+                         texture
+                         (or render 2d-object-render)
+                         update
+                         #f))
 
 (define (mesh-object-render obj)
-  (glLoadMatrix (generic-object-projection-matrix obj))
+  (glLoadIdentity)
   
   (let ((mesh (mesh-object-mesh obj))
         (color (mesh-object-color obj))
@@ -128,7 +177,7 @@
     (glDisableClientState GL_NORMAL_ARRAY)))
 
 (define (2d-object-render obj)
-  (glLoadMatrix (generic-object-projection-matrix obj))
+  (glLoadIdentity)
   
   (let ((color (2d-object-color obj))
         (pos (2d-object-position obj))
@@ -136,11 +185,14 @@
         (scale (2d-object-scale obj))
         (texture (2d-object-texture obj)))
     (if pos
-        (glTranslatef (vec2d-x pos) (vec2d-y pos) 0.))
+        (glTranslatef (vec3d-x pos) (vec3d-y pos) (vec3d-z pos)))
 
     (if rot
-        (glRotatef rot 0. 0. 1.))
-
+        (glRotatef (vec4d-w rot)
+                   (vec4d-x rot)
+                   (vec4d-y rot)
+                   (vec4d-z rot)))
+    
     (if scale
         (glScalef (vec2d-x scale) (vec2d-y scale) 1.))
 
@@ -150,73 +202,81 @@
                    (vec4d-z color)
                    (vec4d-w color)))
 
+    (glEnable GL_BLEND)
+    (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)
+
     (if texture
         (image-render texture)
-        (image-render-base))))
+        (image-render-base))
 
-(define (generic-object-projection-matrix obj)
-  (cond
-   ((mesh-object? obj) (mesh-object-projection-matrix obj))
-   ((2d-object? obj) (2d-object-projection-matrix obj))
-   ((scene-object? obj) (scene-object-projection-matrix obj))))
+    (glColor4f 1. 1. 1. 1.)
+    (glDisable GL_BLEND)))
 
-(define (generic-object-render obj)
-  (cond
-   ((mesh-object? obj) (mesh-object-render obj))
-   ((2d-object? obj) (2d-object-render obj))
-   ((scene-object? obj) ((scene-object-render-proc obj) obj))))
+(implement-generic-field perspective)
+(implement-generic-field color)
+(implement-generic-field scale)
+(implement-generic-field position)
+(implement-generic-field rotation)
+(implement-generic-field mark)
+(implement-generic-field render-proc)
+(implement-generic-field update-proc)
 
-(define (generic-object-update obj)
-  (cond
-   ((mesh-object? obj) (mesh-object-update-proc obj))
-   ((2d-object? obj) (2d-object-update-proc obj))
-   ((scene-object? obj) (scene-object-update-proc obj))))
+(define (render-generic-object obj)
+  ((generic-object-render-proc obj) obj))
+
+(define (update-generic-object obj)
+  (let ((update (generic-object-update-proc obj)))
+    (if update
+        (update obj)
+        #t)))
 
 (define scene-list '())
 
-(define (scene-list-clear)
+(define (scene-list-clear!)
   (set! scene-list '()))
 
 (define (scene-list-add obj)
-  ;; keep the order according to the proejction matrix to minimize
+  ;; keep the order according to the projection matrix to minimize
   ;; matrix changes
   (receive (prefix tail)
-      (span (lambda (el)
-              (eq? (generic-object-projection-matrix el)
-                   (generic-object-projection-matrix obj)))
-            scene-list)
-    (set! scene-list (append prefix (cons obj tail)))))
+      (break (lambda (el)
+               (eq? (generic-object-perspective el)
+                    (generic-object-perspective obj)))
+             scene-list)
+    (receive (same tail2)
+        (span (lambda (el)
+                (eq? (generic-object-perspective el)
+                     (generic-object-perspective obj)))
+              tail)
+      (set! scene-list (append prefix same (cons obj tail2))))))
 
 (define (scene-list-update #!optional update-fn)
+  ;; run the update procedures for each scene object
+  (for-each (lambda (obj)
+              (if (update-generic-object obj)
+                  ((or update-fn values) obj)
+                  (generic-object-mark-set! obj #t)))
+            scene-list)
+
+  ;; remove all the objects marked for removal
   (set! scene-list
-        (fold (lambda (el acc)
-                (if (generic-object-update el)
-                    (begin
-                      ((or update-fn values) el)
-                      (cons el acc))
-                    acc))
-              '()
-              scene-list)))
+        (reverse
+         (fold (lambda (obj acc)
+                 (if (generic-object-mark obj)
+                     acc
+                     (cons obj acc)))
+               '()
+               scene-list))))
 
-(define (scene-list-render)
-  ;; sort by projection matrix, do the following:
-  (glMatrixMode GL_PROJECTION)
-  (glLoadIdentity)
-  (glMultMatrixf (scene-object-projection-matrix obj))
-  (glMatrixMode GL_MODELVIEW)
-  ;; then render that group ...
-
-  (let loop ((last-matrix #f)
+(define (scene-list-render #!optional render-proc)
+  (let loop ((last-pers #f)
              (tail scene-list))
-    (if (not (null? scene-list))
+    (if (not (null? tail))
         (let* ((head (car tail))
-               (matrix (generic-object-projection-matrix head)))
-          (if (or (not last-matrix)
-                  (eq? last-matrix matrix))
-              (begin
-                (glMatrixMode GL_PROJECTION)
-                (glMultMatrixf matrix)
-                (glMatrixMode GL_MODELVIEW)
-                (glLoadIdentity)))
-          (generic-object-render head)
-          (loop matrix (cdr scene-list))))))
+               (pers (generic-object-perspective head)))
+          (if (not last-pers)
+              (load-perspective pers))
+          (if render-proc
+              (render-proc head)
+              (render-generic-object head))
+          (loop pers (cdr tail))))))
