@@ -635,7 +635,6 @@
 ;; (define glPixelTransferi (c-lambda (GLenum GLint) void "glPixelTransferi"))
 ;; (define glPixelZoom (c-lambda (GLfloat GLfloat) void "glPixelZoom"))
 ;; (define glPointSize (c-lambda (GLfloat) void "glPointSize"))
-;; (define glPolygonMode (c-lambda (GLenum GLenum) void "glPolygonMode"))
 ;; (define glPolygonOffset (c-lambda (GLfloat GLfloat) void "glPolygonOffset"))
 ;; (define glPolygonStipple (c-lambda ((pointer GLubyte)) void "glPolygonStipple"))
 ;; (define glPopClientAttrib (c-lambda () void "glPopClientAttrib"))

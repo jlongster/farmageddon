@@ -83,6 +83,36 @@
                            #f
                            #f))
 
+(define (copy-mesh-object obj)
+  (really-make-mesh-object
+   (mesh-object-perspective obj)
+   (mesh-object-mesh obj)
+   (and (mesh-object-color obj)
+        (vec4d-copy (mesh-object-color obj)))
+   (and (mesh-object-position obj)
+        (vec3d-copy (mesh-object-position obj)))
+   (and (mesh-object-rotation obj)
+        (vec4d-copy (mesh-object-rotation obj)))
+   (and (mesh-object-scale obj)
+        (vec3d-copy (mesh-object-scale obj)))
+   (and (mesh-object-velocity obj)
+        (vec3d-copy (mesh-object-velocity obj)))
+   (and (mesh-object-acceleration obj)
+        (vec3d-copy (mesh-object-acceleration obj)))
+   (mesh-object-render-proc obj)
+   (mesh-object-update-proc obj)
+   (mesh-object-data obj)
+   (mesh-object-last-update obj)
+   (mesh-object-voice-source obj)
+   (mesh-object-thud-source obj)
+   (mesh-object-mark obj)))
+
+(define-type 2d-font
+  id: 3A93EEA4-8616-4123-B775-5DA9826419A5
+  font
+  text
+  size)
+
 (define-type 2d-object
   id: EB4CFD52-6E14-4C9A-AF49-D8B70334B653
   constructor: really-make-2d-object
@@ -92,13 +122,15 @@
   rotation
   scale
   texture
+  font
+  center
   render-proc
   update-proc
   mark)
 
 (define (make-2d-object pers
                         #!key
-                        color position rotation scale texture
+                        color position rotation scale texture font center
                         render update)
   (really-make-2d-object pers
                          color
@@ -106,6 +138,8 @@
                          rotation
                          scale
                          texture
+                         font
+                         center
                          (or render 2d-object-render)
                          update
                          #f))
@@ -120,25 +154,25 @@
         (vel (mesh-object-velocity obj))
         (scale (mesh-object-scale obj)))
 
-    (glVertexPointer 3 GL_FLOAT 0 (obj-vertices mesh))
-    (glEnableClientState GL_VERTEX_ARRAY)
-    (glNormalPointer GL_FLOAT 0 (->void-array (obj-normals mesh)))
-    (glEnableClientState GL_NORMAL_ARRAY)
-
     (if color
         (begin
           (glMaterialfv GL_FRONT_AND_BACK
                         GL_DIFFUSE
                         (vector->float-array
                          (vector
-                          (vec3d-x color)
-                          (vec3d-y color)
-                          (vec3d-z color)
-                          1.)))
-          (glColor4f (vec3d-x color)
-                     (vec3d-y color)
-                     (vec3d-z color)
-                     1.)))
+                          (vec4d-x color)
+                          (vec4d-y color)
+                          (vec4d-z color)
+                          (vec4d-w color))))
+          (glColor4f (vec4d-x color)
+                     (vec4d-y color)
+                     (vec4d-z color)
+                     (vec4d-w color))))
+    
+    (glVertexPointer 3 GL_FLOAT 0 (obj-vertices mesh))
+    (glEnableClientState GL_VERTEX_ARRAY)
+    (glNormalPointer GL_FLOAT 0 (->void-array (obj-normals mesh)))
+    (glEnableClientState GL_NORMAL_ARRAY)
 
     (if pos
         (glTranslatef (vec3d-x pos) (vec3d-y pos) (vec3d-z pos)))
@@ -149,24 +183,41 @@
                    (vec4d-y rot)
                    (vec4d-z rot)))
 
+    
     (if scale
         (glScalef (vec3d-x scale) (vec3d-y scale) (vec3d-z scale)))
+
+    (glEnable GL_BLEND)
+    (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)
 
     (for-each (lambda (chunk)
                 (if (obj-chunk-mat chunk)
                     (let* ((mat (obj-chunk-mat chunk))
-                           (d (material-diffuse mat)))
+                           (color (if color
+                                      (vec4d-component-mul
+                                       color
+                                       (material-diffuse mat))
+                                      (material-diffuse mat))))
+
+                      (if (< (vec4d-w color) 1.)
+                          (glDisable GL_DEPTH_TEST)
+                          (glEnable GL_DEPTH_TEST))
+
                       (with-alloc (color-array
                                    (vector->float-array
                                     (vector
-                                     (vec3d-x d) (vec3d-y d) (vec3d-z d) 1.)))
+                                     (vec4d-x color)
+                                     (vec4d-y color)
+                                     (vec4d-z color)
+                                     (vec4d-w color))))
                         (glMaterialfv GL_FRONT_AND_BACK
                                       GL_DIFFUSE
                                       color-array))
-                      (glColor4f (vec3d-x d)
-                                 (vec3d-y d)
-                                 (vec3d-z d)
-                                 1.)))
+                      (glColor4f (vec4d-x color)
+                                 (vec4d-y color)
+                                 (vec4d-z color)
+                                 (vec4d-w color))))
+                
                 (if (not (null? (obj-chunk-indices chunk)))
                     (glDrawElements GL_TRIANGLES
                                     (obj-chunk-num-indices chunk)
@@ -174,6 +225,8 @@
                                     (->void-array (obj-chunk-indices chunk)))))
               (obj-chunks mesh))
 
+    (glEnable GL_DEPTH_TEST)
+    (glDisable GL_BLEND)
     (glDisableClientState GL_NORMAL_ARRAY)))
 
 (define (2d-object-render obj)
@@ -183,7 +236,10 @@
         (pos (2d-object-position obj))
         (rot (2d-object-rotation obj))
         (scale (2d-object-scale obj))
-        (texture (2d-object-texture obj)))
+        (texture (2d-object-texture obj))
+        (font (2d-object-font obj))
+        (center (2d-object-center obj)))
+    
     (if pos
         (glTranslatef (vec3d-x pos) (vec3d-y pos) (vec3d-z pos)))
 
@@ -196,18 +252,63 @@
     (if scale
         (glScalef (vec2d-x scale) (vec2d-y scale) 1.))
 
-    (if color
+    (if center
+        (glTranslatef -.5 -.5 0.))
+    
+    ;; Todo:
+    ;; Implement centering (LEFT, CENTER, RIGHT)
+    ;; (glTranslatef -x/2 -y/2 0.)
+    
+    (cond
+     ((and texture color)
+      (begin
+
+        ;; Freaking alpha-premultiplication that Cocoa does
+        ;; automatically. This simply allows me to fade out a
+        ;; textured polygon, which is broken due to Apple's
+        ;; crappy premultiplication which is forced on you.
+        ;; Basically, I premultiply the fade out into the
+        ;; color values using glColor4f since the texture
+        ;; environment is set to GL_MODULATE.
+        (glEnable GL_BLEND)
+        (glBlendFunc GL_ONE GL_ONE_MINUS_SRC_ALPHA)
+        (let ((fade (vec4d-w color)))
+          (glColor4f fade fade fade fade))))
+     ((or texture font)
+      (glEnable GL_BLEND)
+      (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)
+      (glColor4f 1. 1. 1. 1.))
+     (color
+      (begin
+        (glEnable GL_BLEND)
+        (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)
         (glColor4f (vec4d-x color)
                    (vec4d-y color)
                    (vec4d-z color)
-                   (vec4d-w color)))
+                   (vec4d-w color))))
+     (else
+      (glColor4f 1. 1. 1. 1.)))
 
-    (glEnable GL_BLEND)
-    (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)
+    (if font
+        (begin
+          (glEnable GL_TEXTURE_2D)
+          (glDisable GL_CULL_FACE)
+          (glDisable GL_DEPTH_TEST)
+          (glDisable GL_LIGHTING)
 
-    (if texture
-        (image-render texture)
-        (image-render-base))
+          (ftgl-prepare-fonts)
+          (ftgl-set-font-face-size (2d-font-font font)
+                                   (2d-font-size font))
+          (ftgl-render-font (2d-font-font font)
+                            (2d-font-text font))
+
+          (glDisable GL_TEXTURE_2D)
+          (glEnable GL_CULL_FACE)
+          (glEnable GL_DEPTH_TEST)
+          (glEnable GL_LIGHTING))
+        (if texture
+            (image-render texture)
+            (image-render-base)))
 
     (glColor4f 1. 1. 1. 1.)
     (glDisable GL_BLEND)))
@@ -250,31 +351,37 @@
               tail)
       (set! scene-list (append prefix same (cons obj tail2))))))
 
-(define (scene-list-update #!optional update-fn)
+(define (scene-list-remove obj)
+  (generic-object-mark-set! obj #t))
+
+(define (scene-list-update #!optional update-fn skip-local-update local-list)
   ;; run the update procedures for each scene object
   (for-each (lambda (obj)
-              (if (update-generic-object obj)
-                  ((or update-fn values) obj)
-                  (generic-object-mark-set! obj #t)))
-            scene-list)
-
+              (if (not skip-local-update)
+                  (update-generic-object obj))
+              (if update-fn (update-fn obj)))
+            (or local-list scene-list))
+  
   ;; remove all the objects marked for removal
-  (set! scene-list
-        (reverse
-         (fold (lambda (obj acc)
-                 (if (generic-object-mark obj)
-                     acc
-                     (cons obj acc)))
-               '()
-               scene-list))))
+  (let ((lst (reverse
+              (fold (lambda (obj acc)
+                      (if (generic-object-mark obj)
+                          acc
+                          (cons obj acc)))
+                    '()
+                    (or local-list scene-list)))))
+    (if local-list
+        lst
+        (set! scene-list lst))))
 
-(define (scene-list-render #!optional render-proc)
+(define (scene-list-render #!optional render-proc local-list)
   (let loop ((last-pers #f)
-             (tail scene-list))
+             (tail (or local-list scene-list)))
     (if (not (null? tail))
         (let* ((head (car tail))
                (pers (generic-object-perspective head)))
-          (if (not last-pers)
+          (if (or (not last-pers)
+                  (not (eq? last-pers pers)))
               (load-perspective pers))
           (if render-proc
               (render-proc head)

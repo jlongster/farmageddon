@@ -42,10 +42,8 @@
      (obj-bounding-box-mesh (mesh-object-mesh obj)))
     (glEnableClientState GL_VERTEX_ARRAY)
     (glDisable GL_LIGHTING)
-    (glDisable GL_FOG)
     (glDrawArrays GL_TRIANGLES 0 36)
-    (if (equal? (current-level-name) "fog")
-        (glEnable GL_FOG))))
+    (glEnable GL_LIGHTING)))
 
 (define %%intersection-queue '())
 
@@ -72,9 +70,8 @@
   
   (scene-list-render
    (lambda (obj)
-     (lambda ()
-       (if (mesh-object? obj)
-           (render-bounding-box el))))))
+     (if (mesh-object? obj)
+         (render-bounding-box obj)))))
 
 (define (handle-intersections)
   (define (bounds n x y)
@@ -100,7 +97,7 @@
 
   (define (find-object-at-point x y)
     (find-object (get-pixels x y)))
-  
+
   (if (intersection-waiting?)
       (begin
         (render-intersection-buffer)
@@ -109,14 +106,9 @@
             (if loc
                 (begin
                   (and-let* ((obj (find-object-at-point (car loc) (cadr loc))))
-                    (set! scene-list
-                          (fold (lambda (el acc)
-                                  (if (eq? el obj)
-                                      (begin
-                                        (on-entity-remove el)
-                                        (on-entity-kill el)
-                                        acc)
-                                      (cons el acc)))
-                                '()
-                                scene-list)))
+                    (on-entity-kill obj)
+                    (add-dust (car loc)
+                              (cadr loc)
+                              (vec3d-z (mesh-object-position obj)))
+                    (remove-entity obj))
                   (loop))))))))

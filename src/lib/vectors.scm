@@ -95,3 +95,9 @@
               (+ (vec4d-y v1) (vec4d-y v2))
               (+ (vec4d-z v1) (vec4d-z v2))
               (+ (vec4d-w v1) (vec4d-w v2))))
+
+(define (vec4d-component-mul v1 v2)
+  (make-vec4d (* (vec4d-x v1) (vec4d-x v2))
+              (* (vec4d-y v1) (vec4d-y v2))
+              (* (vec4d-z v1) (vec4d-z v2))
+              (* (vec4d-w v1) (vec4d-w v2))))

@@ -38,6 +38,7 @@
 (include "ffi/iphone.scm")
 (include "ffi/image.scm")
 (include "ffi/al.scm")
+(include "ffi/ftgl.scm")
 
 ;; load the game
 

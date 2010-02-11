@@ -6,29 +6,17 @@
 
 (define lightning-textures '())
 (define star-texture #f)
+(define explosion-texture #f)
+(define blood-texture #f)
 
 (define (weapons-init)
-  (let ((line (CGImageRef-load "line.png"))
-        (line2 (CGImageRef-load "line2.png"))
-        (line3 (CGImageRef-load "line3.png"))
-        (star (CGImageRef-load "star.png")))
-    (set! lightning-textures
-          (list (image-opengl-upload
-                 (CGImageRef-data line)
-                 (CGImageRef-width line)
-                 (CGImageRef-height line))
-                (image-opengl-upload
-                 (CGImageRef-data line2)
-                 (CGImageRef-width line2)
-                 (CGImageRef-height line2))
-                (image-opengl-upload
-                 (CGImageRef-data line3)
-                 (CGImageRef-width line3)
-                 (CGImageRef-height line3))))
-    (set! star-texture (image-opengl-upload
-                        (CGImageRef-data star)
-                        (CGImageRef-width star)
-                        (CGImageRef-height star)))))
+  (set! lightning-textures
+        (list (image-opengl-load "line.png")
+              (image-opengl-load "line2.png")
+              (image-opengl-load "line3.png")))
+  (set! star-texture (image-opengl-load "star.png"))
+  (set! explosion-texture (image-opengl-load "explosion.png"))
+  (set! blood-texture (image-opengl-load "blood.png")))
 
 ;; creating
 
@@ -63,24 +51,22 @@
                                       (spread-number (random-real)))))
              (lambda (i) (+ i 1))
              0))
-   5.
+   1.
    (real-time)))
 
 (define (add-lightning lightning)
   (set! %%lightnings (cons lightning %%lightnings))
 
   ;; Play the explosion sound
-  ;; (explosion-source (make-audio-source explosion-audio))
-  ;; (alSourcef explosion-source AL_GAIN 1.)
-  ;; Play the explosion sound, and free it
-  ;;(play-audio explosion-source)
-  ;; Ewwww, look at that ugly hack!
-  ;; (thread-start!
-  ;;  (make-thread
-  ;;   (lambda ()
-  ;;     (thread-sleep! 1.7)
-  ;;     (free-audio-source explosion-source))))
-  )
+  (let ((explosion-source (make-audio-source explosion-audio)))
+    (alSourcef explosion-source AL_GAIN 2.)
+    ;; Play the explosion sound, and free it
+    (play-audio explosion-source)
+    (thread-start!
+     (make-thread
+      (lambda ()
+        (thread-sleep! 1.7)
+        (free-audio-source explosion-source))))))
 
 (define (add-hit-point point)
   (add-lightning (make-lightning point)))
@@ -107,13 +93,9 @@
          (y (exact->inexact (* (/ (cdr point) height)
                                (perspective-ymin pers)))))
 
-    ;; Freaking alpha-premultiplication that Cocoa does
-    ;; automatically. This simply allows me to fade out a
-    ;; textured polygon, which is broken due to Apple's
-    ;; crappy premultiplication which is forced on you.
-    ;; Basically, I premultiply the fade out into the
-    ;; color values using glColor4f since the texture
-    ;; environment is set to GL_MODULATE.
+    ;; Fix blending of textures due to alpha-premultiplication that
+    ;; Cocoa does (see `render-2d-object` in scene.scm for full
+    ;; comments)
     (glEnable GL_BLEND)
     (glBlendFunc GL_ONE GL_ONE_MINUS_SRC_ALPHA)
     (let ((fade (- 1. time-interp)))
@@ -133,16 +115,6 @@
             (image-render texture)
             (loop (+ i 1)))))
 
-    ;; Render the "dust"
-    (glLoadIdentity)
-    (let* ((size .05)
-           (half-size (/ size 2)))
-      (glTranslatef x y 0.)
-      (glRotatef (* time-passed 180) 0. 0. 1.)
-      (glTranslatef (- half-size) (- half-size) 0.)
-      (glScalef size size 1.))
-    (image-render star-texture)
-
     (glDisable GL_BLEND)
     #t))
 
@@ -157,5 +129,80 @@
                '()
                %%lightnings))))
 
+;; dust
+
+(define dust-list '())
+
+(define (dust-list-add obj)
+  (set! dust-list (cons obj dust-list)))
+
+(define (add-dust x y z)
+  (define (depth-scale #!optional n)
+    (+ (expt .97 z) (or n 0.)))
+
+  (let* ((width (UIView-width (current-view)))
+         (height (UIView-height (current-view)))
+         (pos (make-vec3d (/ (exact->inexact x) width)
+                          (* (/ (exact->inexact y) height) 1.5)
+                          0.)))
+
+    (dust-list-add
+     (make-tween
+      (make-2d-object
+       2d-ratio-perspective
+       position: (vec3d-copy pos)
+       scale: (make-vec3d (depth-scale) (depth-scale) 1.)
+       rotation: (make-vec4d 0. 0. 1. (* (random-real) 360.))
+       texture: blood-texture
+       color: (make-vec4d 1. 1. 1. 1.)
+       center: #t)
+      alpha: 0.
+      length: .5
+      position: (vec3d-add
+                 pos
+                 (make-vec3d (* (spread-number (random-real)) .1)
+                             (* (spread-number (random-real)) .1)
+                             (* (spread-number (random-real)) .1)))
+      type: 'ease-out-cubic
+      on-finished: (lambda ()
+                     #f)))
+
+    (let loop ((i 0))
+      (if (< i 5)
+          (begin
+            (dust-list-add
+             (make-tween
+              (make-2d-object
+               2d-ratio-perspective
+               position: (vec3d-copy pos)
+               scale: (make-vec3d (depth-scale .1) (depth-scale .1) 1.)
+               rotation: (make-vec4d 0. 0. 1. (* (random-real) 360.))
+               texture: explosion-texture
+               color: (make-vec4d 1. 1. 1. 1.)
+               center: #t)
+              alpha: 0.
+              length: .5
+              position: (vec3d-add
+                         pos
+                         (make-vec3d (* (spread-number (random-real)) .1)
+                                     (* (spread-number (random-real)) .1)
+                                     (* (spread-number (random-real)) .1)))
+              type: 'ease-out-cubic
+              on-finished: (lambda ()
+                             #f)))
+            (loop (+ i 1)))))))
+
+(define (render-dust)
+  (scene-list-render #f dust-list))
+
+(define (update-dust)
+  (set! dust-list (scene-list-update #f #f dust-list)))
+
+;; interface
+
+(define (update-weapons)
+  (update-dust))
+
 (define (render-weapons)
-  (render-lightnings))
+  (render-lightnings)
+  (render-dust))

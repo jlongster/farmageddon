@@ -36,7 +36,7 @@
          (src-rotation (and-let* ((vec (generic-object-rotation scene-obj)))
                          (vec4d-copy vec))))
     (make-scene-object
-     2d-perspective
+     (generic-object-perspective scene-obj)
      (lambda (fader)
        (render-generic-object scene-obj))
      (lambda (fader)
@@ -78,7 +78,8 @@
                                   rotation))
             
               (if (> time-span length)
-                  (on-finished))))))))
+                  (if (not (on-finished))
+                      (scene-list-remove fader)))))))))
 
 ;; types of interpolation
 
@@ -136,6 +137,51 @@
             (+ src-value (* (+ (expt (- interp 1.) 3)
                                2.)
                             half-change)))))))
+
+(install-interpolation ease-out-bounce
+  (lambda (interp src-value value)
+    (let ((change (- value src-value)))
+      (cond
+       ((< interp (/ 2.75))
+        (+ src-value
+           (* 7.5625 interp interp change)))
+       ((< interp (/ 2 2.75))
+        (let ((interp (- interp (/ 1.5 2.75))))
+          (+ src-value
+             (* (+ (* 7.5625 interp interp) .75)
+                change))))
+       ((< interp (/ 2.5 2.75))
+        (let ((interp (- interp (/ 2.25 2.75))))
+          (+ src-value
+             (* (+ (* 7.5625 interp interp) .9375)
+                change))))
+       (else
+        (let ((interp (- interp (/ 2.625 2.75))))
+          (+ src-value
+             (* (+ (* 7.5625 interp interp) .984375)
+                change))))))))
+
+(install-interpolation ease-in-bounce
+  (lambda (interp src-value value)
+    (let ((change (- value src-value)))
+      (+ src-value
+         change
+         (- ((get-interpolation 'ease-out-bounce)
+             (- 1. interp) 0 change))))))
+
+(install-interpolation ease-inout-bounce
+  (lambda (interp src-value value)
+    (let ((change (- value src-value)))
+      (if (< interp .5)
+          (+ src-value
+             (* ((get-interpolation 'ease-in-bounce)
+                 (* interp 2.) 0. change)
+                .5))
+          (+ src-value
+             (* change .5)
+             (* ((get-interpolation 'ease-out-bounce)
+                 (* (- interp .5) 2.) 0. change)
+                .5))))))
 
 ;; attribute tweening
 

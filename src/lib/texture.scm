@@ -63,7 +63,7 @@
   (glEnable GL_TEXTURE_2D)
   (glDisable GL_DEPTH_TEST)
   (glDisable GL_LIGHTING)
-
+      
   (glVertexPointer 2 GL_FLOAT 0 square-pos)
   (glEnableClientState GL_VERTEX_ARRAY)
   
@@ -73,8 +73,8 @@
   (glDrawArrays GL_TRIANGLE_STRIP 0 4)
 
   (glDisableClientState GL_TEXTURE_COORD_ARRAY)
-  (glEnable GL_DEPTH_TEST)
   (glDisable GL_TEXTURE_2D)
+  (glEnable GL_DEPTH_TEST)
   (glEnable GL_LIGHTING))
 
 (define (image-render-base)

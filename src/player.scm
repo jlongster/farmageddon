@@ -3,20 +3,23 @@
 
 ;; life
 
-(define MAX-LIFE 15000)
+(define MAX-LIFE 10)
 (define LIFE MAX-LIFE)
 
 (define (get-damage el)
   (let ((mesh (mesh-object-mesh el)))
     (cond
      ((eq? mesh cow-mesh) 2)
-     ((eq? mesh sheep-mesh) 1)
-     ((eq? mesh duck-mesh) 1)
-     ((eq? mesh chicken-mesh) .5))))
+     ((eq? mesh chicken-mesh) .5)
+     (else 1))))
 
 (define (life-decrease! el)
-  (set! LIFE
-        (- LIFE (get-damage el))))
+  (if (not (life-is-dead?))
+      (begin
+        (set! LIFE
+              (- LIFE (get-damage el)))
+        (if (life-is-dead?)
+            (on-death)))))
 
 (define (life)
   LIFE)
@@ -30,12 +33,17 @@
 ;; goal/score
 
 (define SCORE 0)
+(define FAILED #f)
 
 (define (score)
   SCORE)
 
 (define (score-increase)
-  (set! SCORE (+ SCORE 1)))
+  (if (not (goal-met?))
+      (begin
+        (set! SCORE (+ SCORE 1))
+        (if (goal-met?)
+            (on-win)))))
 
 (define (score-reset)
   (set! SCORE 0))
@@ -45,3 +53,10 @@
 
 (define (goal-left)
   (- (current-level-goal) (score)))
+
+(define (goal-failed?)
+  FAILED)
+
+(define (goal-has-failed)
+  (set! FAILED #t)
+  (on-fail))

@@ -9,23 +9,31 @@
 (include "overlay.scm")
 (include "picking.scm")
 (include "levels.scm")
+(include "entity.scm")
 
 ;; resources
 
 (define chicken-mesh (obj-load (resource "chicken") #t))
 (define duck-mesh (obj-load (resource "duck") #t))
 (define cow-mesh (obj-load (resource "cow") #t))
+(define cow-part1-mesh (obj-load (resource "cow-part1") #t))
+(define cow-part2-mesh (obj-load (resource "cow-part2") #t))
+(define cow-part3-mesh (obj-load (resource "cow-part3") #t))
+(define person-mesh (obj-load (resource "person") #t))
 (define sheep-mesh (obj-load (resource "sheep") #t))
 
-(define sky-texture #f)
+(define level1-texture #f)
 (define gradient-texture #f)
+(define fail-texture #f)
+(define success-texture #f)
+
 (define bah-audio #f)
 (define moo-audio #f)
 (define chicken-audio #f)
 (define thud-audio #f)
 (define shatter-audio #f)
 (define explosion-audio #f)
-
+ 
 ;; util
 
 (define (spread-number fl)
@@ -68,13 +76,48 @@
      (* (- y-max (* (/ y height) y-width)) depth)
      depth)))
 
+;; events
+
+(define (on-win)
+  (overlay-list-add
+   (make-tween
+    (make-2d-object
+     2d-perspective
+     texture: success-texture
+     color: (make-vec4d 1. 1. 1. 0.))
+    alpha: 1.
+    length: .5)))
+
+(define (on-fail)
+  (overlay-list-add
+   (make-tween
+    (make-2d-object
+     2d-perspective
+     texture: fail-texture
+     color: (make-vec4d 1. 1. 1. 0.))
+    alpha: 1.
+    length: .5)))
+
+(define SHATTER-SOUND #f)
+(define (on-death)
+  (if (not SHATTER-SOUND)
+      (let ((source (make-audio-source shatter-audio)))
+        (play-audio source)
+        (set! SHATTER-SOUND source))))
+
+
 ;; init
 
+(define apex-font #f)
+(define batang-font #f)
+(define font-perspective #f)
+
 (define (level-screen-init)
-  (let ((3d-pers (perspective 40.
-                              (/ (UIView-width (current-view))
-                                 (UIView-height (current-view)))
-                              1. 1000.)))
+  (let* ((width (UIView-width (current-view)))
+         (height (UIView-height (current-view)))
+         (3d-pers (perspective 40.
+                               (exact->inexact (/ width height))
+                               1. 1000.)))
     (perspective-matrix-set!
      3d-pers
      (4x4matrix-multiply
@@ -82,7 +125,12 @@
               (make-vec3d 0. 0. 1.)
               (make-vec3d 0. 1. 0.))
       (perspective-matrix 3d-pers)))
-    (set! 3d-perspective 3d-pers))
+    (set! 3d-perspective 3d-pers)
+
+    (set! font-perspective
+          (ortho 0 (exact->inexact width)
+                 0 (exact->inexact height)
+                 -10000.0 10000.0)))
 
   (glEnable GL_DEPTH_TEST)
   (glEnable GL_CULL_FACE)
@@ -90,18 +138,11 @@
   (glShadeModel GL_SMOOTH)
   (glEnable GL_RESCALE_NORMAL)
 
-  (let ((image (CGImageRef-load "gradient.png")))
-    (set! gradient-texture (image-opengl-upload
-                            (CGImageRef-data image)
-                            (CGImageRef-width image)
-                            (CGImageRef-height image))))
-
-  (let ((image (CGImageRef-load "sky.png")))
-    (set! sky-texture (image-opengl-upload
-                       (CGImageRef-data image)
-                       (CGImageRef-width image)
-                       (CGImageRef-height image))))
-
+  (set! gradient-texture (image-opengl-load "gradient.png"))
+  (set! level1-texture (image-opengl-load "level-screen1.png"))
+  (set! fail-texture (image-opengl-load "fail.png"))
+  (set! success-texture (image-opengl-load "success.png"))
+  
   (weapons-init)
     
   (init-audio)
@@ -112,10 +153,13 @@
   (set! explosion-audio (load-audio "explosion2.wav"))
   (set! chicken-audio (load-audio "chicken.wav"))
 
-  (overlay-init)
+  (set! apex-font (ftgl-create-texture-font (resource "ApexSansBookC.ttf")))
+  (set! batang-font (ftgl-create-texture-font (resource "Batang.ttf")))
+  
   (load-randomized-cracks)
-
-  (set-level! (basic-level)))
+  
+  (set-level! (basic-level))
+  (overlay-init))
 
 ;; updating and processing events
 
@@ -124,28 +168,19 @@
 
   (handle-intersections)
   (scene-list-update global-update)
+  (scene-list-update values)
 
-  (if (goal-met?)
-      (on-win)
-      (possibly-make-entity))
-  
-  (if (life-is-dead?)
-      (on-death)))
+  (overlay-update)
+  (update-weapons)
 
-
-(define (on-win)
-  =)
-
-(define SHATTER-SOUND #f)
-(define (on-death)
-  (if (not SHATTER-SOUND)
-      (let ((source (make-audio-source shatter-audio)))
-        (play-audio source)
-        (set! SHATTER-SOUND source))))
+  (if (not (or (life-is-dead?)
+               (goal-met?)
+               (goal-failed?)))
+      (possibly-make-entity)))
 
 ;; rendering
 
-(define (level-screen-render)
+(define (level-screen-render)  
   ;; background
   (if (current-background-texture)
       (begin
@@ -155,23 +190,20 @@
 
   ;; 3d
   (scene-list-render)
-
-  ;; overlay
-
-  (load-perspective 2d-perspective)
   
+  ;; overlay
+  (load-perspective 2d-ratio-perspective)
+
+  (render-weapons)
   (if (not (life-is-dead?))
       (render-cracks))
-  
-  (overlay-render)
-  (render-weapons))
+  (overlay-render))
 
 (define (level-screen-touches-began touches event)
   (for-each (lambda (el)
               (let ((loc (UITouch-location el)))
                 (queue-intersection (car loc) (cdr loc))
-                (add-hit-point loc)
-                ))
+                (add-hit-point loc)))
             touches))
 
 (define-screen level-screen

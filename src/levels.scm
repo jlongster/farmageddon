@@ -56,9 +56,9 @@
 
 (define (basic-level)
   (make-level "basic"
-              5
-              sky-texture
-              2.5
+              15
+              level1-texture
+              3
               #f
               #f))
 

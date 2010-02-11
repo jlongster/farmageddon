@@ -120,7 +120,7 @@
   (let ((width (UIView-width (current-view)))
         (height (UIView-height (current-view))))
     (glTranslatef (/ x width)
-                  (/ y height)
+                  (* (/ y height) 1.5)
                   0.)
     (glScalef (/ 1. width) (/ 1.5 height) 1.))
 

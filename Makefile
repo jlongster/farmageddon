@@ -34,6 +34,10 @@ clean:
 ### These are here if you change the "include" statements in
 ### src/init.scm to "load" statements
 
+src/ffi/ftgl.o1: src/ffi/ftgl.scm
+	rm -rf src/ffi/ftgl.o1
+	cd src/ffi && $(gsc) -cc-options '-I/usr/local/iphone/iPhoneSimulator3.1.2/include -I/usr/local/iphone/iPhoneSimulator3.1.2/include/freetype2' ftgl.scm
+
 src/ffi/gl.o1: src/ffi/gl.scm
 	rm -rf src/ffi/gl.o1
 	cd src/ffi && $(gsc) -debug gl.scm

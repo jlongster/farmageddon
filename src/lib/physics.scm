@@ -13,7 +13,7 @@
          (change (- now last)))
     (apply-acceleration obj change)
     (apply-velocity obj change)    
-    (mesh-object-%%last-update-set! obj now)))
+    (mesh-object-last-update-set! obj now)))
 
 (define (apply-acceleration obj change)
   (let ((velocity (mesh-object-velocity obj)))

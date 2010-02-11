@@ -14,18 +14,19 @@
   touches-began)
 
 (define-macro (define-screen name #!key
-                init
-                run
-                render
-                touches-began)
+          init
+          run
+          render
+          touches-began)
   `(define ,name (make-screen ,(symbol->string name)
                               #f
                               ,init
-                              ,run
-                              ,render
+                              (lambda () (,run))
+                              (lambda () (,render))
                               ,touches-began)))
 
 (define (set-screen! screen)
+  (scene-list-clear!)
   (set! CURRENT-SCREEN screen))
 
 (define (current-screen-run)
@@ -59,8 +60,8 @@
 
 (define-screen title-screen
   init: (lambda ()
-          (set! title-texture (image-opengl-load "title.png"))
-          #;
+          (set! title-texture
+                (image-opengl-load "title-screen.png"))
           (scene-list-add
            (make-2d-object
             2d-perspective
@@ -79,6 +80,7 @@
                       color: (make-vec4d 0. 0. 0. 0.))
                      length: .5
                      alpha: 1.
+                     on-finished:
                      (lambda ()
                        (set-screen! level-screen)
                        (scene-list-add
@@ -87,6 +89,9 @@
                           2d-perspective
                           color: (make-vec4d 0. 0. 0. 1.))
                          length: 2.5
-                         alpha: 0.)))))))
+                         alpha: 0.
+                         on-finished: (lambda () #f)))
+                       #f)))))
 
-(include "level-screen.scm")
+(include "tests/screen.scm")
+(include "level.scm")

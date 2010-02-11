@@ -1,6 +1,28 @@
 ;;;; overlay 
 ;;; Controls and renders all of the 2d components
 
+;; custom scene list
+
+(define overlay-list '())
+
+(define (overlay-list-clear!)
+  (set! overlay-list '()))
+
+(define (overlay-list-add obj)
+  (set! overlay-list (cons obj overlay-list)))
+
+(define (overlay-render)
+  (scene-list-render #f overlay-list)
+
+  (load-perspective 2d-ratio-perspective)
+  
+  (life-render)
+  (goal-render))
+
+(define (overlay-update)
+  (set! overlay-list
+        (scene-list-update #f #f overlay-list)))
+
 ;; life
 
 (define TX-LIFE-GROOVE #f)
@@ -20,17 +42,16 @@
                        (CGImageRef-height image)))))
 
 (define (life-render)
-  (glLoadIdentity)
   (glColor4f 1. 1. 1. 1.)
 
   (glLoadIdentity)
   (glTranslatef 0. 1.425 0.)
   (glScalef 1. .075 1.)
   (image-render-base)
-    
+
   (glEnable GL_BLEND)
   (glBlendFunc GL_ONE GL_ONE_MINUS_SRC_ALPHA)
-    
+
   (glLoadIdentity)
   (glTranslatef (- (exact->inexact (life-ratio)) 1.)
                 1.425
@@ -43,32 +64,31 @@
   (glTranslatef 0. 1.425 0.)
   (glScalef 1. .075 1.)
   (image-render TX-LIFE-GROOVE)
-    
+
   (glDisable GL_BLEND))
 
 ;; goal (based on score)
 
+(define goal-font #f)
+
+(define (goal-init)
+  (set! goal-font
+        (make-2d-font apex-font
+                      (number->string (goal-left))
+                      72))
+  
+  (overlay-list-add
+   (make-2d-object
+    font-perspective
+    position: (make-vec3d 30. 30. 0.)
+    font: goal-font)))
+
 (define (goal-render)
-  (let ((left (goal-left)))
-    (let loop ((i 0))
-      (if (< i left)
-          (begin
-            (glLoadIdentity)
-            (glEnable GL_BLEND)
-            (glBlendFunc GL_ONE GL_ONE_MINUS_SRC_ALPHA)
-            (glTranslatef (exact->inexact (* i .1)) 0. 0.)
-            (glScalef .1 (/ .1 1.5) 1.)
-            
-            (image-render star-texture)
-            
-            (glDisable GL_BLEND)
-            (loop (+ i 1)))))))
+  (2d-font-text-set! goal-font
+                     (number->string (goal-left))))
 
 ;; overlay
 
 (define (overlay-init)
-  (life-init))
-
-(define (overlay-render)
-  (life-render)
-  (goal-render))
+  (life-init)
+  (goal-init))

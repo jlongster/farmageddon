@@ -44,16 +44,22 @@
   (really-make-material #f #f #f))
 
 (define (mtl-parse-ambient)
-  (apply make-vec3d
-         (enforce-length "ambient" 3 (read-map exact->inexact))))
+  (apply make-vec4d
+         (append (enforce-length "ambient" 3
+                                 (read-map exact->inexact))
+                 '(1.))))
 
 (define (mtl-parse-diffuse)
-  (apply make-vec3d
-         (enforce-length "diffuse" 3 (read-map exact->inexact))))
+  (apply make-vec4d
+         (append (enforce-length "diffuse" 3
+                                 (read-map exact->inexact))
+                 '(1.))))
 
 (define (mtl-parse-specular)
-  (apply make-vec3d
-         (enforce-length "specular" 3 (read-map exact->inexact))))
+  (apply make-vec4d
+         (append (enforce-length "specular" 3
+                                 (read-map exact->inexact))
+                 '(1.))))
 
 (define (mtl-parse-line mtls mtl-name line)
   (with-input-from-string line
@@ -104,7 +110,8 @@
   constructor: really-make-obj-chunk
   num-indices
   indices
-  mat)
+  mat
+  bounding-box)
 
 (define-type obj
   id: 8E600AD2-9106-405C-82DF-0D700BE0E5D9
@@ -120,10 +127,19 @@
   (really-make-bounding-box 0. 0. 0. 0. 0. 0.))
 
 (define (make-chunk mat)
-  (really-make-obj-chunk #f '() mat))
+  (really-make-obj-chunk #f '() mat (make-bounding-box)))
 
 (define (make-obj)
   (really-make-obj #f '() '() '() (make-bounding-box) #f))
+
+(define (copy-obj obj)
+  (really-make-obj
+   (obj-num-vertices obj)
+   (obj-vertices obj)
+   (obj-normals obj)
+   (obj-chunks obj)
+   (obj-bounding-box obj)
+   (obj-bounding-box-mesh obj)))
 
 (define (obj-parse-vertex)
   (enforce-length "vertex" 3 (read-map exact->inexact)))
@@ -138,22 +154,29 @@
 (define (obj-parse-face)
   (enforce-length "face" 3 (read-map (lambda (n) (- n 1)))))
 
-(define (update-bounding-box obj x y z)
-  (let ((box (obj-bounding-box obj)))
-    (if (< x (bounding-box-min-x box))
-        (bounding-box-min-x-set! box x)
-        (if (> x (bounding-box-max-x box))
-            (bounding-box-max-x-set! box x)))
+(define (update-bounding-box box x y z)
+  (if (< x (bounding-box-min-x box))
+      (bounding-box-min-x-set! box x)
+      (if (> x (bounding-box-max-x box))
+          (bounding-box-max-x-set! box x)))
 
-    (if (< y (bounding-box-min-y box))
-        (bounding-box-min-y-set! box y)
-        (if (> y (bounding-box-max-y box))
-            (bounding-box-max-y-set! box y)))
+  (if (< y (bounding-box-min-y box))
+      (bounding-box-min-y-set! box y)
+      (if (> y (bounding-box-max-y box))
+          (bounding-box-max-y-set! box y)))
 
-    (if (< z (bounding-box-min-z box))
-        (bounding-box-min-z-set! box z)
-        (if (> z (bounding-box-max-x box))
-            (bounding-box-max-z-set! box z)))))
+  (if (< z (bounding-box-min-z box))
+      (bounding-box-min-z-set! box z)
+      (if (> z (bounding-box-max-x box))
+          (bounding-box-max-z-set! box z))))
+
+(define (lookup-vertex obj index)
+  (let ((vertices (list->vector
+                   (reverse (obj-vertices obj)))))
+    (list
+     (vector-ref vertices (* index 3))
+     (vector-ref vertices (+ (* index 3) 1))
+     (vector-ref vertices (+ (* index 3) 1)))))
 
 (define (obj-parse-line obj chunk mtls line)
   (define (appendd lst lst2)
@@ -165,7 +188,8 @@
         (case type
           ((v)
            (let ((v (obj-parse-vertex)))
-             (apply update-bounding-box (cons obj v))
+             (apply update-bounding-box
+                    (cons (obj-bounding-box obj) v))
              (obj-vertices-set!
               obj
               (appendd v (obj-vertices obj)))))
@@ -175,10 +199,16 @@
             (appendd (obj-parse-normal)
                      (obj-normals obj))))
           ((f)
-           (obj-chunk-indices-set!
-            chunk
-            (appendd (obj-parse-face)
-                     (obj-chunk-indices chunk))))
+           (let ((face (obj-parse-face)))
+             (for-each (lambda (v)
+                         (apply update-bounding-box
+                                (cons (obj-chunk-bounding-box chunk)
+                                      (lookup-vertex obj v))))
+                       face)
+             (obj-chunk-indices-set!
+              chunk
+              (appendd face
+                       (obj-chunk-indices chunk)))))
           ((usemtl)
            (let ((name (read)))
              (table-ref mtls name #f))))))))
