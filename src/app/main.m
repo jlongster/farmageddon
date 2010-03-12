@@ -21,7 +21,7 @@ ___END_C_LINKAGE
 ___setup_params_struct setup_params;
 
 int main(int argc, char *argv[]) {
-	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
     
     // Taken from gambit, lib/main.c. 
     int debug_settings = ___DEBUG_SETTINGS_INITIAL;
@@ -51,8 +51,9 @@ int main(int argc, char *argv[]) {
     //     | (2 << ___DEBUG_SETTINGS_LEVEL_SHIFT);
     
     ___setup_params_reset (&setup_params);
-	setup_params.version = ___VERSION;
-	setup_params.linker = LINKER;
+    setup_params.version = ___VERSION;
+    setup_params.linker = LINKER;
+    setup_params.min_heap = 10000;
     setup_params.debug_settings = debug_settings;
 
 

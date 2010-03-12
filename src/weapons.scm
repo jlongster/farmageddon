@@ -2,6 +2,10 @@
 ;;; This code implements the logic and rendering functionality of
 ;;; weapons.
 
+(declare (block)
+         (standard-bindings)
+         (extended-bindings))
+
 ;; init
 
 (define lightning-textures '())

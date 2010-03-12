@@ -4,6 +4,7 @@
          (extended-bindings))
 
 (define (make-vec2d x y) (f64vector x y))
+(define vec2d? f64vector?)
 (define (vec2d-copy v) (f64vector-copy v))
 (define (vec2d-x v) (f64vector-ref v 0))
 (define (vec2d-y v) (f64vector-ref v 1))
@@ -24,7 +25,10 @@
   (make-vec2d (fl* (vec2d-x v1) f)
               (fl* (vec2d-y v1) f)))
 
-(define (make-vec3d x y z) (f64vector x y z))
+(define (make-vec3d x y z)
+  (declare (inlining-limit 10000))
+  (f64vector x y z))
+(define vec3d? f64vector?)
 (define (vec3d-copy v) (f64vector-copy v))
 (define (vec3d-x v) (f64vector-ref v 0))
 (define (vec3d-y v) (f64vector-ref v 1))
@@ -33,7 +37,10 @@
 (define (vec3d-y-set! v f) (f64vector-set! v 1 f))
 (define (vec3d-z-set! v f) (f64vector-set! v 2 f))
 
-(define (make-vec4d x y z w) (f64vector x y z w))
+(define (make-vec4d x y z w)
+  (declare (inlining-limit 10000))
+  (f64vector x y z w))
+(define vec4d? f64vector?)
 (define (vec4d-copy v) (f64vector-copy v))
 (define (vec4d-x v) (f64vector-ref v 0))
 (define (vec4d-y v) (f64vector-ref v 1))
@@ -75,11 +82,13 @@
   (vec3d-scalar-mul v1 (fl/ (vec3d-length v1))))
 
 (define (vec3d-dot v1 v2)
+  (declare (inlining-limit 10000))
   (fl+ (fl* (vec3d-x v1) (vec3d-x v2))
        (fl* (vec3d-y v1) (vec3d-y v2))
        (fl* (vec3d-z v1) (vec3d-z v2))))
 
 (define (vec3d-cross v1 v2)
+  (declare (inlining-limit 10000))
   (let ((v1-x (vec3d-x v1)) (v2-x (vec3d-x v2))
 	(v1-y (vec3d-y v1)) (v2-y (vec3d-y v2))
 	(v1-z (vec3d-z v1)) (v2-z (vec3d-z v2)))
@@ -91,12 +100,14 @@
 		     (fl* v1-y v2-x)))))
 
 (define (vec4d-add v1 v2)
+  (declare (inlining-limit 10000))
   (make-vec4d (+ (vec4d-x v1) (vec4d-x v2))
               (+ (vec4d-y v1) (vec4d-y v2))
               (+ (vec4d-z v1) (vec4d-z v2))
               (+ (vec4d-w v1) (vec4d-w v2))))
 
 (define (vec4d-component-mul v1 v2)
+  (declare (inlining-limit 10000))
   (make-vec4d (* (vec4d-x v1) (vec4d-x v2))
               (* (vec4d-y v1) (vec4d-y v2))
               (* (vec4d-z v1) (vec4d-z v2))

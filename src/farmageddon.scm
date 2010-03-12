@@ -41,18 +41,13 @@
 
 (define (init)
   (random-source-randomize! default-random-source)
-  (set-screen! level-screen)
-
-  ;; hack hack hack
-  ;;((screen-init title-screen))
-  ((screen-init level-screen))
-  ((screen-init test-screen)))
+  (set-screen! title-screen))
 
 (define (render)
+  (force-output (repl-output-port))
   (current-screen-run)
 
-  ;;(glClearColor 0. .2 .3 1.)
-  (glClearColor 0. .2 .3 1.)
+  (glClearColor 0. .0 .0 1.)
   (glClear (bitwise-ior GL_COLOR_BUFFER_BIT GL_DEPTH_BUFFER_BIT))
   (current-screen-render)
   

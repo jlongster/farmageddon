@@ -17,6 +17,7 @@ iphone: iphone_config src/init_.c
 
 src/init_.c: src/init.scm src/ffi/gl.scm src/farmageddon.scm
 	cd src && $(gsc) -link init.scm
+### -track-scheme -debug-location 
 
 config:
 	echo '(define root "$(CURDIR)")' > src/config.scm

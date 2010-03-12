@@ -22,6 +22,9 @@
   (c-lambda (FTGLFont*) unsigned-int
             "ftglGetFontFaceSize"))
 
+(define ftgl-get-font-advance
+  (c-lambda (FTGLFont* char-string) float "ftglGetFontAdvance"))
+
 (define (ftgl-render-font font str . mode)
   ((c-lambda (FTGLFont* char-string unsigned-int) void
              "ftglRenderFont")

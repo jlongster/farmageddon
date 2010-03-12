@@ -2,31 +2,53 @@
 ;;; This implements a system that handles transitions between various
 ;;; menus, screens, and levels in the game.
 
+(declare (block)
+         (standard-bindings)
+         (extended-bindings))
+
 (define CURRENT-SCREEN #f)
+(define SCREEN-LIST '())
 
 (define-type screen
   id: D0B1BFA4-123E-443D-80A3-3F88BA51D4F1
   name
-  has-init
   init
+  setup
   run
   render
   touches-began)
 
 (define-macro (define-screen name #!key
           init
+          setup
           run
           render
           touches-began)
-  `(define ,name (make-screen ,(symbol->string name)
-                              #f
-                              ,init
-                              (lambda () (,run))
-                              (lambda () (,render))
-                              ,touches-began)))
+  `(begin
+     (define ,name (make-screen ,(symbol->string name)
+                                ,init
+                                ,setup
+                                (lambda () (,run))
+                                (lambda () (,render))
+                                ,touches-began))
+     (set! SCREEN-LIST (cons ,name SCREEN-LIST))))
+
+(define NEED-INIT #t)
+
+(define (run-initializers)
+  (for-each (lambda (screen)
+              ((screen-init screen)))
+            SCREEN-LIST))
 
 (define (set-screen! screen)
+  (if NEED-INIT
+      (begin
+        (run-initializers)
+        (set! NEED-INIT #f)))
+
   (scene-list-clear!)
+  (overlay-list-clear!)
+  ((screen-setup screen))
   (set! CURRENT-SCREEN screen))
 
 (define (current-screen-run)
@@ -50,48 +72,12 @@
 
 ;; title screen
 
-(define title-texture #f)
-
 (define 2d-perspective
   (ortho 0.0 1.0 1.0 0.0 -1.0 1.0))
 
 (define 2d-ratio-perspective
   (ortho 0.0 1.0 1.5 0.0 -1.0 1.0))
 
-(define-screen title-screen
-  init: (lambda ()
-          (set! title-texture
-                (image-opengl-load "title-screen.png"))
-          (scene-list-add
-           (make-2d-object
-            2d-perspective
-            update: (lambda (obj)
-                      (eq? (current-screen) title-screen))
-            texture: title-texture)))
-  run: (lambda ()
-         (scene-list-update))
-  render: (lambda ()
-            (scene-list-render))
-  touches-began: (lambda (touches event)
-                   (scene-list-add
-                    (make-tween
-                     (make-2d-object
-                      2d-perspective
-                      color: (make-vec4d 0. 0. 0. 0.))
-                     length: .5
-                     alpha: 1.
-                     on-finished:
-                     (lambda ()
-                       (set-screen! level-screen)
-                       (scene-list-add
-                        (make-tween
-                         (make-2d-object
-                          2d-perspective
-                          color: (make-vec4d 0. 0. 0. 1.))
-                         length: 2.5
-                         alpha: 0.
-                         on-finished: (lambda () #f)))
-                       #f)))))
-
-(include "tests/screen.scm")
-(include "level.scm")
+(include "screens/title.scm")
+(include "screens/level.scm")
+(include "screens/level-name.scm")

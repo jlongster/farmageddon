@@ -1,6 +1,10 @@
 ;;;; picking
 ;;; Handles animal picking from touch event
 
+(declare (block)
+         (standard-bindings)
+         (extended-bindings))
+
 (define %%color-index 0)
 (define %%color-map (make-vector 256 #f))
 

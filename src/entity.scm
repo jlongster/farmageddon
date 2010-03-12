@@ -3,6 +3,10 @@
 ;;; and are thrown at the player's screen.  Implemented as the type
 ;;; `mesh-object` in the scene list.
 
+(declare (block)
+         (standard-bindings)
+         (extended-bindings))
+
 (define SCREEN-DEPTH 10.)
 
 ;; making and throwing
@@ -28,12 +32,12 @@
       (set! %%next-time (%%get-random-time))))
 
 (define (random-mesh)
-  (let ((meshes (cons person-mesh
-                      (or (current-available-meshes)
-                          (list cow-mesh
-                                sheep-mesh
-                                chicken-mesh
-                                duck-mesh)))))
+  (let ((meshes (or (current-available-meshes)
+                    (list cow-mesh
+                          sheep-mesh
+                          chicken-mesh
+                          duck-mesh
+                          person-mesh))))
     (list-ref meshes (random-integer (length meshes)))))
 
 (define (make-entity)
@@ -100,14 +104,18 @@
                    (>= (car coords) 0)
                    (>= (cadr coords) 0)
                    (< (car coords) width)
-                   (< (cadr coords) height))
+                   (< (cadr coords) height)
+                   (not (player-finished?)))
               (begin
                 (life-decrease! el)
-                (vec3d-z-set! pos SCREEN-DEPTH)
-                (apply crack coords)
-                (play-thud-for-entity el)
-                (mesh-object-velocity-set! el (make-vec3d 0. 0. 0.))
-                (mesh-object-acceleration-set! el (make-vec3d 0. -10. 0.))))))))
+
+                (if (not (life-is-dead?))
+                    (begin
+                      (vec3d-z-set! pos SCREEN-DEPTH)
+                      (apply crack coords)
+                      (play-thud-for-entity el)
+                      (mesh-object-velocity-set! el (make-vec3d 0. 0. 0.))
+                      (mesh-object-acceleration-set! el (make-vec3d 0. -10. 0.))))))))))
 
 ;; explosions
 
@@ -222,5 +230,5 @@
 
   (if (eq? person-mesh
            (mesh-object-mesh obj))
-      (goal-has-failed)
+      (player-has-failed)
       (score-increase)))

@@ -109,9 +109,16 @@
 
 (define-type 2d-font
   id: 3A93EEA4-8616-4123-B775-5DA9826419A5
+  constructor: really-make-2d-font
   font
   text
   size)
+
+(define (make-2d-font font text #!optional size)
+  (really-make-2d-font font
+                       text
+                       (or size
+                           (ftgl-get-font-face-size font))))
 
 (define-type 2d-object
   id: EB4CFD52-6E14-4C9A-AF49-D8B70334B653
@@ -253,42 +260,50 @@
         (glScalef (vec2d-x scale) (vec2d-y scale) 1.))
 
     (if center
-        (glTranslatef -.5 -.5 0.))
+        (if (vec3d? center)
+            (glTranslatef (- (vec3d-x center))
+                          (- (vec3d-y center))
+                          (- (vec3d-z center)))
+            (glTranslatef -.5 -.5 0.)))
     
     ;; Todo:
     ;; Implement centering (LEFT, CENTER, RIGHT)
     ;; (glTranslatef -x/2 -y/2 0.)
     
-    (cond
-     ((and texture color)
-      (begin
+    (if font
+        (begin
+          (glEnable GL_BLEND)
+          (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)))
+    
+    (if color
+        (begin
+          (glEnable GL_BLEND)
+          (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)
+          (glColor4f (vec4d-x color)
+                     (vec4d-y color)
+                     (vec4d-z color)
+                     (vec4d-w color)))
+        (glColor4f 1. 1. 1. 1.))
 
-        ;; Freaking alpha-premultiplication that Cocoa does
-        ;; automatically. This simply allows me to fade out a
-        ;; textured polygon, which is broken due to Apple's
-        ;; crappy premultiplication which is forced on you.
-        ;; Basically, I premultiply the fade out into the
-        ;; color values using glColor4f since the texture
-        ;; environment is set to GL_MODULATE.
-        (glEnable GL_BLEND)
-        (glBlendFunc GL_ONE GL_ONE_MINUS_SRC_ALPHA)
-        (let ((fade (vec4d-w color)))
-          (glColor4f fade fade fade fade))))
-     ((or texture font)
-      (glEnable GL_BLEND)
-      (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)
-      (glColor4f 1. 1. 1. 1.))
-     (color
-      (begin
-        (glEnable GL_BLEND)
-        (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)
-        (glColor4f (vec4d-x color)
-                   (vec4d-y color)
-                   (vec4d-z color)
-                   (vec4d-w color))))
-     (else
-      (glColor4f 1. 1. 1. 1.)))
+    (if (and texture color)
+        (begin
 
+          ;; Freaking alpha-premultiplication that Cocoa does
+          ;; automatically. This simply allows me to fade out a
+          ;; textured polygon, which is broken due to Apple's
+          ;; crappy premultiplication which is forced on you.
+          ;; Basically, I premultiply the fade out into the
+          ;; color values using glColor4f since the texture
+          ;; environment is set to GL_MODULATE.
+          (glEnable GL_BLEND)
+          (glBlendFunc GL_ONE GL_ONE_MINUS_SRC_ALPHA)
+          (let ((fade (vec4d-w color)))
+            (glColor4f fade fade fade fade)))
+        (if texture
+            (begin
+              (glEnable GL_BLEND)
+              (glBlendFunc GL_ONE GL_ONE_MINUS_SRC_ALPHA))))
+    
     (if font
         (begin
           (glEnable GL_TEXTURE_2D)
@@ -297,8 +312,11 @@
           (glDisable GL_LIGHTING)
 
           (ftgl-prepare-fonts)
-          (ftgl-set-font-face-size (2d-font-font font)
-                                   (2d-font-size font))
+          (let ((scale (exact->inexact
+                        (/ (2d-font-size font)
+                           (ftgl-get-font-face-size
+                            (2d-font-font font))))))
+            (glScalef scale scale 1.))
           (ftgl-render-font (2d-font-font font)
                             (2d-font-text font))
 
@@ -336,33 +354,35 @@
 (define (scene-list-clear!)
   (set! scene-list '()))
 
-(define (scene-list-add obj)
-  ;; keep the order according to the projection matrix to minimize
-  ;; matrix changes
-  (receive (prefix tail)
-      (break (lambda (el)
-               (eq? (generic-object-perspective el)
-                    (generic-object-perspective obj)))
-             scene-list)
-    (receive (same tail2)
-        (span (lambda (el)
-                (eq? (generic-object-perspective el)
-                     (generic-object-perspective obj)))
-              tail)
-      (set! scene-list (append prefix same (cons obj tail2))))))
+(define (scene-list-add obj #!key important)
+  (if important
+      (set! scene-list (append scene-list (list obj)))
+      (begin
+        ;; keep the order according to the projection matrix to minimize
+        ;; matrix changes
+        (receive (prefix tail)
+            (break (lambda (el)
+                     (eq? (generic-object-perspective el)
+                          (generic-object-perspective obj)))
+                   scene-list)
+          (receive (same tail2)
+              (span (lambda (el)
+                      (eq? (generic-object-perspective el)
+                           (generic-object-perspective obj)))
+                    tail)
+            (set! scene-list (append prefix same (cons obj tail2))))))))
 
 (define (scene-list-remove obj)
   (generic-object-mark-set! obj #t))
 
-(define (scene-list-update #!optional update-fn skip-local-update local-list)
-  ;; run the update procedures for each scene object
+(define (scene-list-purely-updates #!optional update-fn skip-local-update local-list)
   (for-each (lambda (obj)
               (if (not skip-local-update)
                   (update-generic-object obj))
               (if update-fn (update-fn obj)))
-            (or local-list scene-list))
-  
-  ;; remove all the objects marked for removal
+            (or local-list scene-list)))
+
+(define (scene-list-purely-removes #!optional local-list)
   (let ((lst (reverse
               (fold (lambda (obj acc)
                       (if (generic-object-mark obj)
@@ -373,6 +393,13 @@
     (if local-list
         lst
         (set! scene-list lst))))
+
+(define (scene-list-update #!optional update-fn skip-local-update local-list)
+  ;; run the update procedures for each scene object
+  (scene-list-purely-updates update-fn skip-local-update local-list)
+  
+  ;; remove all the objects marked for removal
+  (scene-list-purely-removes local-list))
 
 (define (scene-list-render #!optional render-proc local-list)
   (let loop ((last-pers #f)

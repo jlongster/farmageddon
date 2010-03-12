@@ -74,23 +74,23 @@ extern "C" {
 
                 register_view(self);
                 init();
-                [self initAccelerometer];
+                //[self initAccelerometer];
 	}
 	return self;
 }
 
 //// Accelerometer
 
-- (void)initAccelerometer {
-	UIAccelerometer* theAccelerometer = [UIAccelerometer sharedAccelerometer];
-	theAccelerometer.updateInterval = 1/50.0;
-	theAccelerometer.delegate = self;
-}
+// - (void)initAccelerometer {
+// 	UIAccelerometer* theAccelerometer = [UIAccelerometer sharedAccelerometer];
+// 	theAccelerometer.updateInterval = 1/50.0;
+// 	theAccelerometer.delegate = self;
+// }
 
-- (void)accelerometer:(UIAccelerometer *)accelerometer
-		didAccelerate:(UIAcceleration *)acceleration {
-	did_accelerate(accelerometer, acceleration);
-}
+// - (void)accelerometer:(UIAccelerometer *)accelerometer
+// 		didAccelerate:(UIAcceleration *)acceleration {
+// 	did_accelerate(accelerometer, acceleration);
+// }
                        
 
 //// Touches

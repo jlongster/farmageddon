@@ -4,11 +4,11 @@
 
 (defun animattack-restart ()
   (interactive)
-  (animattack-send-string "(set! LIFE MAX-LIFE)")
+  (animattack-send-string "(set! LIFE (current-max-life)")
   (animattack-send-string "(set! EXISTING-CRACKS '())")
   (animattack-send-string "(set! FAILED #f)")
   (animattack-send-string "(set! SCORE 0)")
-  (animattack-send-string "(set! overlay-list '())")
+  (animattack-send-string "(set-screen! level-screen)")
   (animattack-send-string "(load-randomized-cracks)")
   (animattack-send-string "\n"))
 

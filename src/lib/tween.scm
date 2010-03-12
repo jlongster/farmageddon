@@ -15,6 +15,10 @@
 ;;; ease-inout-cubic
 ;;;
 
+(declare (block)
+         (standard-bindings)
+         (extended-bindings))
+
 (define (make-tween scene-obj
                     #!key
                     (length 2.)

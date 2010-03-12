@@ -2,6 +2,10 @@
 ;;; Implements a system for different levels of the game, actual
 ;;; levels are implemented at the bottom.
 
+(declare (block)
+         (standard-bindings)
+         (extended-bindings))
+
 (define (atmosphere-reset)
   (glLoadIdentity)
 
@@ -28,7 +32,9 @@
 
 (define-macro (implement-level-type . fields) 
   `(begin
-     (define-type level ,@fields)
+     (define-type level
+       constructor: really-make-level
+       ,@fields)
 
      ,@(map (lambda (field)
               `(define (,(symbol-append "current-" field))
@@ -38,50 +44,121 @@
 (implement-level-type
   level-name
   level-goal
+  goal-type
+  max-life
   background-texture
   animal-frequency
   available-meshes
   atmosphere-creator)
 
+(define (make-level #!key
+                    name
+                    goal
+                    type
+                    life
+                    background
+                    frequency
+                    meshes
+                    atmosphere)
+  (really-make-level name
+                     goal
+                     type
+                     life
+                     background
+                     frequency
+                     meshes
+                     atmosphere))
+
 (define CURRENT-LEVEL #f)
 
 (define (set-level! level)
   (set! CURRENT-LEVEL level)
-  (score-reset)
   (atmosphere-reset)
   (and-let* ((atmosphere (current-atmosphere-creator)))
     (atmosphere)))
 
+(define (current-level)
+  CURRENT-LEVEL)
+
+(define (first-level)
+  (set-level! (car (all-levels))))
+
+(define (next-level)
+  (let ((tail (find-tail
+               (lambda (el)
+                 (equal? (current-level-name)
+                         (level-level-name el)))
+               (all-levels))))
+    (if (null? (cdr tail))
+        #f
+        (begin
+          (set-level! (cadr tail))
+          #t))))
+
+(define (all-levels)
+  (list (level1)
+        (level2)
+        (chicken-frenzy-level)))
+ 
 ;; levels
 
-(define (basic-level)
-  (make-level "basic"
-              15
-              level1-texture
-              3
-              #f
-              #f))
-
-(define (fog-level)
+(define (level1)
   (make-level
-   "fog"
-   7
-   #f
-   2.
-   #f
-   (lambda ()
-     (glLoadIdentity)
-     (glFogx GL_FOG_MODE GL_LINEAR)
-     (glFogfv GL_FOG_COLOR (vector->float-array (vector 0. 0. 0. 1.)))
-     ;;(glFogf GL_FOG_DENSITY 1.)
-     (glFogf GL_FOG_START 1.)
-     (glFogf GL_FOG_END 30.)
-     (glEnable GL_FOG))))
+   name: 1
+   goal: 5
+   type: 'goal
+   life: 10
+   background: level-bg1
+   frequency: 1.
+   meshes: (list chicken-mesh duck-mesh)))
+
+(define (level2)
+  (make-level
+   name: 2
+   goal: 5
+   type: 'goal
+   life: 10
+   background: level-bg2
+   frequency: 1.
+   meshes: (list chicken-mesh duck-mesh sheep-mesh)))
+
+(define (level3)
+  (make-level
+   name: 3
+   goal: 8
+   type: 'goal
+   life: 10
+   background: level-bg2
+   frequency: 1.
+   meshes: (list chicken-mesh
+                           duck-mesh
+                           sheep-mesh
+                           cow-mesh)))
 
 (define (chicken-frenzy-level)
-  (make-level "chicken-frenzy"
-              1000
-              gradient-texture
-              .3
-              (list chicken-mesh)
-              #f))
+  (make-level
+   name: "CHICKEN FRENZY"
+   goal: 10
+   type: 'timer
+   life: 10
+   background: level-bg3
+   frequency: .8
+   meshes: (list chicken-mesh)))
+
+
+;; (define (fog-level)
+;;   (make-level
+;;    "fog"
+;;    7
+;;    'timer
+;;    #f
+;;    2.
+;;    #f
+;;    (lambda ()
+;;      (glLoadIdentity)
+;;      (glFogx GL_FOG_MODE GL_LINEAR)
+;;      (glFogfv GL_FOG_COLOR (vector->float-array (vector 0. 0. 0. 1.)))
+;;      ;;(glFogf GL_FOG_DENSITY 1.)
+;;      (glFogf GL_FOG_START 1.)
+;;      (glFogf GL_FOG_END 30.)
+;;      (glEnable GL_FOG))))

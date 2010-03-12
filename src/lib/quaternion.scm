@@ -1,4 +1,8 @@
 
+(declare (block)
+         (standard-bindings)
+         (extended-bindings))
+
 (define (make-quaternion x y z w) (f64vector x y z w))
 (define (quaternion-x quat) (f64vector-ref quat 0))
 (define (quaternion-y quat) (f64vector-ref quat 1))

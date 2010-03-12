@@ -4,8 +4,10 @@
 
 ;;;-----------------------------------------------------------------------------
 
-(define rdi
-  (rdi-create-client ""))
+(define rdi #f)
+
+(define (make-rdi-host host)
+  (set! rdi (rdi-create-client host)))
 
 (define (rdi-function fn)
   (case fn

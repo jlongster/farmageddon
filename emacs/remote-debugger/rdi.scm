@@ -2,7 +2,7 @@
 
 ;;;----------------------------------------------------------------------------
 
-(define default-remote-debugger-address "localhost")
+(define default-remote-debugger-address "192.168.1.162")
 (define default-remote-debugger-port-num 20000)
 
 (define (rdi-set-host! address)

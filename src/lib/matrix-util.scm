@@ -1,4 +1,8 @@
 
+(declare (block)
+         (standard-bindings)
+         (extended-bindings))
+
 (define PI 3.14159265)
 
 (define-type perspective
