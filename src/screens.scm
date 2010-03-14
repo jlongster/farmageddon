@@ -48,6 +48,7 @@
 
   (scene-list-clear!)
   (overlay-list-clear!)
+  (buttons-clear!)
   ((screen-setup screen))
   (set! CURRENT-SCREEN screen))
 
@@ -81,3 +82,5 @@
 (include "screens/title.scm")
 (include "screens/level.scm")
 (include "screens/level-name.scm")
+(include "screens/game-over.scm")
+(include "screens/button.scm")

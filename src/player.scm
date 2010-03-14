@@ -8,6 +8,7 @@
 ;; life
 
 (define LIFE #f)
+(define VICTOR #f)
 
 (define (get-damage el)
   (let ((mesh (mesh-object-mesh el)))
@@ -20,7 +21,9 @@
   (if (not (life-is-dead?))
       (begin
         (set! LIFE
-              (- LIFE (get-damage el))))))
+              (- LIFE (get-damage el)))
+        (if (life-is-dead?)
+            (set! VICTOR el)))))
 
 (define (life)
   LIFE)
@@ -34,108 +37,53 @@
 ;; goal/score
 
 (define SCORE 0)
-(define FAILED #f)
 
 (define (score)
   SCORE)
 
-
-(define (score-increase)
-  (if (not (goal-met?))
-      (begin
-        (set! SCORE (+ SCORE 1))
-        (on-score-increase))))
+(define (score-increase pts)
+  (set! SCORE (+ SCORE pts))
+  (on-score-increase))
 
 (define (reset-score)
   (set! SCORE 0))
 
-(define (goal-met?)
-  (and (eq? (current-goal-type) 'goal)
-       (>= (score) (current-level-goal))))
-
-(define (goal-left)
-  (and (eq? (current-goal-type) 'goal)
-       (- (current-level-goal) (score))))
-
-;; clock
-
-(define TIMER #f)
-
-(define (start-timer)
-  (set! TIMER (real-time))
-  (set! SIGNALLED #f))
-
-(define (timer-met?)
-  (and (eq? (current-goal-type) 'timer)
-       (>= (- (real-time) TIMER)
-           ;; we add .1 seconds to let the overlay updates run through
-           ;; so that the current time is rendered when the level is
-           ;; completed
-           (+ (current-level-goal) .1))))
-
-(define (timed-out?)
-  (and (eq? (current-goal-type) 'timed)
-       (>= (- (real-time) TIMER)
-           (current-level-goal))))
-
-(define (timer-status)
-  (if (eq? (current-goal-type) 'timed)
-      (max 0
-           (inexact->exact
-            (- (current-level-goal)
-               (floor (- (real-time) TIMER)))))
-      (inexact->exact
-       (floor (- (real-time) TIMER)))))
-
 ;; player
 
+(define FAILED #f)
 (define SIGNALLED #f)
-
-(define (player-init)
-  (start-timer)
-  (set! LIFE (current-max-life)))
 
 (define (player-update)
   (define (done)
-    (on-complete)
     (set! SIGNALLED #t))
   
   (if (not SIGNALLED)
       (cond
-       ((goal-met?)
-        (on-win)
-        (done))
-
        ((life-is-dead?)
         (on-death)
-        (on-fail)
         (done))
        
        ((player-failed?)
         (on-fail)
-        (done))
-
-       ((or (timer-met?)
-            (timed-out?))
-        (if (timer-met?)
-            (on-win)
-            (on-fail))
         (done)))))
 
 (define (player-has-failed)
   (set! FAILED #t))
 
+(define (player-animal-victor)
+  VICTOR)
+
 (define (player-failed?)
   (or FAILED
-      (life-is-dead?)
-      (timed-out?)))
+      (life-is-dead?)))
 
 (define (player-finished?)
-  (or (goal-met?)
-      (timer-met?)
-      (player-failed?)))
+  (player-failed?))
 
 (define (reset-player)
+  (set! LIFE (current-max-life))
   (set! FAILED #f)
+  (set! SIGNALLED #f)
   (reset-score)
-  (reset-cracks))
+  (reset-cracks)
+  (score-setup))

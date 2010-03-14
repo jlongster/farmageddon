@@ -40,7 +40,9 @@
 (define thud-audio #f)
 (define shatter-audio #f)
 (define explosion-audio #f)
- 
+
+(define default-font50 #f)
+
 ;; util
 
 (define (spread-number fl)
@@ -119,20 +121,32 @@
       length: .5)
      important: #t)))
 
-(define (on-win)
-  (darken)
-  (add-centered-font big-name-font "SUCCESS!" 300.)
-  (add-centered-font apex-font "live long, soldier" 240. 24.))
+(define (add-centered-mesh mesh #!optional scale)
+  (let ((scale (or scale 1.)))
+    (overlay-list-add
+     (make-mesh-object
+      3d-perspective
+      mesh: mesh
+      position: (make-vec3d 0. .85 5.)
+      rotation: (make-vec4d 1. 1. 0. 0.)
+      scale: (make-vec3d scale scale scale)
+      update: (lambda (this)
+                (let ((rot (mesh-object-rotation this)))
+                  (mesh-object-rotation-set!
+                   this
+                   (make-vec4d (+ (vec4d-x rot) .1)
+                               (+ (vec4d-y rot) .1)
+                               (+ (vec4d-z rot) .1)
+                               (+ (vec4d-w rot) 1.))))))
+     important: #t)))
 
 (define (on-fail)
   (darken)
-  (add-centered-font big-name-font "YOU" 330.)
-  (add-centered-font big-name-font "FAILED!" 275.)
 
-  (add-centered-font apex-font
-                     "the farmageddon" 220. 24.)
-  (add-centered-font apex-font
-                     "has destroyed the world" 190. 24.))
+  (add-centered-font default-font50 "~ YOU KILLED A HUMAN ~" 380. 18.)
+  (add-centered-mesh person-mesh)
+
+  (on-complete))
 
 (define (on-death)
   (let ((source (make-audio-source shatter-audio)))
@@ -144,52 +158,83 @@
                               glare-texture))
                     (overlay-list-remove obj)))
               overlay-list)
-    
+
     (play-audio source)
 
     (thread-start!
      (make-thread
       (lambda ()
         (thread-sleep! 1.)
-        (free-audio-source source))))))
+        (free-audio-source source)))))
+
+  (let* ((victor (mesh-object-mesh (player-animal-victor)))
+         (line (string-append "~ A "
+                             (cond
+                              ((eq? victor chicken-mesh) "CHICKEN")
+                              ((eq? victor duck-mesh) "DUCK")
+                              ((eq? victor sheep-mesh) "SHEEP")
+                              (else "COW"))
+                             " BESTED YOU ~")))
+    (darken)
+    (add-centered-font default-font50 line 380. 18.)
+    (add-centered-mesh victor (if (eq? victor cow-mesh) .7 1.))
+    (on-complete)))
 
 (define (on-complete)
-  (let ((time (real-time)))
-    (overlay-list-add
-     (make-scene-object
-      3d-perspective
-      values
-      (lambda (this)
-        (if (> (- (real-time) time)
-               2.)
-            (begin
-              (overlay-list-remove this)
-              (overlay-list-add
-               (make-tween
-                (make-2d-object
-                 2d-perspective
-                 color: (make-vec4d 0. 0. 0. 0.))
-                alpha: 1.
-                length: 1.
-                type: 'ease-in-cubic
-                on-finished: (lambda ()
-                               (let ((failed (player-failed?)))
-                                 (reset-player)
-                                 (if (not failed)
-                                     (if (not (next-level))
-                                         (on-game-won)
-                                         (set-screen! level-name-screen))
-                                     (set-screen! level-name-screen)))))
-               important: #t))))))))
+  (score-remove)
 
-(define (on-game-won)
-  (overlay-list-clear!)
-  (darken)
-  (add-centered-font big-name-font "GAME OVER" 330.))
+  (add-centered-font default-font50 "GAME OVER" 410. 30.)
+
+  (let ((top .07))
+    (overlay-list-add
+     (make-2d-object
+      font-perspective
+      font: (make-2d-font default-font50
+                          "SCORE:"
+                          20.)
+      position: (to-font-space .27 (+ .45 top)))
+     important: #t)
+
+    (overlay-list-add
+     (make-2d-object
+      font-perspective
+      font: (make-2d-font default-font50
+                          (number->string (score))
+                          20.)
+      position: (to-font-space .51 (+ .45 top)))
+     important: #t)
+    
+    (overlay-list-add
+     (make-2d-object
+      font-perspective
+      font: (make-2d-font default-font50
+                          (string-append "HIGH SCORE:  340000")
+                          20.)
+      position: (to-font-space .112 (+ .51 top)))
+     important: #t)
+
+    (overlay-list-add
+     (make-2d-object
+      font-perspective
+      font: (make-2d-font default-font50
+                          (string-append "NAME:  340000")
+                          20.)
+      position: (to-font-space .295 (+ .57 top)))
+     important: #t)
+  
+    (overlay-add-button "TRY AGAIN"
+                        (make-vec2d .25 (+ .63 top))
+                        .5 1.
+                        (lambda ()
+                          (set-screen! level-screen)))
+    (overlay-add-button "MENU"
+                        (make-vec2d .25 (+ .75 top))
+                        .5 1.
+                        (lambda ()
+                          (set-screen! title-screen)))))
 
 ;; init
 
-(define apex-font #f)
 (define font-perspective #f)
 
 (define (level-screen-init)
@@ -228,14 +273,18 @@
   (set! explosion-audio (load-audio "explosion2.wav"))
   (set! chicken-audio (load-audio "chicken.wav"))
 
-  (set! apex-font (ftgl-create-texture-font (resource "ApexSansBookC.ttf")))
-  (ftgl-set-font-face-size apex-font 72)
-  (ftgl-get-font-advance apex-font "1234567890:-")
-
+  (set! default-font50
+        (ftgl-create-texture-font (resource "ApexSansExtraBoldC.ttf")))
+  
+  (ftgl-set-font-face-size default-font50 50)
+  (ftgl-get-font-advance
+   default-font50
+   "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~-:!")
+  
   (load-randomized-cracks)
   
   (overlay-init)
-  (first-level))
+  (scene-init))
 
 ;; setup the scene
 
@@ -245,8 +294,6 @@
   (glCullFace GL_BACK)
   (glShadeModel GL_SMOOTH)
   (glEnable GL_RESCALE_NORMAL)
-
-  (overlay-setup)
 
   (overlay-list-add
    (make-2d-object
@@ -259,8 +306,8 @@
     (lambda (self)
       (life-render))
     values))
-  
-  (player-init))
+
+  (reset-player))
 
 ;; updating and processing events
 
@@ -274,9 +321,8 @@
   (player-update)
   (update-weapons)
   
-  (if (current-level)
-      (if (not (player-finished?))
-          (possibly-make-entity))))
+  (if (not (player-finished?))
+      (possibly-make-entity)))
 
 ;; rendering
 
@@ -294,11 +340,10 @@
   ;; overlay
   (load-perspective 2d-ratio-perspective)
 
-  (if (current-level)
-      (begin
-        (render-weapons)
-        (if (not (player-finished?))
-            (render-cracks))))
+  (begin
+    (render-weapons)
+    (if (not (player-finished?))
+        (render-cracks)))
 
   (load-perspective 2d-ratio-perspective)
   (overlay-render))

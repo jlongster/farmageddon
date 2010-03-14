@@ -15,7 +15,7 @@
 (define PRELOADED-CRACKS '())
 (define EXISTING-CRACKS '())
 (define NUM-PRELOADED 10)
-(define NUM-LINES 30)
+(define NUM-LINES 10)
 (define LINE-SPREAD 2)
 
 (define (load-randomized-cracks)
@@ -137,7 +137,7 @@
   (glDisable GL_LIGHTING)
   (glEnable GL_BLEND)
   (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)
-  (glLineWidth 2.)
+  (glLineWidth 1.)
 
   (glDrawArrays GL_LINES 0 (crack-num-vertices crack))
   (glDisable GL_BLEND)

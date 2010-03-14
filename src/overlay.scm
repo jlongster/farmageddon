@@ -5,12 +5,22 @@
          (standard-bindings)
          (extended-bindings))
 
+;; util
+
+(define (to-font-space x y)
+  (let ((width (UIView-width (current-view)))
+        (height (UIView-height (current-view))))
+    (make-vec3d (* x width)
+                (* (- 1. y) height)
+                0.)))
+
 ;; custom scene list
 
 (define overlay-list '())
 
 (define (overlay-list-clear!)
-  (set! overlay-list '()))
+  (set! overlay-list '())
+  (buttons-clear!))
 
 (define (overlay-list-add obj #!key important)
   (if important
@@ -58,70 +68,39 @@
 
   (glDisable GL_BLEND))
 
-;; goal (based on score)
+;; score
 
-(define goal-object #f)
+(define score-object #f)
 
-(define (make-goal-object)
+(define (make-score-object)
   (make-2d-object
    font-perspective
    position: (make-vec3d 45. 438. 0.)
    scale: (make-vec3d 1. 1. 1.)
    color: (make-vec4d 1. 1. 1. 1.)
-   font: (make-2d-font big-name-font
-                       (number->string (goal-left))
-                       50)
+   font: (make-2d-font default-font50
+                       (number->string (score)))
    center: (make-vec3d 22. 20. 0.)))
 
 (define (on-score-increase)
-  (if (eq? (current-goal-type) 'goal)
-      (begin
-        (overlay-list-remove goal-object)
-        (overlay-list-add
-         (make-tween
-          goal-object
-          scale: (make-vec3d 2.5 2.5 2.5)
-          alpha: 0.
-          length: .5
-          type: 'ease-out-cubic
-          on-finished: (lambda () #f)))
-        (set! goal-object (make-goal-object))
-        (overlay-list-add goal-object))))
+  (overlay-list-remove score-object)
+  (overlay-list-add
+   (make-tween
+    score-object
+    scale: (make-vec3d 2.5 2.5 2.5)
+    alpha: 0.
+    length: .5
+    type: 'ease-out-cubic
+    on-finished: (lambda () #f)))
+  (set! score-object (make-score-object))
+  (overlay-list-add score-object))
 
-(define (goal-setup)
-  (set! goal-object (make-goal-object))
-  (overlay-list-add goal-object))
+(define (score-setup)
+  (set! score-object (make-score-object))
+  (overlay-list-add score-object))
 
-;; timer
-
-(define (make-timer-object)
-  (make-2d-object
-   font-perspective
-   position: (make-vec3d 118. 438. 0.)
-   scale: (make-vec3d 1. 1. 1.)
-   color: (make-vec4d 1. 1. 1. 1.)
-   font: (make-2d-font big-name-font
-                       ""
-                       50)
-   center: (make-vec3d 22. 20. 0.)))
-
-(define (timer-setup)
-  (let ((font-obj (make-timer-object)))
-    (overlay-list-add
-     (make-scene-object
-      (generic-object-perspective font-obj)
-      (lambda (obj)
-        (render-generic-object font-obj))
-      (lambda (obj)
-        (and (update-generic-object font-obj)
-             (let ((font (2d-object-font font-obj))
-                   (t (timer-status)))
-               (if (not (player-finished?))
-                   (2d-font-text-set!
-                    font
-                    (string-append "00:"
-                                   (if (< t 10) "0" "")
-                                   (number->string t)))))))))))
+(define (score-remove)
+  (overlay-list-remove score-object))
 
 ;; overlay
 
@@ -137,8 +116,3 @@
                        (CGImageRef-data image)
                        (CGImageRef-width image)
                        (CGImageRef-height image)))))
-
-(define (overlay-setup)
-  (case (current-goal-type)
-    ((goal) (goal-setup))
-    (else (timer-setup))))

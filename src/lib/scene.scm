@@ -196,7 +196,7 @@
 
     (glEnable GL_BLEND)
     (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)
-
+    
     (for-each (lambda (chunk)
                 (if (obj-chunk-mat chunk)
                     (let* ((mat (obj-chunk-mat chunk))
@@ -220,9 +220,9 @@
                         (glMaterialfv GL_FRONT_AND_BACK
                                       GL_DIFFUSE
                                       color-array))
-                      (glColor4f (vec4d-x color)
-                                 (vec4d-y color)
-                                 (vec4d-z color)
+                      (glColor4f (+ (vec4d-x color) .1)
+                                 (+ (vec4d-y color) .1)
+                                 (+ (vec4d-z color) .1)
                                  (vec4d-w color))))
                 
                 (if (not (null? (obj-chunk-indices chunk)))

@@ -86,6 +86,13 @@
   (on-entity-remove obj)
   (scene-list-remove obj))
 
+(define (valid-mesh-object? el)
+  (let ((mesh (mesh-object-mesh el)))
+    (or (eq? mesh chicken-mesh)
+        (eq? mesh duck-mesh)
+        (eq? mesh sheep-mesh)
+        (eq? mesh cow-mesh))))
+
 ;; the level pump which implements the cracking of the screen and all
 ;; associated events
 
@@ -105,7 +112,8 @@
                    (>= (cadr coords) 0)
                    (< (car coords) width)
                    (< (cadr coords) height)
-                   (not (player-finished?)))
+                   (not (player-finished?))
+                   (valid-mesh-object? el))
               (begin
                 (life-decrease! el)
 
@@ -225,10 +233,19 @@
   (mesh-object-voice-source-set! obj #f)
   (mesh-object-thud-source-set! obj #f))
 
+(define (entity-points obj)
+  (let ((mesh (mesh-object-mesh obj)))
+    (cond
+     ((eq? mesh chicken-mesh) 20)
+     ((eq? mesh duck-mesh) 100)
+     ((eq? mesh sheep-mesh) 500)
+     ((eq? mesh cow-mesh) 700)
+     (else 100))))
+
 (define (on-entity-kill obj)
   (explode-entity obj)
 
   (if (eq? person-mesh
            (mesh-object-mesh obj))
       (player-has-failed)
-      (score-increase)))
+      (score-increase (entity-points obj))))

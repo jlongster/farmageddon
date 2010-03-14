@@ -21,6 +21,7 @@
 (include "lib/texture.scm")
 (include "lib/matrix-util.scm")
 (include "lib/quaternion.scm")
+(include "button.scm")
 
 ;; install all the screens of the game
 
@@ -41,7 +42,7 @@
 
 (define (init)
   (random-source-randomize! default-random-source)
-  (set-screen! title-screen))
+  (set-screen! level-screen))
 
 (define (render)
   (force-output (repl-output-port))
@@ -50,5 +51,5 @@
   (glClearColor 0. .0 .0 1.)
   (glClear (bitwise-ior GL_COLOR_BUFFER_BIT GL_DEPTH_BUFFER_BIT))
   (current-screen-render)
-  
+
   (##gc))
