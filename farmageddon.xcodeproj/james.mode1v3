@@ -353,7 +353,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>1A3F67C8115084FC00C2E3AF</string>
+										<string>1A0D97EA1152AA0D00707D8E</string>
 										<key>history</key>
 										<array>
 											<string>1A9614811012282700A54EBA</string>
@@ -380,9 +380,8 @@
 											<string>1A855389114D74840097014B</string>
 											<string>1A85538A114D74840097014B</string>
 											<string>1A85538B114D74840097014B</string>
-											<string>1A8553AF114D77D40097014B</string>
 											<string>1A8553DC114D86000097014B</string>
-											<string>1A5F68E0114FEFDE00336FD8</string>
+											<string>1A1F25671152A6E400443A12</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -440,9 +439,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>1A3F67C1115084C800C2E3AF</string>
+				<string>1A0D97EB1152AA0D00707D8E</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>1A3F67C2115084C800C2E3AF</string>
+				<string>1A0D97EC1152AA0D00707D8E</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -563,7 +562,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>290489596.21820903</real>
+	<real>290630157.85798901</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
@@ -578,10 +577,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1A3F67D0115084FC00C2E3AF</string>
-		<string>1A3F67D1115084FC00C2E3AF</string>
-		<string>1C78EAAD065D492600B07095</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>1ACA2F3C0FD4E803005851FB</string>
 		<string>/Users/james/projects/scheme/farmageddon/farmageddon.xcodeproj</string>
 	</array>
@@ -663,7 +658,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1ACA2F3C0FD4E803005851FB</string>
-				<string>1A3F67C3115084C800C2E3AF</string>
+				<string>1A0D97ED1152AA0D00707D8E</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>

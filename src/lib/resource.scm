@@ -11,5 +11,10 @@
   (let ((base (NSBundle-resource-path (NSBundle-main-bundle))))
     (string-append base "/" path)))
 
+(define (writable path)
+  (expand-if SIMULATOR
+             (resource path)
+             (string-append (get-writable-dir) "/" path)))
+
 (define (local-resource path)
   (string-append root "/" path))

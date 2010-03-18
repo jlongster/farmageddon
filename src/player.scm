@@ -70,7 +70,7 @@
 (define (save-score name)
   (let ((scores (reverse (get-high-scores)))
         (current (make-persistent-score name (score))))
-    (call-with-output-file (list path: (resource "high-scores.txt"))
+    (call-with-output-file (list path: (writable "high-scores.txt"))
       (lambda (p)
         ;; Write all the scores back, adding the current score if
         ;; there is less than 10 scores, or replacing the lowest score
@@ -84,7 +84,7 @@
          p)))))
 
 (define (get-high-scores)
-  (let ((path (resource "high-scores.txt")))
+  (let ((path (writable "high-scores.txt")))
     (if (file-exists? path)
         (sort-list
          (let ((lst (with-input-from-file path read)))

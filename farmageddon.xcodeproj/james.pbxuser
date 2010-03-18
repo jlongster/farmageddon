@@ -7,6 +7,16 @@
 		path = "/Users/james/projects/scheme/gambit-iphone-example/app/main.m";
 		sourceTree = "<absolute>";
 	};
+	1A0D97EA1152AA0D00707D8E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1A8AAD7C1100F83C006ABDA6 /* EAGLView.m */;
+		name = "EAGLView.m: 104";
+		rLen = 0;
+		rLoc = 2346;
+		rType = 0;
+		vrLen = 1548;
+		vrLoc = 1018;
+	};
 	1A1C5DDE112B838000F53340 /* PlistBookmark */ = {
 		isa = PlistBookmark;
 		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
@@ -35,6 +45,16 @@
 		name = gl.h;
 		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.sdk/System/Library/Frameworks/OpenGLES.framework/Headers/ES1/gl.h;
 		sourceTree = "<absolute>";
+	};
+	1A1F25671152A6E400443A12 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1A8AAD7C1100F83C006ABDA6 /* EAGLView.m */;
+		name = "EAGLView.m: 104";
+		rLen = 0;
+		rLoc = 2346;
+		rType = 0;
+		vrLen = 1549;
+		vrLoc = 1018;
 	};
 	1A2D1A3E111E17DF0021CC3B /* PBXBookmark */ = {
 		isa = PBXBookmark;
@@ -212,9 +232,9 @@
 	};
 	1A8AAD7C1100F83C006ABDA6 /* EAGLView.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1377, 3094}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1377, 3081}}";
 			sepNavSelRange = "{2346, 0}";
-			sepNavVisRange = "{1049, 1517}";
+			sepNavVisRange = "{1018, 1548}";
 		};
 	};
 	1A8AAD7D1100F83C006ABDA6 /* main.m */ = {
@@ -533,16 +553,18 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 290489534;
-			PBXWorkspaceStateSaveDate = 290489534;
+			PBXPerProjectTemplateStateSaveDate = 290630150;
+			PBXWorkspaceStateSaveDate = 290630150;
 		};
 		perUserProjectItems = {
+			1A0D97EA1152AA0D00707D8E /* PBXTextBookmark */ = 1A0D97EA1152AA0D00707D8E /* PBXTextBookmark */;
 			1A1C5DDE112B838000F53340 = 1A1C5DDE112B838000F53340 /* PlistBookmark */;
 			1A1C5DDF112B838000F53340 = 1A1C5DDF112B838000F53340 /* PBXTextBookmark */;
+			1A1F25671152A6E400443A12 = 1A1F25671152A6E400443A12 /* PBXTextBookmark */;
 			1A2D1A3E111E17DF0021CC3B = 1A2D1A3E111E17DF0021CC3B /* PBXBookmark */;
 			1A3B7340101900D300887149 = 1A3B7340101900D300887149 /* PBXTextBookmark */;
-			1A3F67C0115084C800C2E3AF /* PBXTextBookmark */ = 1A3F67C0115084C800C2E3AF /* PBXTextBookmark */;
-			1A3F67C8115084FC00C2E3AF /* PBXTextBookmark */ = 1A3F67C8115084FC00C2E3AF /* PBXTextBookmark */;
+			1A3F67C0115084C800C2E3AF = 1A3F67C0115084C800C2E3AF /* PBXTextBookmark */;
+			1A3F67C8115084FC00C2E3AF = 1A3F67C8115084FC00C2E3AF /* PBXTextBookmark */;
 			1A5F68CD114EC1F200336FD8 = 1A5F68CD114EC1F200336FD8 /* PBXTextBookmark */;
 			1A5F68E0114FEFDE00336FD8 = 1A5F68E0114FEFDE00336FD8 /* PBXTextBookmark */;
 			1A6E3930111A2111008B46AB = 1A6E3930111A2111008B46AB /* PBXBookmark */;

@@ -6,6 +6,20 @@
 
 (include "iphone#.scm")
 
+;;;; Writable directory
+
+(define get-writable-dir
+  (c-lambda () char-string #<<end-c-code
+   NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                        NSUserDomainMask,
+                                                        YES)
+                    objectAtIndex:0];
+   char* name = malloc(1024);
+   [dir getCString:name maxLength:1024 encoding:NSASCIIStringEncoding];
+   ___result = name;
+end-c-code
+))
+
 ;;;; UIView
  
 (define current-view (make-parameter #f))
