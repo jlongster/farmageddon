@@ -81,6 +81,4 @@
 
 (include "screens/title.scm")
 (include "screens/level.scm")
-(include "screens/level-name.scm")
-(include "screens/game-over.scm")
-(include "screens/button.scm")
+(include "screens/scores.scm")

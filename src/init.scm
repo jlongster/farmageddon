@@ -39,6 +39,7 @@
 (include "ffi/image.scm")
 (include "ffi/al.scm")
 (include "ffi/ftgl.scm")
+(include "ffi/view.scm")
 
 ;; load the game
 

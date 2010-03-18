@@ -14,72 +14,34 @@
 (define ENTITY-MAX-DEPTH 40.)
 (define ENTITY-SCALE 4.)
 
-(define (%%get-random-time)
-  (+ (real-time) (* (random-real)
-                    (or (current-animal-frequency) 2.5))))
-
-(define %%next-time #f)
-
-(define (definitely-make-entity)
-  (scene-list-add (make-entity)))
-
-(define (possibly-make-entity)
-  (if %%next-time
-      (if (> (real-time) %%next-time)
-          (begin
-            (definitely-make-entity)
-            (set! %%next-time (%%get-random-time))))
-      (set! %%next-time (%%get-random-time))))
-
-(define (random-mesh)
-  (let ((meshes (or (current-available-meshes)
-                    (list cow-mesh
-                          sheep-mesh
-                          chicken-mesh
-                          duck-mesh
-                          person-mesh))))
-    (list-ref meshes (random-integer (length meshes)))))
-
-(define (make-entity)
-  (let* ((mesh (random-mesh))
-         (pos (make-vec3d
-               (* (spread-number (random-real)) 7.) -28. ENTITY-MAX-DEPTH))
-         (to-eye (vec3d-unit (vec3d-sub (make-vec3d 0. 0. 0.)
-                                        pos)))
-         (x (* (spread-number (random-real)) 3.16))
-         (thrust (+ 15. (* x x)))
-         (vel (make-vec3d (* (vec3d-x to-eye) thrust)
-                          (+ 25.5 (spread-number (random-real)))
-                          (if (eq? mesh person-mesh)
-                              (* (vec3d-z to-eye) (/ thrust 2.5))
-                              (* (vec3d-z to-eye) thrust)))))
-    (let ((obj (make-mesh-object
-                3d-perspective
-                mesh: mesh
-                position: pos
-                rotation: (make-vec4d (random-real)
-                                      (random-real)
-                                      0.
-                                      1.)
-                scale: (make-vec3d ENTITY-SCALE ENTITY-SCALE ENTITY-SCALE)
-                color: (make-vec4d 1. 1. 1. 1.)
-                velocity: vel
-                update: (let ((speed (* (random-real) 4.)))
-                          (lambda (this)
-                            (mesh-object-rotation-set!
-                             this
-                             (vec4d-add (mesh-object-rotation this)
-                                        (make-vec4d 0. 0. 0. speed)))
-                            (let* ((pos (mesh-object-position this))
-                                   (screen-y (cadr (unproject (vec3d-x pos)
-                                                              (vec3d-y pos)
-                                                              (vec3d-z pos))))
-                                   (screen-height (UIView-height (current-view))))
-                              (if (> screen-y (+ screen-height 100))
-                                  (remove-entity this))))))))
-      ;;(play-voice-for-entity obj)
-      (mesh-object-data-set! obj (get-next-color-index obj))
-      obj)))
+(define (make-entity mesh pos vel accel)
+  (let ((obj (make-mesh-object
+              3d-perspective
+              mesh: mesh
+              position: pos
+              rotation: (make-vec4d (random-real)
+                                    (random-real)
+                                    (random-real)
+                                    1.)
+              scale: (make-vec3d ENTITY-SCALE ENTITY-SCALE ENTITY-SCALE)
+              color: (make-vec4d 1. 1. 1. 1.)
+              velocity: vel
+              acceleration: accel
+              update: (let ((speed (* (random-real) 6.)))
+                        (lambda (this)
+                          (mesh-object-rotation-set!
+                           this
+                           (vec4d-add (mesh-object-rotation this)
+                                      (make-vec4d 0. 0. 0. speed)))
+                          (let* ((pos (mesh-object-position this))
+                                 (screen-y (cadr (unproject (vec3d-x pos)
+                                                            (vec3d-y pos)
+                                                            (vec3d-z pos))))
+                                 (screen-height (UIView-height (current-view))))
+                            (if (> screen-y (+ screen-height 100))
+                                (remove-entity this))))))))
+    (mesh-object-data-set! obj (get-next-color-index obj))
+    obj))
 
 (define (remove-entity obj)
   (release-color-index (mesh-object-data obj))
@@ -87,11 +49,13 @@
   (scene-list-remove obj))
 
 (define (valid-mesh-object? el)
-  (let ((mesh (mesh-object-mesh el)))
-    (or (eq? mesh chicken-mesh)
-        (eq? mesh duck-mesh)
-        (eq? mesh sheep-mesh)
-        (eq? mesh cow-mesh))))
+  (and (mesh-object? el)
+       (let ((mesh (mesh-object-mesh el)))
+         (or (eq? mesh chicken-mesh)
+             (eq? mesh duck-mesh)
+             (eq? mesh sheep-mesh)
+             (eq? mesh cow-mesh)
+             (eq? mesh person-mesh)))))
 
 ;; the level pump which implements the cracking of the screen and all
 ;; associated events
@@ -100,7 +64,6 @@
   (if (mesh-object? el)
       (begin
         (update-physics el)
-        (update-audio el)
         (let* ((pos (mesh-object-position el))
                (coords (unproject (vec3d-x pos)
                                   (vec3d-y pos)
@@ -185,53 +148,25 @@
 
 ;; audio
 
-(define (update-audio obj)
-  (define (saturate n)
-    (min 1. (max 0. n)))
+;; (define (update-audio obj)
+;;   (define (saturate n)
+;;     (min 1. (max 0. n)))
 
-  (let ((source (mesh-object-voice-source obj))
-        (pos (mesh-object-position obj)))
-    #t
-    #;
-    (alSourcef source
-               AL_GAIN
-               (- 1. (saturate
-                      (/ (- (vec3d-z pos) %%screen-depth) 40.))))))
+;;   (and-let* ((source (mesh-object-voice-source obj))
+;;              (pos-z (vec3d-z (mesh-object-position obj)))
+;;              (gain (saturate (expt .9 pos-z))))
+;;     (alSourcef source AL_GAIN gain)))
 
-(define (play-voice-for-entity obj)
-  (let* ((mesh (mesh-object-mesh obj))
-         (buffer
-          (cond
-           ((eq? cow-mesh mesh) moo-audio)
-           ((eq? sheep-mesh mesh) bah-audio)
-           ((eq? chicken-mesh mesh) chicken-audio)
-           (else #f))))
-    (if buffer
-        (let ((source (make-audio-source buffer)))
-          (play-audio source)
-          (mesh-object-voice-source-set! obj source)))))
+(define (play-voice buffer)
+  (play-and-release-audio (make-audio-source buffer)))
 
 (define (play-thud-for-entity obj)
-  (let ((source (make-audio-source thud-audio)))
-    (play-audio source)
-    (mesh-object-thud-source-set! obj source)))
+  (play-and-release-audio (make-audio-source thud-audio)))
 
 ;; removing and killing events
 
 (define (on-entity-remove obj)
-  (let ((voice-source (mesh-object-voice-source obj))
-        (thud-source (mesh-object-thud-source obj)))
-    (if thud-source
-        (begin
-          (stop-audio thud-source)
-          (free-audio-source thud-source)))
-
-    (if voice-source
-        (begin
-          (stop-audio voice-source)
-          (free-audio-source voice-source))))
-  (mesh-object-voice-source-set! obj #f)
-  (mesh-object-thud-source-set! obj #f))
+  #f)
 
 (define (entity-points obj)
   (let ((mesh (mesh-object-mesh obj)))
@@ -248,4 +183,5 @@
   (if (eq? person-mesh
            (mesh-object-mesh obj))
       (player-has-failed)
-      (score-increase (entity-points obj))))
+      (begin
+        (score-increase obj))))

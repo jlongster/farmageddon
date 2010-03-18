@@ -12,12 +12,11 @@
 #import <OpenGLES/ES1/gl.h>
 #import <OpenGLES/ES1/glext.h>
 
-/*
- This class wraps the CAEAGLLayer from CoreAnimation into a convenient UIView subclass.
- The view content is basically an EAGL surface you render your OpenGL scene into.
- Note that setting the view non-opaque will only work if the EAGL surface has an alpha channel.
- */
-@interface EAGLView : UIView<UIAccelerometerDelegate> {
+@interface TextFieldDoneDelegate : NSObject
+- (bool)textFieldShouldReturn:(UITextField*)field;
+@end
+
+@interface EAGLView : UIView {
 	
 @private
 	/* The pixel dimensions of the backbuffer */
@@ -34,12 +33,18 @@
 	
 	NSTimer *animationTimer;
 	NSTimeInterval animationInterval;
+	
+	IBOutlet UITextField *highScoreName;
 }
 
 @property NSTimeInterval animationInterval;
+@property (retain, nonatomic) UITextField *highScoreName;
                               
 - (void)startAnimation;
 - (void)stopAnimation;
 - (void)drawView;
+- (void)hideHighScoreField;
+- (void)showHighScoreField:(int)x:(int)y;
+- (char*)highScoreFieldValue;
 
 @end

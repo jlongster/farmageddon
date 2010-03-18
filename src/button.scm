@@ -13,7 +13,7 @@
   (overlay-list-add
    (make-2d-object
     2d-perspective
-    texture: button-texture
+    texture: TX-BUTTON
     
     ;; We have to scale the image because we had to enlarge
     ;; it to be a power of 2 size, and the following
@@ -33,14 +33,14 @@
 
   (let* ((scn-width (UIView-width (current-view)))
          (scn-height (UIView-height (current-view)))
-         (txt-width (* (ftgl-get-font-advance name-font label) height))
+         (txt-width (* (ftgl-get-font-advance default-font50 label) .44 height))
          (btn-width (* scn-width width)))
     (overlay-list-add
      (make-2d-object
       font-perspective
-      font: (make-2d-font name-font label (* 22. height))
+      font: (make-2d-font default-font50 label (* 22. height))
       position: (make-vec3d
-                 (+ (* (+ (vec2d-x pos) .014) scn-width)
+                 (+ (* (vec2d-x pos) scn-width)
                     (/ (- btn-width txt-width) 2.))
                  (* (- 1. (+ (vec2d-y pos) (* .065 height))) scn-height)
                  0.))

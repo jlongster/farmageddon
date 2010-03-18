@@ -14,7 +14,7 @@
 (define (scene-init)
   (current-max-life 6)
   (current-background-texture level-bg1)
-  (current-animal-frequency 2.5)
+  (current-animal-frequency .5)
   (current-available-meshes #f)
 
   (glLoadIdentity)
@@ -38,4 +38,4 @@
   ;; This value is rather arbitrary; it just depends on how heavy we
   ;; set everything in the scene. We are using a gravity with an
   ;; acceleration of 11 m/s as a reference point.
-  (set! GRAVITY (make-vec3d 0. -11. 0.)))
+  (set! GRAVITY (make-vec3d 0. 0. 0.)))

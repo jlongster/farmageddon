@@ -42,7 +42,7 @@
 
 (define (init)
   (random-source-randomize! default-random-source)
-  (set-screen! level-screen))
+  (set-screen! title-screen))
 
 (define (render)
   (force-output (repl-output-port))

@@ -41,6 +41,7 @@
 
 (define TX-LIFE-GROOVE #f)
 (define TX-LIFE-BAR #f)
+(define TX-BUTTON #f)
 
 (define (life-render)
   (glColor4f 1. 1. 1. 1.)
@@ -75,12 +76,13 @@
 (define (make-score-object)
   (make-2d-object
    font-perspective
-   position: (make-vec3d 45. 438. 0.)
+   position: (make-vec3d 45. 447. 0.)
    scale: (make-vec3d 1. 1. 1.)
    color: (make-vec4d 1. 1. 1. 1.)
    font: (make-2d-font default-font50
-                       (number->string (score)))
-   center: (make-vec3d 22. 20. 0.)))
+                       (number->string (score))
+                       35.)
+   center: (make-vec3d 22. 16. 0.)))
 
 (define (on-score-increase)
   (overlay-list-remove score-object)
@@ -100,19 +102,12 @@
   (overlay-list-add score-object))
 
 (define (score-remove)
-  (overlay-list-remove score-object))
+  (if score-object
+      (overlay-list-remove score-object)))
 
 ;; overlay
 
 (define (overlay-init)
-  (let ((image (CGImageRef-load "life-groove.png")))
-    (set! TX-LIFE-GROOVE (image-opengl-upload
-                         (CGImageRef-data image)
-                         (CGImageRef-width image)
-                         (CGImageRef-height image))))
-
-  (let ((image (CGImageRef-load "life-bar.png")))
-    (set! TX-LIFE-BAR (image-opengl-upload
-                       (CGImageRef-data image)
-                       (CGImageRef-width image)
-                       (CGImageRef-height image)))))
+  (set! TX-LIFE-GROOVE (image-opengl-load "life-groove.png"))
+  (set! TX-LIFE-BAR (image-opengl-load "life-bar.png"))
+  (set! TX-BUTTON (image-opengl-load "button.png")))

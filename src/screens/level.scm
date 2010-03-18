@@ -14,6 +14,8 @@
 (include "../picking.scm")
 (include "../levels.scm")
 (include "../entity.scm")
+(include "../events.scm")
+(include "../game-events.scm")
 
 ;; resources
 
@@ -34,12 +36,19 @@
 (define fail-texture #f)
 (define success-texture #f)
 
-(define bah-audio #f)
-(define moo-audio #f)
-(define chicken-audio #f)
+(define sheep1-audio #f)
+(define sheep2-audio #f)
+(define cow-audio #f)
+(define cow2-audio #f)
+(define chicken1-audio #f)
+(define chicken2-audio #f)
+(define chicken3-audio #f)
 (define thud-audio #f)
 (define shatter-audio #f)
-(define explosion-audio #f)
+(define lightning-audio #f)
+(define explosion1-audio #f)
+(define explosion2-audio #f)
+(define explosion3-audio #f)
 
 (define default-font50 #f)
 
@@ -87,14 +96,20 @@
 
 ;; events
 
-(define (darken)
+(define (darken f)
   (overlay-list-add
    (make-tween
     (make-2d-object
      2d-perspective
      color: (make-vec4d 0. 0. 0. 0.))
     alpha: .6
-    length: .1)
+    length: 1.
+    type: 'ease-out-cubic
+    on-finished: (let ((done #f))
+                   (lambda ()
+                     (if (not done)
+                         (f))
+                     (set! done #t))))
    important: #t))
 
 (define (add-centered-font font msg y #!optional size)
@@ -105,21 +120,26 @@
                          (* advance (/ size (ftgl-get-font-face-size
                                                font)))
                          advance)))
-    (overlay-list-add
-     (make-tween
-      (make-2d-object
-       font-perspective
-       font: (make-2d-font font msg size)
-       color: (make-vec4d 1. 1. 1. 0.)
-       position: (make-vec3d (/ (exact->inexact width) 2.)
-                             y
-                             0.)
-       center: (make-vec3d (/ font-width 2.)
-                           0.
-                           0.))
-      alpha: 1.
-      length: .5)
-     important: #t)))
+    (add-tweened
+     (make-2d-object
+      font-perspective
+      font: (make-2d-font font msg size)
+      color: (make-vec4d 1. 1. 1. 0.)
+      position: (make-vec3d (/ (exact->inexact width) 2.)
+                            y
+                            0.)
+      center: (make-vec3d (/ font-width 2.)
+                          0.
+                          0.)))))
+
+(define (add-tweened obj)
+  (generic-object-color-set! obj (make-vec4d 1. 1. 1. 0.))
+  (overlay-list-add
+   (make-tween
+    obj
+    alpha: 1.
+    length: .5)
+   important: #t))
 
 (define (add-centered-mesh mesh #!optional scale)
   (let ((scale (or scale 1.)))
@@ -141,12 +161,11 @@
      important: #t)))
 
 (define (on-fail)
-  (darken)
-
-  (add-centered-font default-font50 "~ YOU KILLED A HUMAN ~" 380. 18.)
-  (add-centered-mesh person-mesh)
-
-  (on-complete))
+  (darken
+   (lambda ()
+     (add-centered-font default-font50 "~ YOU KILLED A HUMAN ~" 380. 18.)
+     (add-centered-mesh person-mesh)
+     (on-complete))))
 
 (define (on-death)
   (let ((source (make-audio-source shatter-audio)))
@@ -175,62 +194,85 @@
                               ((eq? victor sheep-mesh) "SHEEP")
                               (else "COW"))
                              " BESTED YOU ~")))
-    (darken)
-    (add-centered-font default-font50 line 380. 18.)
-    (add-centered-mesh victor (if (eq? victor cow-mesh) .7 1.))
-    (on-complete)))
+    (darken
+     (lambda ()
+       (add-centered-font default-font50 line 380. 18.)
+       (add-centered-mesh victor (if (eq? victor cow-mesh) .7 1.))
+       (on-complete)))))
 
 (define (on-complete)
+  (define (process-score)
+    (save-score
+     (let ((name (high-score-field-value)))
+       (if (equal? name "") "soldier" name)))
+    (hide-high-score-field))
+
+  (stop-event-executioner)
   (score-remove)
 
   (add-centered-font default-font50 "GAME OVER" 410. 30.)
 
   (let ((top .07))
-    (overlay-list-add
+    (add-tweened
+     (make-2d-object
+      font-perspective
+      font: (make-2d-font default-font50
+                          (string-append "NAME:")
+                          20.)
+      position: (to-font-space .295 (+ .435 top))))
+
+    (let ((width (UIView-width (current-view)))
+          (height (UIView-height (current-view))))
+      (show-high-score-field (inexact->exact (floor (* .52 width)))
+                             (inexact->exact (floor (+ (* .4575 height) top)))))
+
+    (add-tweened
      (make-2d-object
       font-perspective
       font: (make-2d-font default-font50
                           "SCORE:"
                           20.)
-      position: (to-font-space .27 (+ .45 top)))
-     important: #t)
+      position: (to-font-space .27 (+ .51 top))))
 
-    (overlay-list-add
+    (add-tweened
      (make-2d-object
       font-perspective
       font: (make-2d-font default-font50
                           (number->string (score))
                           20.)
-      position: (to-font-space .51 (+ .45 top)))
-     important: #t)
-    
-    (overlay-list-add
-     (make-2d-object
-      font-perspective
-      font: (make-2d-font default-font50
-                          (string-append "HIGH SCORE:  340000")
-                          20.)
-      position: (to-font-space .112 (+ .51 top)))
-     important: #t)
+      position: (to-font-space .52 (+ .51 top))))
 
-    (overlay-list-add
-     (make-2d-object
-      font-perspective
-      font: (make-2d-font default-font50
-                          (string-append "NAME:  340000")
-                          20.)
-      position: (to-font-space .295 (+ .57 top)))
-     important: #t)
-  
+    (let* ((scores (get-high-scores))
+           (high-score (if (null? scores)
+                           (score)
+                           (persistent-score-score (car scores)))))
+      (add-tweened
+       (make-2d-object
+        font-perspective
+        font: (make-2d-font default-font50
+                            (string-append "HIGH SCORE:")
+                            20.)
+        position: (to-font-space .112 (+ .57 top))))
+
+      (add-tweened
+       (make-2d-object
+        font-perspective
+        font: (make-2d-font default-font50
+                            (number->string high-score)
+                            20.)
+        position: (to-font-space .52 (+ .57 top)))))
+
     (overlay-add-button "TRY AGAIN"
                         (make-vec2d .25 (+ .63 top))
                         .5 1.
                         (lambda ()
+                          (process-score)
                           (set-screen! level-screen)))
     (overlay-add-button "MENU"
                         (make-vec2d .25 (+ .75 top))
                         .5 1.
                         (lambda ()
+                          (process-score)
                           (set-screen! title-screen)))))
 
 ;; init
@@ -266,12 +308,19 @@
   (weapons-init)
   
   (init-audio)
-  (set! bah-audio (load-audio "bah.wav"))
-  (set! moo-audio (load-audio "moo.wav"))
+  (set! sheep1-audio (load-audio "sheep1.wav"))
+  (set! sheep2-audio (load-audio "sheep2.wav"))
+  (set! cow-audio (load-audio "cow.wav"))
+  (set! cow2-audio (load-audio "cow2.wav"))
   (set! thud-audio (load-audio "thud.wav"))
   (set! shatter-audio (load-audio "shatter.wav"))
-  (set! explosion-audio (load-audio "explosion2.wav"))
-  (set! chicken-audio (load-audio "chicken.wav"))
+  (set! lightning-audio (load-audio "lightning.wav"))
+  (set! explosion1-audio (load-audio "explosion1.wav"))
+  (set! explosion2-audio (load-audio "explosion2.wav"))
+  (set! explosion3-audio (load-audio "explosion3.wav"))
+  (set! chicken1-audio (load-audio "chicken1.wav"))
+  (set! chicken2-audio (load-audio "chicken2.wav"))
+  (set! chicken3-audio (load-audio "chicken3.wav"))
 
   (set! default-font50
         (ftgl-create-texture-font (resource "ApexSansExtraBoldC.ttf")))
@@ -288,6 +337,8 @@
 
 ;; setup the scene
 
+(define *background-object* #f)
+
 (define (level-screen-setup)
   (glEnable GL_DEPTH_TEST)
   (glEnable GL_CULL_FACE)
@@ -295,6 +346,8 @@
   (glShadeModel GL_SMOOTH)
   (glEnable GL_RESCALE_NORMAL)
 
+  (scene-list-clear!)
+  
   (overlay-list-add
    (make-2d-object
     2d-perspective
@@ -307,7 +360,30 @@
       (life-render))
     values))
 
-  (reset-player))
+  (reset-player)
+  (stop-event-executioner)
+  (set-difficulty! 0)
+
+  (stop-explosion-events)
+  
+  (set! *background-object*
+        (make-2d-object
+         2d-perspective
+         texture: (current-background-texture)))
+  
+  (scene-list-add *background-object* unimportant: #t))
+
+(define (background-pop color)
+  (scene-list-remove *background-object*)
+  (set! *background-object*
+        (make-tween
+         (make-2d-object
+          2d-perspective
+          texture: (current-background-texture)
+          color: color)
+         color: (make-vec4d 1. 1. 1. 1.)
+         type: 'ease-out-quad))
+  (scene-list-add *background-object* unimportant: #t))
 
 ;; updating and processing events
 
@@ -321,18 +397,21 @@
   (player-update)
   (update-weapons)
   
+  (if (check-difficulty)
+      (background-pop (make-vec4d 0. 1. 0. 1.)))
+  
   (if (not (player-finished?))
-      (possibly-make-entity)))
+      (run-events)))
 
 ;; rendering
 
 (define (level-screen-render)
   ;; background
-  (if (current-background-texture)
-      (begin
-        (load-perspective 2d-perspective)
-        (glColor4f 1. 1. 1. 1.)
-        (image-render (current-background-texture))))
+  ;; (if (current-background-texture)
+  ;;     (begin
+  ;;       (load-perspective 2d-perspective)
+  ;;       (glColor4f 1. 1. 1. 1.)
+  ;;       (image-render (current-background-texture))))
 
   ;; 3d
   (scene-list-render)

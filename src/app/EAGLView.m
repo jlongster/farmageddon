@@ -19,7 +19,6 @@ extern "C" {
     void register_view(UIView*);
     void init();
     void render();
-    void did_accelerate(UIAccelerometer*, UIAcceleration*);
     void touches_began(NSSet*, UIEvent*);
     void touches_moved(NSSet*, UIEvent*);
     void touches_ended(NSSet*, UIEvent*);
@@ -37,16 +36,24 @@ extern "C" {
 
 - (BOOL) createFramebuffer;
 - (void) destroyFramebuffer;
-- (void) initAccelerometer;
 
 @end
 
+@implementation TextFieldDoneDelegate
+
+- (bool)textFieldShouldReturn:(UITextField*)field {
+    [field resignFirstResponder];
+	return YES;
+}
+
+@end
 
 @implementation EAGLView
 
 @synthesize context;
 @synthesize animationTimer;
 @synthesize animationInterval;
+@synthesize highScoreName;
 
 // You must implement this
 + (Class)layerClass {
@@ -79,19 +86,24 @@ extern "C" {
 	return self;
 }
 
-//// Accelerometer
+- (void)hideHighScoreField {
+	highScoreName.hidden = YES;
+}
 
-// - (void)initAccelerometer {
-// 	UIAccelerometer* theAccelerometer = [UIAccelerometer sharedAccelerometer];
-// 	theAccelerometer.updateInterval = 1/50.0;
-// 	theAccelerometer.delegate = self;
-// }
+- (void)showHighScoreField:(int)x y:(int)y {
+	highScoreName.hidden = NO;
+	
+	CGRect r;
+	r.origin = CGPointMake(x,y);
+	r.size = highScoreName.frame.size;
+	highScoreName.frame = r;
+}
 
-// - (void)accelerometer:(UIAccelerometer *)accelerometer
-// 		didAccelerate:(UIAcceleration *)acceleration {
-// 	did_accelerate(accelerometer, acceleration);
-// }
-                       
+- (char*)highScoreFieldValue {
+	char* name = malloc(1024);
+	[highScoreName.text getCString:name maxLength:1024 encoding:NSASCIIStringEncoding];
+	return name;
+}
 
 //// Touches
 

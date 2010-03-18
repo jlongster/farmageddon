@@ -60,8 +60,6 @@
   update-proc
   data
   last-update
-  voice-source
-  thud-source
   mark)
 
 (define (make-mesh-object pers
@@ -78,8 +76,6 @@
                            (or render mesh-object-render)
                            update
                            data
-                           #f
-                           #f
                            #f
                            #f))
 
@@ -103,8 +99,6 @@
    (mesh-object-update-proc obj)
    (mesh-object-data obj)
    (mesh-object-last-update obj)
-   (mesh-object-voice-source obj)
-   (mesh-object-thud-source obj)
    (mesh-object-mark obj)))
 
 (define-type 2d-font
@@ -285,7 +279,7 @@
                      (vec4d-w color)))
         (glColor4f 1. 1. 1. 1.))
 
-    (if (and texture color)
+    (if (and texture color (< (vec4d-w color) 1.))
         (begin
 
           ;; Freaking alpha-premultiplication that Cocoa does
@@ -354,23 +348,26 @@
 (define (scene-list-clear!)
   (set! scene-list '()))
 
-(define (scene-list-add obj #!key important)
-  (if important
-      (set! scene-list (append scene-list (list obj)))
-      (begin
-        ;; keep the order according to the projection matrix to minimize
-        ;; matrix changes
-        (receive (prefix tail)
-            (break (lambda (el)
-                     (eq? (generic-object-perspective el)
-                          (generic-object-perspective obj)))
-                   scene-list)
-          (receive (same tail2)
-              (span (lambda (el)
-                      (eq? (generic-object-perspective el)
-                           (generic-object-perspective obj)))
-                    tail)
-            (set! scene-list (append prefix same (cons obj tail2))))))))
+(define (scene-list-add obj #!key important unimportant)
+  (cond
+   (important
+    (set! scene-list (append scene-list (list obj))))
+   (unimportant
+    (set! scene-list (cons obj scene-list)))
+   (else
+    ;; keep the order according to the projection matrix to minimize
+    ;; matrix changes
+    (receive (prefix tail)
+        (break (lambda (el)
+                 (eq? (generic-object-perspective el)
+                      (generic-object-perspective obj)))
+               scene-list)
+      (receive (same tail2)
+          (span (lambda (el)
+                  (eq? (generic-object-perspective el)
+                       (generic-object-perspective obj)))
+                tail)
+        (set! scene-list (append prefix same (cons obj tail2))))))))
 
 (define (scene-list-remove obj)
   (generic-object-mark-set! obj #t))

@@ -148,7 +148,10 @@
      thePropertySize = sizeof(theFileLengthInFrames);
      err = ExtAudioFileGetProperty(extRef, kExtAudioFileProperty_FileLengthFrames, &thePropertySize, &theFileLengthInFrames);
      if(err) { printf("MyGetOpenALAudioData: ExtAudioFileGetProperty(kExtAudioFileProperty_FileLengthFrames) FAILED, Error = %ld\n", (long int)err); goto Exit; }
- 
+
+     // Yuck, why do I need to chop off the end?
+     theFileLengthInFrames = theFileLengthInFrames - 100;
+                     
      // Read all the data into memory
      UInt32 dataSize = theFileLengthInFrames * theOutputFormat.mBytesPerFrame;;
      theData = malloc(dataSize);
@@ -210,13 +213,27 @@ end-c-code
 (define play-audio
   (c-lambda (unsigned-int) void "play_audio"))
 
+(define (play-and-release-audio source)
+  (play-audio source)
+  (thread-start!
+   (make-thread
+    (lambda ()
+      (let loop ()
+        (if (is-audio-playing? source)
+            (begin
+              (thread-sleep! .2)
+              (loop))
+            (begin
+              (stop-audio source)
+              (free-audio-source source))))))))
+
 (define stop-audio
   (c-lambda (unsigned-int) void "stop_audio"))
 
 (define rewind-audio
   (c-lambda (unsigned-int) void "rewind_audio"))
 
-(define is-audio-playing
+(define is-audio-playing?
   (c-lambda (unsigned-int) bool "is_audio_playing"))
 
 (define alSourcei

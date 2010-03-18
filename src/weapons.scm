@@ -60,17 +60,8 @@
 
 (define (add-lightning lightning)
   (set! %%lightnings (cons lightning %%lightnings))
-
   ;; Play the explosion sound
-  (let ((explosion-source (make-audio-source explosion-audio)))
-    (alSourcef explosion-source AL_GAIN 2.)
-    ;; Play the explosion sound, and free it
-    (play-audio explosion-source)
-    (thread-start!
-     (make-thread
-      (lambda ()
-        (thread-sleep! 1.7)
-        (free-audio-source explosion-source))))))
+  (play-and-release-audio (make-audio-source lightning-audio)))
 
 (define (add-hit-point point)
   (add-lightning (make-lightning point)))

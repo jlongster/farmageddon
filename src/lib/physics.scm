@@ -5,7 +5,7 @@
          (standard-bindings)
          (extended-bindings))
 
-(define GRAVITY (make-vec3d 0. -25. 0.))
+(define GRAVITY (make-vec3d 0. 0. 0.))
 
 (define (update-physics obj)
   (let* ((now (real-time))
