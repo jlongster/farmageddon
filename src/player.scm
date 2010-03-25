@@ -10,12 +10,7 @@
 (define LIFE #f)
 (define VICTOR #f)
 
-(define (get-damage el)
-  (let ((mesh (mesh-object-mesh el)))
-    (cond
-     ((eq? mesh cow-mesh) 2)
-     ((eq? mesh chicken-mesh) .5)
-     (else 1))))
+(define (get-damage el) 1)
 
 (define (life-decrease! el)
   (if (not (life-is-dead?))
@@ -70,12 +65,12 @@
 (define (save-score name)
   (let ((scores (reverse (get-high-scores)))
         (current (make-persistent-score name (score))))
-    (call-with-output-file (list path: (writable "high-scores.txt"))
+    (call-with-output-file (writable "high-scores.txt")
       (lambda (p)
         ;; Write all the scores back, adding the current score if
         ;; there is less than 10 scores, or replacing the lowest score
         ;; if the current score is higher
-        (pp
+        (write
          (if (< (length scores) 10)
              (cons current scores)
              (if (> (score) (persistent-score-score (car scores)))
@@ -93,6 +88,21 @@
            (> (persistent-score-score el1)
               (persistent-score-score el2))))
         '())))
+
+;; config
+
+(define (save-sound)
+  (call-with-output-file (writable "settings.txt")
+    (lambda (p)
+      (write (list 'sound (if (is-audio-muted?) 'off 'on)) p))))
+
+(define (read-sound)
+  (let ((path (writable "settings.txt")))
+    (if (file-exists? path)
+        (let* ((config (with-input-from-file path read))
+               (key (cadr config)))
+          (if (eq? key 'on) #t #f))
+        #t)))
 
 ;; player
 

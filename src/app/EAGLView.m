@@ -69,7 +69,7 @@ extern "C" {
 		eaglLayer.opaque = YES;
 		eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                                                  [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
-		
+                
 		context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
 
 		if (!context || ![EAGLContext setCurrentContext:context]) {
@@ -127,7 +127,7 @@ extern "C" {
 
 - (void)drawView {
     [EAGLContext setCurrentContext:context];
-	
+
     glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
     glViewport(0, 0, backingWidth, backingHeight);
 

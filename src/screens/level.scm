@@ -15,6 +15,7 @@
 (include "../levels.scm")
 (include "../entity.scm")
 (include "../events.scm")
+(include "../fog.scm")
 (include "../game-events.scm")
 
 ;; resources
@@ -27,14 +28,15 @@
 (define cow-part3-mesh (obj-load (resource "cow-part3") #t))
 (define person-mesh (obj-load (resource "person") #t))
 (define sheep-mesh (obj-load (resource "sheep") #t))
+(define pig-mesh (obj-load (resource "pig") #t))
+(define pig-part1-mesh (obj-load (resource "pig-part1") #t))
+(define pig-part2-mesh (obj-load (resource "pig-part2") #t))
 
 (define level-bg1 #f)
 (define level-bg2 #f)
 (define level-bg3 #f)
 (define glare-texture #f)
-(define gradient-texture #f)
-(define fail-texture #f)
-(define success-texture #f)
+(define fog-texture #f)
 
 (define sheep1-audio #f)
 (define sheep2-audio #f)
@@ -42,17 +44,25 @@
 (define cow2-audio #f)
 (define chicken1-audio #f)
 (define chicken2-audio #f)
-(define chicken3-audio #f)
 (define thud-audio #f)
 (define shatter-audio #f)
 (define lightning-audio #f)
 (define explosion1-audio #f)
 (define explosion2-audio #f)
 (define explosion3-audio #f)
+(define explosion4-audio #f)
+(define fog-audio #f)
 
 (define default-font50 #f)
+(define thin-font50 #f)
 
 ;; util
+
+(define (random-in-range x #!optional y)
+  (let* ((high (if y y x))
+        (low (if y x (- x)))
+        (diff (- high low)))
+    (+ (* (random-real) diff) low)))
 
 (define (spread-number fl)
   (- (* fl 2.) 1.))
@@ -120,6 +130,19 @@
                          (* advance (/ size (ftgl-get-font-face-size
                                                font)))
                          advance)))
+    (overlay-list-add
+     (make-2d-object
+      font-perspective
+      font: (make-2d-font font msg size)
+      color: (make-vec4d 1. 1. 1. 1.)
+      position: (make-vec3d (/ (exact->inexact width) 2.)
+                            y
+                            0.)
+      center: (make-vec3d (/ font-width 2.)
+                          0.
+                          0.))
+     important: #t)
+    #;
     (add-tweened
      (make-2d-object
       font-perspective
@@ -187,17 +210,27 @@
         (free-audio-source source)))))
 
   (let* ((victor (mesh-object-mesh (player-animal-victor)))
-         (line (string-append "~ A "
+         (line (string-append "~ "
                              (cond
-                              ((eq? victor chicken-mesh) "CHICKEN")
-                              ((eq? victor duck-mesh) "DUCK")
-                              ((eq? victor sheep-mesh) "SHEEP")
-                              (else "COW"))
+                              ((eq? victor chicken-mesh) "A CHICKEN")
+                              ((eq? victor duck-mesh) "A DUCK")
+                              ((eq? victor sheep-mesh) "A SHEEP")
+                              ((eq? victor pig-mesh) "A PIG")
+                              ((eq? victor pig-part1-mesh) "A PIG HEAD")
+                              ((eq? victor pig-part2-mesh) "A PIG BUTT")
+                              ((eq? victor cow-mesh) "A COW")
+                              ((eq? victor cow-part1-mesh) "A COW HEAD")
+                              ((eq? victor cow-part2-mesh) "COW UDDERS")
+                              ((eq? victor cow-part3-mesh) "A COW BUTT")
+                              (else ""))
                              " BESTED YOU ~")))
     (darken
      (lambda ()
        (add-centered-font default-font50 line 380. 18.)
-       (add-centered-mesh victor (if (eq? victor cow-mesh) .7 1.))
+       (add-centered-mesh victor (if (or (eq? victor cow-mesh)
+                                         (eq? victor cow-part1-mesh)
+                                         (eq? victor cow-part2-mesh)
+                                         (eq? victor cow-part3-mesh)) .7 1.))
        (on-complete)))))
 
 (define (on-complete)
@@ -265,13 +298,13 @@
     (overlay-add-button "TRY AGAIN"
                         (make-vec2d .25 (+ .63 top))
                         .5 1.
-                        (lambda ()
+                        (lambda (this)
                           (process-score)
                           (set-screen! level-screen)))
     (overlay-add-button "MENU"
                         (make-vec2d .25 (+ .75 top))
                         .5 1.
-                        (lambda ()
+                        (lambda (this)
                           (process-score)
                           (set-screen! title-screen)))))
 
@@ -299,12 +332,12 @@
                  0 (exact->inexact height)
                  -10000.0 10000.0)))
 
-  (set! gradient-texture (image-opengl-load "gradient.png"))
   (set! level-bg1 (image-opengl-load "level-bg1.png"))
   (set! level-bg2 (image-opengl-load "level-bg2.png"))
   (set! level-bg3 (image-opengl-load "level-bg3.png"))
   (set! glare-texture (image-opengl-load "level-glare.png"))
- 
+  (set! fog-texture (image-opengl-load "fog.png"))
+  
   (weapons-init)
   
   (init-audio)
@@ -318,22 +351,31 @@
   (set! explosion1-audio (load-audio "explosion1.wav"))
   (set! explosion2-audio (load-audio "explosion2.wav"))
   (set! explosion3-audio (load-audio "explosion3.wav"))
+  (set! explosion4-audio (load-audio "explosion4.wav"))
   (set! chicken1-audio (load-audio "chicken1.wav"))
   (set! chicken2-audio (load-audio "chicken2.wav"))
-  (set! chicken3-audio (load-audio "chicken3.wav"))
-
+  (set! fog-audio (load-audio "fog.wav"))
+  
   (set! default-font50
         (ftgl-create-texture-font (resource "ApexSansExtraBoldC.ttf")))
+  (set! thin-font50
+        (ftgl-create-texture-font (resource "ApexSansBookC.ttf")))
   
   (ftgl-set-font-face-size default-font50 50)
   (ftgl-get-font-advance
    default-font50
    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~-:!")
+
+  (ftgl-set-font-face-size thin-font50 50)
+  (ftgl-get-font-advance
+   thin-font50
+   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
   
   (load-randomized-cracks)
   
   (overlay-init)
-  (scene-init))
+  (scene-init)
+  (fog-init))
 
 ;; setup the scene
 
@@ -364,14 +406,13 @@
   (stop-event-executioner)
   (set-difficulty! 0)
 
-  (stop-explosion-events)
-  
   (set! *background-object*
         (make-2d-object
          2d-perspective
          texture: (current-background-texture)))
-  
-  (scene-list-add *background-object* unimportant: #t))
+
+  (scene-list-add *background-object* unimportant: #t)
+  (fog-list-clear!))
 
 (define (background-pop color)
   (scene-list-remove *background-object*)
@@ -396,9 +437,12 @@
   (overlay-update)
   (player-update)
   (update-weapons)
-  
+  (update-fog)
+
   (if (check-difficulty)
-      (background-pop (make-vec4d 0. 1. 0. 1.)))
+      (begin
+        (level-update)
+        (background-pop (make-vec4d 0. 1. 0. 1.))))
   
   (if (not (player-finished?))
       (run-events)))
@@ -417,11 +461,15 @@
   (scene-list-render)
 
   ;; overlay
+  
   (load-perspective 2d-ratio-perspective)
+  (render-weapons)
 
-  (begin
-    (render-weapons)
-    (if (not (player-finished?))
+  (render-fog)
+
+  (load-perspective 2d-ratio-perspective)
+  (if (not (player-finished?))
+      (begin
         (render-cracks)))
 
   (load-perspective 2d-ratio-perspective)

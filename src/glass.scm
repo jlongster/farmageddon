@@ -138,7 +138,7 @@
   (glEnable GL_BLEND)
   (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)
   (glLineWidth 1.)
-
+  
   (glDrawArrays GL_LINES 0 (crack-num-vertices crack))
   (glDisable GL_BLEND)
   (glEnable GL_LIGHTING)

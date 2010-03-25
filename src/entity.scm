@@ -14,7 +14,7 @@
 (define ENTITY-MAX-DEPTH 40.)
 (define ENTITY-SCALE 4.)
 
-(define (make-entity mesh pos vel accel)
+(define (make-entity mesh pos vel accel #!optional nuke?)
   (let ((obj (make-mesh-object
               3d-perspective
               mesh: mesh
@@ -22,12 +22,12 @@
               rotation: (make-vec4d (random-real)
                                     (random-real)
                                     (random-real)
-                                    1.)
+                                    (random-in-range 0. 90.))
               scale: (make-vec3d ENTITY-SCALE ENTITY-SCALE ENTITY-SCALE)
               color: (make-vec4d 1. 1. 1. 1.)
               velocity: vel
               acceleration: accel
-              update: (let ((speed (* (random-real) 6.)))
+              update: (let ((speed (* (random-real) 2.)))
                         (lambda (this)
                           (mesh-object-rotation-set!
                            this
@@ -39,23 +39,25 @@
                                                             (vec3d-z pos))))
                                  (screen-height (UIView-height (current-view))))
                             (if (> screen-y (+ screen-height 100))
-                                (remove-entity this))))))))
+                                (remove-entity this)))))
+              nuke: nuke?)))
     (mesh-object-data-set! obj (get-next-color-index obj))
     obj))
 
 (define (remove-entity obj)
   (release-color-index (mesh-object-data obj))
-  (on-entity-remove obj)
   (scene-list-remove obj))
 
 (define (valid-mesh-object? el)
   (and (mesh-object? el)
        (let ((mesh (mesh-object-mesh el)))
-         (or (eq? mesh chicken-mesh)
-             (eq? mesh duck-mesh)
-             (eq? mesh sheep-mesh)
-             (eq? mesh cow-mesh)
-             (eq? mesh person-mesh)))))
+         (and (not (mesh-object-nuke? el))
+              (or (eq? mesh chicken-mesh)
+                  (eq? mesh duck-mesh)
+                  (eq? mesh sheep-mesh)
+                  (eq? mesh cow-mesh)
+                  (eq? mesh person-mesh)
+                  (eq? mesh pig-mesh))))))
 
 ;; the level pump which implements the cracking of the screen and all
 ;; associated events
@@ -76,7 +78,8 @@
                    (< (car coords) width)
                    (< (cadr coords) height)
                    (not (player-finished?))
-                   (valid-mesh-object? el))
+                   (not (eq? (mesh-object-mesh el) person-mesh))
+                   (not (mesh-object-nuke? el)))
               (begin
                 (life-decrease! el)
 
@@ -90,7 +93,7 @@
 
 ;; explosions
 
-(define (explode-cow obj)
+(define (%add-body-part obj parts)
   (define (body-part-direction obj)
     (let* ((mesh (mesh-object-mesh obj))
            (rot (mesh-object-rotation obj))
@@ -109,42 +112,49 @@
        (vec3d-unit (make-vec3d x y z)))))
 
   (let* ((mesh (mesh-object-mesh obj))
-         (obj1 (copy-mesh-object obj))
-         (obj2 (copy-mesh-object obj))
-         (parts (list cow-part1-mesh
-                      cow-part2-mesh
-                      cow-part3-mesh))
-         (part1 (list-ref parts
-                          (random-integer (length parts))))
-         (parts (delete part1 parts))
-         (part2 (list-ref parts
-                          (random-integer (length parts)))))
+         (part-obj (copy-mesh-object obj))
+         (part (list-ref parts
+                         (random-integer (length parts)))))
 
-    (mesh-object-mesh-set! obj1 part1)
-    (let ((dir (body-part-direction obj1)))
-      (mesh-object-velocity-set! obj1 (vec3d-add
-                                       (vec3d-scalar-mul dir 15.)
-                                       (mesh-object-velocity obj)))
-      (mesh-object-data-set! obj1 (get-next-color-index obj1)))
-
-    (mesh-object-mesh-set! obj2 part2)
-    (let ((dir (body-part-direction obj2)))
-      (mesh-object-velocity-set! obj2 (vec3d-add
-                                       (vec3d-scalar-mul dir 15.)
-                                       (mesh-object-velocity obj)))
-      (mesh-object-data-set! obj2 (get-next-color-index obj2)))
+    (mesh-object-mesh-set! part-obj part)
+    (let ((dir (body-part-direction part-obj)))
+      (mesh-object-velocity-set!
+       part-obj
+       (vec3d-add
+        (vec3d-scalar-mul dir 5.) (mesh-object-velocity obj)))
+      
+      (mesh-object-rotation-set!
+       part-obj
+       (vec4d-add (make-vec4d 0. 0. 0. 45.)
+                  (mesh-object-rotation obj)))
+      (mesh-object-data-set! part-obj (get-next-color-index part-obj)))
     
-    (scene-list-add obj1)
-    (scene-list-add obj2)))
+    (scene-list-add part-obj)
+    (delete part parts)))
+
+(define (explode-cow obj)
+  (%add-body-part
+   obj
+   (%add-body-part obj (list cow-part1-mesh
+                             cow-part2-mesh
+                             cow-part3-mesh))))
+
+(define (explode-pig obj)
+  (%add-body-part
+   obj
+   (list pig-part1-mesh
+         pig-part2-mesh)))
 
 (define (explode-generic obj)
   #f)
 
 (define (explode-entity obj)
-  (let ((mesh (mesh-object-mesh obj)))
-    (cond
-     ((eq? mesh cow-mesh) (explode-cow obj))
-     (else (explode-generic obj)))))
+  (if (not (mesh-object-nuke? obj))
+      (let ((mesh (mesh-object-mesh obj)))
+        (cond
+         ((eq? mesh cow-mesh) (explode-cow obj))
+         ((eq? mesh pig-mesh) (explode-pig obj))
+         (else (explode-generic obj))))))
 
 ;; audio
 
@@ -165,9 +175,6 @@
 
 ;; removing and killing events
 
-(define (on-entity-remove obj)
-  #f)
-
 (define (entity-points obj)
   (let ((mesh (mesh-object-mesh obj)))
     (cond
@@ -180,8 +187,11 @@
 (define (on-entity-kill obj)
   (explode-entity obj)
 
-  (if (eq? person-mesh
-           (mesh-object-mesh obj))
-      (player-has-failed)
-      (begin
-        (score-increase obj))))
+  (cond
+   ((mesh-object-nuke? obj)
+    (fire-nuke))
+   ((eq? person-mesh
+         (mesh-object-mesh obj))
+    (player-has-failed))
+   (else
+    (score-increase obj))))

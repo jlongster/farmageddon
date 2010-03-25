@@ -14,7 +14,7 @@
 	<key>CFBundleExecutable</key>
 	<string>farmageddon</string>
 	<key>CFBundleIconFile</key>
-	<string>icon.png</string>
+	<string>Icon.png</string>
 	<key>UIStatusBarHidden</key>
 	<true/>
 	<key>CFBundleIdentifier</key>

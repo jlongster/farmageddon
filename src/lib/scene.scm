@@ -59,6 +59,7 @@
   render-proc
   update-proc
   data
+  nuke?
   last-update
   mark)
 
@@ -68,7 +69,8 @@
                           color position rotation scale
                           velocity acceleration
                           render update
-                          data)
+                          data
+                          nuke)
   (really-make-mesh-object pers
                            mesh
                            color position rotation scale
@@ -76,6 +78,7 @@
                            (or render mesh-object-render)
                            update
                            data
+                           nuke
                            #f
                            #f))
 
@@ -98,6 +101,7 @@
    (mesh-object-render-proc obj)
    (mesh-object-update-proc obj)
    (mesh-object-data obj)
+   #f
    (mesh-object-last-update obj)
    (mesh-object-mark obj)))
 
@@ -153,7 +157,8 @@
         (pos (mesh-object-position obj))
         (rot (mesh-object-rotation obj))
         (vel (mesh-object-velocity obj))
-        (scale (mesh-object-scale obj)))
+        (scale (mesh-object-scale obj))
+        (nuke? (mesh-object-nuke? obj)))
 
     (if color
         (begin
@@ -188,43 +193,56 @@
     (if scale
         (glScalef (vec3d-x scale) (vec3d-y scale) (vec3d-z scale)))
 
+    (if nuke?
+        (glScalef .5 .5 .5))
+    
     (glEnable GL_BLEND)
     (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)
-    
-    (for-each (lambda (chunk)
-                (if (obj-chunk-mat chunk)
-                    (let* ((mat (obj-chunk-mat chunk))
-                           (color (if color
-                                      (vec4d-component-mul
-                                       color
-                                       (material-diffuse mat))
-                                      (material-diffuse mat))))
 
-                      (if (< (vec4d-w color) 1.)
-                          (glDisable GL_DEPTH_TEST)
-                          (glEnable GL_DEPTH_TEST))
+    (for-each
+     (lambda (chunk)
+       (if (obj-chunk-mat chunk)
+           (let* ((mat (obj-chunk-mat chunk))
+                  (color (if color
+                             (vec4d-component-mul
+                              color
+                              (material-diffuse mat))
+                             (material-diffuse mat))))
 
-                      (with-alloc (color-array
-                                   (vector->float-array
-                                    (vector
-                                     (vec4d-x color)
-                                     (vec4d-y color)
-                                     (vec4d-z color)
-                                     (vec4d-w color))))
-                        (glMaterialfv GL_FRONT_AND_BACK
-                                      GL_DIFFUSE
-                                      color-array))
-                      (glColor4f (+ (vec4d-x color) .1)
-                                 (+ (vec4d-y color) .1)
-                                 (+ (vec4d-z color) .1)
-                                 (vec4d-w color))))
-                
-                (if (not (null? (obj-chunk-indices chunk)))
-                    (glDrawElements GL_TRIANGLES
-                                    (obj-chunk-num-indices chunk)
-                                    GL_UNSIGNED_SHORT
-                                    (->void-array (obj-chunk-indices chunk)))))
-              (obj-chunks mesh))
+             (if (< (vec4d-w color) 1.)
+                 (glDisable GL_DEPTH_TEST)
+                 (glEnable GL_DEPTH_TEST))
+
+             (if nuke?
+                 (begin
+                   (glColor4f 0. 1. 0. .5)
+                   (glMaterialfv GL_FRONT_AND_BACK
+                                 GL_DIFFUSE
+                                 (vector->float-array
+                                  (vector 0. 1. 0. .5))))
+                 (begin
+                   (with-alloc
+                    (color-array
+                     (vector->float-array
+                      (vector
+                       (vec4d-x color)
+                       (vec4d-y color)
+                       (vec4d-z color)
+                       (vec4d-w color))))
+                    (glMaterialfv GL_FRONT_AND_BACK
+                                  GL_DIFFUSE
+                                  color-array))
+                   (glColor4f (+ (vec4d-x color) .1)
+                              (+ (vec4d-y color) .1)
+                              (+ (vec4d-z color) .1)
+                              (vec4d-w color))))))
+       
+       (if (not (null? (obj-chunk-indices chunk)))
+           (glDrawElements GL_TRIANGLES
+                           (obj-chunk-num-indices chunk)
+                           GL_UNSIGNED_SHORT
+                           (->void-array (obj-chunk-indices chunk)))))
+     (obj-chunks mesh))
 
     (glEnable GL_DEPTH_TEST)
     (glDisable GL_BLEND)
@@ -292,7 +310,10 @@
           (glEnable GL_BLEND)
           (glBlendFunc GL_ONE GL_ONE_MINUS_SRC_ALPHA)
           (let ((fade (vec4d-w color)))
-            (glColor4f fade fade fade fade)))
+            (glColor4f (* fade (vec4d-x color))
+                       (* fade (vec4d-y color))
+                       (* fade (vec4d-z color))
+                       fade)))
         (if texture
             (begin
               (glEnable GL_BLEND)
@@ -391,12 +412,26 @@
         lst
         (set! scene-list lst))))
 
+(define *pause* #f)
+
+(define (scene-list-pause)
+  (set! *pause* #t))
+
+(define (scene-list-unpause)
+  (set! *pause* #f))
+
+(define (scene-list-paused?)
+  *pause*)
+
 (define (scene-list-update #!optional update-fn skip-local-update local-list)
-  ;; run the update procedures for each scene object
-  (scene-list-purely-updates update-fn skip-local-update local-list)
+  (if (not (scene-list-paused?))
+      (begin
+        ;; run the update procedures for each scene object
+        (scene-list-purely-updates update-fn skip-local-update local-list)
   
-  ;; remove all the objects marked for removal
-  (scene-list-purely-removes local-list))
+        ;; remove all the objects marked for removal
+        (scene-list-purely-removes local-list))
+      (if local-list local-list scene-list)))
 
 (define (scene-list-render #!optional render-proc local-list)
   (let loop ((last-pers #f)

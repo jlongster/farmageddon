@@ -99,11 +99,34 @@
 
 (define (score-setup)
   (set! score-object (make-score-object))
-  (overlay-list-add score-object))
+  (overlay-list-add score-object)
+  #;(level-setup))
 
 (define (score-remove)
   (if score-object
       (overlay-list-remove score-object)))
+
+;; level
+
+(define level-object #f)
+
+(define (make-level-object)
+  (make-2d-object
+   font-perspective
+   position: (make-vec3d 200. 447. 0.)
+   font: (make-2d-font default-font50
+                       (number->string (or *current-difficulty* 0))
+                       35.)
+   center: (make-vec3d 22. 16. 0.)))
+
+(define (level-setup)
+  (set! level-object (make-level-object))
+  (overlay-list-add level-object))
+
+(define (level-update)
+  (if level-object
+      (overlay-list-remove level-object))
+  #;(level-setup))
 
 ;; overlay
 

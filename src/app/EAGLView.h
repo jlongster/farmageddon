@@ -33,7 +33,7 @@
 	
 	NSTimer *animationTimer;
 	NSTimeInterval animationInterval;
-	
+
 	IBOutlet UITextField *highScoreName;
 }
 

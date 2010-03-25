@@ -22,6 +22,25 @@
   (set! explosion-texture (image-opengl-load "explosion.png"))
   (set! blood-texture (image-opengl-load "blood.png")))
 
+;; nuke
+
+(define (fire-nuke)
+  (overlay-list-add
+   (make-tween
+    (make-2d-object
+     2d-perspective
+     color: (make-vec4d 1. 1. 1. 1.))
+    color: (make-vec4d 1. 1. 1. 0.))
+   important: #t)
+
+  (for-each
+   (lambda (obj)
+     (if (mesh-object? obj)
+         (scene-list-remove obj)))
+   scene-list)
+
+  (play-and-release-audio (make-audio-source explosion4-audio)))
+
 ;; creating
 
 (define %%lightnings '())
@@ -141,26 +160,26 @@
                           (* (/ (exact->inexact y) height) 1.5)
                           0.)))
 
-    (dust-list-add
-     (make-tween
-      (make-2d-object
-       2d-ratio-perspective
-       position: (vec3d-copy pos)
-       scale: (make-vec3d (depth-scale) (depth-scale) 1.)
-       rotation: (make-vec4d 0. 0. 1. (* (random-real) 360.))
-       texture: blood-texture
-       color: (make-vec4d 1. 1. 1. 1.)
-       center: #t)
-      alpha: 0.
-      length: .5
-      position: (vec3d-add
-                 pos
-                 (make-vec3d (* (spread-number (random-real)) .1)
-                             (* (spread-number (random-real)) .1)
-                             (* (spread-number (random-real)) .1)))
-      type: 'ease-out-cubic
-      on-finished: (lambda ()
-                     #f)))
+    ;; (dust-list-add
+    ;;  (make-tween
+    ;;   (make-2d-object
+    ;;    2d-ratio-perspective
+    ;;    position: (vec3d-copy pos)
+    ;;    scale: (make-vec3d (depth-scale) (depth-scale) 1.)
+    ;;    rotation: (make-vec4d 0. 0. 1. (* (random-real) 360.))
+    ;;    texture: blood-texture
+    ;;    color: (make-vec4d 1. 1. 1. 1.)
+    ;;    center: #t)
+    ;;   alpha: 0.
+    ;;   length: .5
+    ;;   position: (vec3d-add
+    ;;              pos
+    ;;              (make-vec3d (* (spread-number (random-real)) .1)
+    ;;                          (* (spread-number (random-real)) .1)
+    ;;                          (* (spread-number (random-real)) .1)))
+    ;;   type: 'ease-out-cubic
+    ;;   on-finished: (lambda ()
+    ;;                  #f)))
 
     (let loop ((i 0))
       (if (< i 5)
@@ -173,7 +192,7 @@
                scale: (make-vec3d (depth-scale .1) (depth-scale .1) 1.)
                rotation: (make-vec4d 0. 0. 1. (* (random-real) 360.))
                texture: explosion-texture
-               color: (make-vec4d 1. 1. 1. 1.)
+               color: (make-vec4d 1. 0. 0. 1.)
                center: #t)
               alpha: 0.
               length: .5

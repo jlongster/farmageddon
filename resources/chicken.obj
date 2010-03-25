@@ -1045,7 +1045,7 @@ vn -0.522263 0.789270 -0.322855
 vn -0.383374 -0.641194 0.664724
 g chicken_modified_chicken_modified_02_-_Default
 usemtl 02_-_Default
-s off
+s 1
 f 399 487 128
 f 303 380 180
 f 285 272 63

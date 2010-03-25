@@ -149,8 +149,9 @@
      err = ExtAudioFileGetProperty(extRef, kExtAudioFileProperty_FileLengthFrames, &thePropertySize, &theFileLengthInFrames);
      if(err) { printf("MyGetOpenALAudioData: ExtAudioFileGetProperty(kExtAudioFileProperty_FileLengthFrames) FAILED, Error = %ld\n", (long int)err); goto Exit; }
 
-     // Yuck, why do I need to chop off the end?
-     theFileLengthInFrames = theFileLengthInFrames - 100;
+
+     theFileLengthInFrames -= 15000;
+     NSLog(@"%d", theFileLengthInFrames);
                      
      // Read all the data into memory
      UInt32 dataSize = theFileLengthInFrames * theOutputFormat.mBytesPerFrame;;
@@ -210,25 +211,42 @@ end-c-code
 (define free-audio-source
   (c-lambda (unsigned-int) void "free_audio_source"))
 
-(define play-audio
+(define %play-audio
   (c-lambda (unsigned-int) void "play_audio"))
 
-(define (play-and-release-audio source)
-  (play-audio source)
-  (thread-start!
-   (make-thread
-    (lambda ()
-      (let loop ()
-        (if (is-audio-playing? source)
-            (begin
-              (thread-sleep! .2)
-              (loop))
-            (begin
-              (stop-audio source)
-              (free-audio-source source))))))))
+(define (play-audio source)
+  (if *play-audio* (%play-audio source)))
 
+(define (play-and-release-audio source)
+  (if *play-audio*
+      (begin
+        (play-audio source)
+        (thread-start!
+         (make-thread
+          (lambda ()
+            (let loop ()
+              (if (is-audio-playing? source)
+                  (begin
+                    (thread-sleep! .2)
+                    (loop))
+                  (begin
+                    (stop-audio source)
+                    (free-audio-source source))))))))
+      (free-audio-source source)))
+      
 (define stop-audio
   (c-lambda (unsigned-int) void "stop_audio"))
+
+(define *play-audio* #t)
+
+(define (mute-audio)
+  (set! *play-audio* #f))
+
+(define (unmute-audio)
+  (set! *play-audio* #t))
+
+(define (is-audio-muted?)
+  (not *play-audio*))
 
 (define rewind-audio
   (c-lambda (unsigned-int) void "rewind_audio"))
