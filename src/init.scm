@@ -31,6 +31,7 @@
 
 ;; compile in all the ffis
 
+(include "/usr/local/lib/gambit/statprof/statprof.scm")
 (include "lib/resource.scm")
 (include "ffi/ffi.scm")
 (include "ffi/gl.scm")

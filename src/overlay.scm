@@ -44,6 +44,7 @@
 (define TX-BUTTON #f)
 
 (define (life-render)
+  (2d-object-prerender #t)
   (glColor4f 1. 1. 1. 1.)
 
   (glLoadIdentity)
@@ -67,7 +68,8 @@
   (glScalef 1. .075 1.)
   (image-render TX-LIFE-GROOVE)
 
-  (glDisable GL_BLEND))
+  (glDisable GL_BLEND)
+  (2d-object-postrender #t))
 
 ;; score
 
@@ -85,48 +87,48 @@
    center: (make-vec3d 22. 16. 0.)))
 
 (define (on-score-increase)
-  (overlay-list-remove score-object)
-  (overlay-list-add
-   (make-tween
-    score-object
-    scale: (make-vec3d 2.5 2.5 2.5)
-    alpha: 0.
-    length: .5
-    type: 'ease-out-cubic
-    on-finished: (lambda () #f)))
-  (set! score-object (make-score-object))
-  (overlay-list-add score-object))
+  (let ((f (2d-object-font score-object)))
+    (2d-font-text-set! f (number->string (score))))
+  
+  ;; (overlay-list-remove score-object)
+  ;; (overlay-list-add
+  ;;  (make-tween
+  ;;   score-object
+  ;;   scale: (make-vec3d 2.5 2.5 2.5)
+  ;;   alpha: 0.
+  ;;   length: .5
+  ;;   type: 'ease-out-cubic
+  ;;   on-finished: (lambda () #f)))
+  ;; (set! score-object (make-score-object))
+  ;; (overlay-list-add score-object)
+
+  )
 
 (define (score-setup)
   (set! score-object (make-score-object))
-  (overlay-list-add score-object)
-  #;(level-setup))
+  (overlay-list-add score-object))
 
 (define (score-remove)
   (if score-object
       (overlay-list-remove score-object)))
 
-;; level
+;; counter
 
-(define level-object #f)
+(define *counter-object* #f)
 
-(define (make-level-object)
-  (make-2d-object
-   font-perspective
-   position: (make-vec3d 200. 447. 0.)
-   font: (make-2d-font default-font50
-                       (number->string (or *current-difficulty* 0))
-                       35.)
-   center: (make-vec3d 22. 16. 0.)))
+(define (add-counter)
+  (set! *counter-object*
+        (make-2d-object
+         font-perspective
+         position: (make-vec3d 90. 447. 0.)
+         font: (make-2d-font default-font50 "0" 35.)
+         center: (make-vec3d 22. 16. 0.)))
+  (overlay-list-add *counter-object*))
 
-(define (level-setup)
-  (set! level-object (make-level-object))
-  (overlay-list-add level-object))
-
-(define (level-update)
-  (if level-object
-      (overlay-list-remove level-object))
-  #;(level-setup))
+(define (update-counter val)
+  (2d-font-text-set!
+   (2d-object-font *counter-object*)
+   (number->string val)))
 
 ;; overlay
 

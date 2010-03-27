@@ -422,6 +422,7 @@
 (define glGenTextures (c-lambda (GLsizei (pointer GLuint)) void "glGenTextures"))
 (define glBindTexture (c-lambda (GLenum GLuint) void "glBindTexture"))
 (define glTexImage2D (c-lambda (GLenum GLint GLenum GLsizei GLsizei GLint GLenum GLenum (pointer GLvoid)) void "glTexImage2D"))
+(define glCompressedTexImage2D (c-lambda (GLenum GLint GLenum GLsizei GLsizei GLint GLsizei (pointer GLvoid)) void "glCompressedTexImage2D"))
 (define glTexParameteri (c-lambda (GLenum GLenum GLint) void "glTexParameteri"))
 (define glTexEnvi (c-lambda (GLenum GLenum GLint) void "glTexEnvi"))
 (define glTexEnvf (c-lambda (GLenum GLenum GLfloat) void "glTexEnvf"))
@@ -462,6 +463,8 @@
 (define glLightModelfv (c-lambda (GLenum (pointer GLfloat)) void "glLightModelfv"))
 
 (define glReadPixels (c-lambda (GLint GLint GLsizei GLsizei GLenum GLenum (pointer GLvoid)) void "glReadPixels"))
+
+(define glGetIntegerv (c-lambda (GLenum (pointer GLint)) void "glGetIntegerv"))
 
 ;; (define glPushAttrib (c-lambda (GLbitfield) void "glPushAttrib"))
 ;; (define glPopAttrib (c-lambda () void "glPopAttrib"))
@@ -543,7 +546,6 @@
 ;; (define glGetHistogram (c-lambda (GLenum GLboolean GLenum GLenum (pointer GLvoid)) void "glGetHistogram"))
 ;; (define glGetHistogramParameterfv (c-lambda (GLenum GLenum (pointer GLfloat)) void "glGetHistogramParameterfv"))
 ;; (define glGetHistogramParameteriv (c-lambda (GLenum GLenum (pointer GLint)) void "glGetHistogramParameteriv"))
-;; (define glGetIntegerv (c-lambda (GLenum (pointer GLint)) void "glGetIntegerv"))
 ;; (define glGetLightfv (c-lambda (GLenum GLenum (pointer GLfloat)) void "glGetLightfv"))
 ;; (define glGetLightiv (c-lambda (GLenum GLenum (pointer GLint)) void "glGetLightiv"))
 ;; (define glGetMapdv (c-lambda (GLenum GLenum (pointer GLfloat)) void "glGetMapdv"))
@@ -742,7 +744,6 @@
 ;; (define glMultTransposeMatrixf (c-lambda ((pointer GLfloat)) void "glMultTransposeMatrixf"))
 ;; (define glMultTransposeMatrixd (c-lambda ((pointer GLfloat)) void "glMultTransposeMatrixd"))
 ;; (define glCompressedTexImage3D (c-lambda (GLenum GLint GLenum GLsizei GLsizei GLsizei GLint GLsizei (pointer GLvoid)) void "glCompressedTexImage3D"))
-;; (define glCompressedTexImage2D (c-lambda (GLenum GLint GLenum GLsizei GLsizei GLint GLsizei (pointer GLvoid)) void "glCompressedTexImage2D"))
 ;; (define glCompressedTexImage1D (c-lambda (GLenum GLint GLenum GLsizei GLint GLsizei (pointer GLvoid)) void "glCompressedTexImage1D"))
 ;; (define glCompressedTexSubImage3D (c-lambda (GLenum GLint GLint GLint GLint GLsizei GLsizei GLsizei GLenum GLsizei (pointer GLvoid)) void "glCompressedTexSubImage3D"))
 ;; (define glCompressedTexSubImage2D (c-lambda (GLenum GLint GLint GLint GLsizei GLsizei GLenum GLsizei (pointer GLvoid)) void "glCompressedTexSubImage2D"))

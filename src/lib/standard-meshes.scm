@@ -31,7 +31,6 @@
   
   (glDisable GL_LIGHTING)
   (glVertexPointer 3 GL_FLOAT 0 line)
-  (glEnableClientState GL_VERTEX_ARRAY)
   (glColor4f 0. 1. 0. 1.)
   (render-lines)  
   (glEnable GL_LIGHTING))

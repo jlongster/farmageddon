@@ -83,7 +83,8 @@
             
               (if (> time-span length)
                   (if (not (on-finished))
-                      (scene-list-remove fader)))))))))
+                      (scene-list-remove fader))))))
+     scene-obj)))
 
 ;; types of interpolation
 

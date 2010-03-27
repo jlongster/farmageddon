@@ -148,10 +148,6 @@
      thePropertySize = sizeof(theFileLengthInFrames);
      err = ExtAudioFileGetProperty(extRef, kExtAudioFileProperty_FileLengthFrames, &thePropertySize, &theFileLengthInFrames);
      if(err) { printf("MyGetOpenALAudioData: ExtAudioFileGetProperty(kExtAudioFileProperty_FileLengthFrames) FAILED, Error = %ld\n", (long int)err); goto Exit; }
-
-
-     theFileLengthInFrames -= 15000;
-     NSLog(@"%d", theFileLengthInFrames);
                      
      // Read all the data into memory
      UInt32 dataSize = theFileLengthInFrames * theOutputFormat.mBytesPerFrame;;

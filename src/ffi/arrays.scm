@@ -97,6 +97,18 @@
   (assert-equal (unsigned-int-array-ref buf 0) 1000000)
   (assert-equal (unsigned-int-array-ref buf 1) 2000000))
 
+;;; int array
+
+(define make-int-array
+  (c-lambda (int) int-array
+            "___result_voidstar = malloc(___arg1*sizeof(int));"))
+
+(define int-array-ref
+  (c-lambda (int-array int) int
+            "___result = ((int*)___arg1)[___arg2];"))
+
+
+
 ;;; float
 
 (define make-float-array

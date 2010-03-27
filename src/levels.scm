@@ -13,7 +13,7 @@
 
 (define (scene-init)
   (current-max-life 20)
-  (current-background-texture level-bg1)
+  (current-background-texture level-bg)
   (current-animal-frequency .5)
   (current-available-meshes #f)
 

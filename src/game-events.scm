@@ -288,8 +288,7 @@
 (install-event
  1
  (lambda ()
-   (throw-v (randomly-insert-mesh (make-list 4 chicken-mesh)
-                                  person-mesh)
+   (throw-v (make-list 5 chicken-mesh)
             med-gravity
             34.
             -14.)

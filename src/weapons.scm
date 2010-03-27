@@ -74,11 +74,15 @@
                                       (spread-number (random-real)))))
              (lambda (i) (+ i 1))
              0))
-   1.
+   .5
    (real-time)))
 
 (define (add-lightning lightning)
-  (set! %%lightnings (cons lightning %%lightnings))
+  (if (>= (length %%lightnings) 2)
+      (set! %%lightnings (list lightning
+                               (car %%lightnings)))
+      (set! %%lightnings (cons lightning %%lightnings)))
+
   ;; Play the explosion sound
   (play-and-release-audio (make-audio-source lightning-audio)))
 
@@ -110,29 +114,26 @@
     ;; Fix blending of textures due to alpha-premultiplication that
     ;; Cocoa does (see `render-2d-object` in scene.scm for full
     ;; comments)
-    (glEnable GL_BLEND)
-    (glBlendFunc GL_ONE GL_ONE_MINUS_SRC_ALPHA)
     (let ((fade (- 1. time-interp)))
       (glColor4f fade fade fade fade))
 
     ;; Render the lightning
-    (let loop ((i 0))
-      (if (< i 1)
-          (begin
-            (glLoadIdentity)
-            (glTranslatef x y 0.)
-            (glRotatef (+ 180.
-                          angle)
-                       0. 0. 1.)
-            (glTranslatef -.2 0. 0.)
-            (glScalef .4 1.5 1.)
-            (image-render texture)
-            (loop (+ i 1)))))
+    (glLoadIdentity)
+    (glTranslatef x y 0.)
+    (glRotatef (+ 180.
+                  angle)
+               0. 0. 1.)
+    (glTranslatef -.2 0. 0.)
+    (glScalef .4 1.5 1.)
+    (image-render texture)
 
-    (glDisable GL_BLEND)
     #t))
 
 (define (render-lightnings)
+  (2d-object-prerender #t)
+  (glEnable GL_BLEND)
+  (glBlendFunc GL_ONE GL_ONE_MINUS_SRC_ALPHA)
+
   (set! %%lightnings
         (reverse
          (fold (lambda (lightning acc)
@@ -141,7 +142,9 @@
                        (cons lightning acc)
                        acc)))
                '()
-               %%lightnings))))
+               %%lightnings)))
+  (glDisable GL_BLEND)
+  (2d-object-postrender #t))
 
 ;; dust
 
@@ -159,27 +162,6 @@
          (pos (make-vec3d (/ (exact->inexact x) width)
                           (* (/ (exact->inexact y) height) 1.5)
                           0.)))
-
-    ;; (dust-list-add
-    ;;  (make-tween
-    ;;   (make-2d-object
-    ;;    2d-ratio-perspective
-    ;;    position: (vec3d-copy pos)
-    ;;    scale: (make-vec3d (depth-scale) (depth-scale) 1.)
-    ;;    rotation: (make-vec4d 0. 0. 1. (* (random-real) 360.))
-    ;;    texture: blood-texture
-    ;;    color: (make-vec4d 1. 1. 1. 1.)
-    ;;    center: #t)
-    ;;   alpha: 0.
-    ;;   length: .5
-    ;;   position: (vec3d-add
-    ;;              pos
-    ;;              (make-vec3d (* (spread-number (random-real)) .1)
-    ;;                          (* (spread-number (random-real)) .1)
-    ;;                          (* (spread-number (random-real)) .1)))
-    ;;   type: 'ease-out-cubic
-    ;;   on-finished: (lambda ()
-    ;;                  #f)))
 
     (let loop ((i 0))
       (if (< i 5)
@@ -204,10 +186,16 @@
               type: 'ease-out-cubic
               on-finished: (lambda ()
                              #f)))
-            (loop (+ i 1)))))))
+            (loop (+ i 1))))))
+  )
 
 (define (render-dust)
-  (scene-list-render #f dust-list))
+  (load-perspective 2d-ratio-perspective)
+  (2d-object-prerender #t)
+  (for-each (lambda (obj)
+              (render-generic-object obj))
+            dust-list)
+  (2d-object-postrender #t))
 
 (define (update-dust)
   (set! dust-list (scene-list-update #f #f dust-list)))

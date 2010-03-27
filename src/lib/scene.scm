@@ -37,12 +37,14 @@
   perspective
   render-proc
   update-proc
+  data
   mark)
 
-(define (make-scene-object pers render-proc update-proc)
+(define (make-scene-object pers render-proc update-proc #!optional data)
   (really-make-scene-object pers
                             render-proc
                             update-proc
+                            data
                             #f))
 
 (define-type mesh-object
@@ -176,7 +178,6 @@
                      (vec4d-w color))))
     
     (glVertexPointer 3 GL_FLOAT 0 (obj-vertices mesh))
-    (glEnableClientState GL_VERTEX_ARRAY)
     (glNormalPointer GL_FLOAT 0 (->void-array (obj-normals mesh)))
     (glEnableClientState GL_NORMAL_ARRAY)
 
@@ -236,7 +237,7 @@
                               (+ (vec4d-y color) .1)
                               (+ (vec4d-z color) .1)
                               (vec4d-w color))))))
-       
+
        (if (not (null? (obj-chunk-indices chunk)))
            (glDrawElements GL_TRIANGLES
                            (obj-chunk-num-indices chunk)
@@ -248,8 +249,41 @@
     (glDisable GL_BLEND)
     (glDisableClientState GL_NORMAL_ARRAY)))
 
+(define (textured-object? obj)
+  (let ((obj (if (scene-object? obj)
+                 (scene-object-data obj)
+                 obj)))
+    (and (2d-object? obj)
+         (or (2d-object-texture obj)
+             (2d-object-font obj)))))
+
+(define *2d-object-stack* 0)
+
+(define (2d-object-prerender #!optional textured?)
+  (if (eq? *2d-object-stack* 0)
+      (begin
+        (if textured?
+            (glEnable GL_TEXTURE_2D))
+        (glDisable GL_LIGHTING)
+        (glDisable GL_DEPTH_TEST)))
+  
+  (set! *2d-object-stack*
+        (+ *2d-object-stack* 1)))
+
+(define (2d-object-postrender #!optional textured?)
+  (set! *2d-object-stack*
+        (- *2d-object-stack* 1))
+
+  (if (eq? *2d-object-stack* 0)
+      (begin
+        (if textured?
+            (glDisable GL_TEXTURE_2D))
+        (glEnable GL_LIGHTING)
+        (glEnable GL_DEPTH_TEST))))
+
 (define (2d-object-render obj)
   (glLoadIdentity)
+  (2d-object-prerender (textured-object? obj))
   
   (let ((color (2d-object-color obj))
         (pos (2d-object-position obj))
@@ -318,13 +352,10 @@
             (begin
               (glEnable GL_BLEND)
               (glBlendFunc GL_ONE GL_ONE_MINUS_SRC_ALPHA))))
-    
+
     (if font
         (begin
-          (glEnable GL_TEXTURE_2D)
           (glDisable GL_CULL_FACE)
-          (glDisable GL_DEPTH_TEST)
-          (glDisable GL_LIGHTING)
 
           (ftgl-prepare-fonts)
           (let ((scale (exact->inexact
@@ -335,16 +366,13 @@
           (ftgl-render-font (2d-font-font font)
                             (2d-font-text font))
 
-          (glDisable GL_TEXTURE_2D)
           (glEnable GL_CULL_FACE)
-          (glEnable GL_DEPTH_TEST)
-          (glEnable GL_LIGHTING))
+          (image-reset-texture))
         (if texture
             (image-render texture)
             (image-render-base)))
 
-    (glColor4f 1. 1. 1. 1.)
-    (glDisable GL_BLEND)))
+    (2d-object-postrender (textured-object? obj))))
 
 (implement-generic-field perspective)
 (implement-generic-field color)
@@ -446,3 +474,14 @@
               (render-proc head)
               (render-generic-object head))
           (loop pers (cdr tail))))))
+
+;; (define (scene-list-render #!optional render-proc local-list)
+;;   (2d-object-prerender)
+;;   (%scene-list-render textured-object?
+;;                       render-proc
+;;                       local-list)
+;;   (2d-object-postrender)
+;;   (%scene-list-render (lambda (obj)
+;;                         (not (textured-object? obj)))
+;;                       render-proc
+;;                       local-list))

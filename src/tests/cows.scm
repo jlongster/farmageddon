@@ -10,7 +10,7 @@
 (load-randomized-fog)
 
 (set-screen! level-screen)
-(add-centered-mesh pig-part1-mesh 3.)
+(add-centered-mesh cow-part3-mesh 3.)
 
 (begin
   (clear-events)
@@ -40,7 +40,14 @@
   (install-event
    1
    (lambda ()
-     (throw-3 (make-list 3 sheep-mesh) med-gravity 30. -15.))))
+     (throw-3 (list chicken-mesh
+                    duck-mesh
+                    sheep-mesh) med-gravity 30. -15.)
+     (add-object
+      (make-entity sheep-mesh
+                   (make-vec3d 0. -15. 20.)
+                   (make-vec3d 0. 25. -10.)
+                   med-gravity)))))
 
 (reset-player)
 

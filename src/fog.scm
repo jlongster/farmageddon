@@ -7,7 +7,7 @@
   (if *fog-audio-source*
       (begin
         (stop-audio *fog-audio-source*)
-        (free-audio-source *fog-audio-source*))))
+        (rewind-audio *fog-audio-source*))))
 
 (define (fog-list-add obj)
   (set! *fog-list* (cons obj *fog-list*)))
@@ -16,7 +16,7 @@
   (if (null? *fog-list*)
       (begin
         (let loop ((i 0))
-          (if (< i 10)
+          (if (< i 6)
               (let* ((pos (make-vec3d (random-in-range 10.6 25.)
                                       0.
                                       (random-in-range 9. 10.))))
@@ -42,7 +42,12 @@
         (play-audio *fog-audio-source*))))
 
 (define (render-fog)
-  (scene-list-render #f *fog-list*))
+  (load-perspective 3d-perspective)
+  (2d-object-prerender #t)
+  (for-each (lambda (obj)
+              (2d-object-render obj))
+            *fog-list*)
+  (2d-object-postrender #t))
 
 (define (update-fog)
   (set! *fog-list* (scene-list-update #f #f *fog-list*)))

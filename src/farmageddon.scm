@@ -40,16 +40,42 @@
 
 ;; engine
 
+(define (default-opengl)
+  (glEnableClientState GL_VERTEX_ARRAY)
+  (glEnableClientState GL_TEXTURE_COORD_ARRAY))
+
 (define (init)
   (random-source-randomize! default-random-source)
-  (set-screen! title-screen))
+  (default-opengl)
+  (set-screen! level-screen))
+
+(define *time-start* (real-time))
+(define *frames* 0)
 
 (define (render)
-  (force-output (repl-output-port))
-  (current-screen-run)
+  ;; (if (not *time-start*)
+  ;;     (begin
+  ;;       (set! *time-start* (real-time))
+  ;;       (profile-start!)))
 
+  (current-screen-run)
   (glClearColor 0. .0 .0 1.)
   (glClear (bitwise-ior GL_COLOR_BUFFER_BIT GL_DEPTH_BUFFER_BIT))
   (current-screen-render)
 
-  (##gc))
+  ;; (if (> (- (real-time) *time-start*) 10.)
+  ;;     (begin
+  ;;       (profile-stop!)
+  ;;       (write-profile-report "/tmp/farmageddon/" "192.168.0.138:7777")
+  ;;       (exit)))
+    
+  ;;(##gc)
+
+  (if (> (- (real-time) *time-start*) 1.)
+      (begin
+        (NSLog (number->string *frames*))
+        (set! *frames* 0)
+        (set! *time-start* (real-time)))
+      (set! *frames* (+ *frames* 1))))
+
+;;(gc-report-set! #t)

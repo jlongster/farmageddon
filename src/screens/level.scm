@@ -20,6 +20,7 @@
 
 ;; resources
 
+(define box-mesh (obj-load (resource "box")))
 (define chicken-mesh (obj-load (resource "chicken") #t))
 (define duck-mesh (obj-load (resource "duck") #t))
 (define cow-mesh (obj-load (resource "cow") #t))
@@ -32,10 +33,7 @@
 (define pig-part1-mesh (obj-load (resource "pig-part1") #t))
 (define pig-part2-mesh (obj-load (resource "pig-part2") #t))
 
-(define level-bg1 #f)
-(define level-bg2 #f)
-(define level-bg3 #f)
-(define glare-texture #f)
+(define level-bg #f)
 (define fog-texture #f)
 
 (define sheep1-audio #f)
@@ -194,12 +192,12 @@
   (let ((source (make-audio-source shatter-audio)))
     (shatter)
 
-    (for-each (lambda (obj)
-                (if (and (2d-object? obj)
-                         (eq? (2d-object-texture obj)
-                              glare-texture))
-                    (overlay-list-remove obj)))
-              overlay-list)
+    ;; (for-each (lambda (obj)
+    ;;             (if (and (2d-object? obj)
+    ;;                      (eq? (2d-object-texture obj)
+    ;;                           glare-texture))
+    ;;                 (overlay-list-remove obj)))
+    ;;           overlay-list)
 
     (play-audio source)
 
@@ -332,10 +330,7 @@
                  0 (exact->inexact height)
                  -10000.0 10000.0)))
 
-  (set! level-bg1 (image-opengl-load "level-bg1.png"))
-  (set! level-bg2 (image-opengl-load "level-bg2.png"))
-  (set! level-bg3 (image-opengl-load "level-bg3.png"))
-  (set! glare-texture (image-opengl-load "level-glare.png"))
+  (set! level-bg (image-opengl-load "background.png"))
   (set! fog-texture (image-opengl-load "fog.png"))
   
   (weapons-init)
@@ -391,11 +386,6 @@
   (scene-list-clear!)
   
   (overlay-list-add
-   (make-2d-object
-    2d-perspective
-    texture: glare-texture))
-
-  (overlay-list-add
    (make-scene-object
     2d-ratio-perspective
     (lambda (self)
@@ -412,7 +402,8 @@
          texture: (current-background-texture)))
 
   (scene-list-add *background-object* unimportant: #t)
-  (fog-list-clear!))
+  (fog-list-clear!)
+  (add-counter))
 
 (define (background-pop color)
   (scene-list-remove *background-object*)
@@ -440,23 +431,14 @@
   (update-fog)
 
   (if (check-difficulty)
-      (begin
-        (level-update)
-        (background-pop (make-vec4d 0. 1. 0. 1.))))
+      (background-pop (make-vec4d 0. 1. 0. 1.)))
   
   (if (not (player-finished?))
       (run-events)))
 
 ;; rendering
 
-(define (level-screen-render)
-  ;; background
-  ;; (if (current-background-texture)
-  ;;     (begin
-  ;;       (load-perspective 2d-perspective)
-  ;;       (glColor4f 1. 1. 1. 1.)
-  ;;       (image-render (current-background-texture))))
-
+(define (level-screen-render)  
   ;; 3d
   (scene-list-render)
 
