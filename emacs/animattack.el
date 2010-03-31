@@ -4,7 +4,7 @@
 
 (defun animattack-restart ()
   (interactive)
-  (animattack-send-string "(set! LIFE (current-max-life)")
+  (animattack-send-string "(set! LIFE (current-max-life))")
   (animattack-send-string "(set! EXISTING-CRACKS '())")
   (animattack-send-string "(set! FAILED #f)")
   (animattack-send-string "(set! SCORE 0)")
@@ -13,6 +13,3 @@
   (animattack-send-string "\n"))
 
 (global-set-key "\C-x\C-r" 'animattack-restart)
-
-
-

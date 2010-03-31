@@ -5,6 +5,10 @@
 
 (include "../ffi/ffi#.scm")
 
+(define-type img
+  id
+  alpha?)
+
 (define (alloc-opengl-image)
   (with-alloc (img (make-unsigned-int-array 1))
     (glGenTextures 1 img)
@@ -14,11 +18,16 @@
   (let ((ext (path-extension name))
         (path (resource name)))
     (if (equal? ext ".pvr")
-        (image-pvr-upload (pvr-load path))
+        (let ((pvr (pvr-load path)))
+          (make-img
+           (image-pvr-upload pvr)
+           (pvr-alpha pvr)))
         (let* ((image (CGImageRef-load path)))
-          (image-opengl-upload (CGImageRef-data image)
-                               (CGImageRef-width image)
-                               (CGImageRef-height image))))))
+          (make-img
+           (image-opengl-upload (CGImageRef-data image)
+                                (CGImageRef-width image)
+                                (CGImageRef-height image))
+           #t)))))
 
 (define (image-opengl-upload data width height)
   (let ((tex (alloc-opengl-image)))
@@ -83,15 +92,20 @@
 (define (image-reset-texture)
   (set! *last-texture* #f))
 
-(define (image-render tex)
-  (if (not (eq? tex *last-texture*))
-      (begin
-        (glBindTexture GL_TEXTURE_2D tex)
-        (set! *last-texture* tex)))
+(define (image-render img)
+  (glBindTexture GL_TEXTURE_2D (img-id img))
+  (glEnable GL_TEXTURE_2D)
+  (glDisable GL_LIGHTING)
+  (glDisable GL_DEPTH_TEST)
   
   (glVertexPointer 2 GL_FLOAT 0 square-pos)
-  (glTexCoordPointer 2 GL_FLOAT 0 square-texcoords)  
-  (glDrawArrays GL_TRIANGLE_STRIP 0 4))
+  (glTexCoordPointer 2 GL_FLOAT 0 square-texcoords)
+  
+  (glDrawArrays GL_TRIANGLE_STRIP 0 4)
+  
+  (glEnable GL_LIGHTING)
+  (glEnable GL_DEPTH_TEST)
+  (glDisable GL_TEXTURE_2D))
 
 (define (image-render-base)
   (glDisable GL_DEPTH_TEST)
@@ -99,6 +113,6 @@
 
   (glVertexPointer 2 GL_FLOAT 0 square-pos)
   (glDrawArrays GL_TRIANGLE_STRIP 0 4)
-  
+
   (glEnable GL_DEPTH_TEST)
   (glEnable GL_LIGHTING))

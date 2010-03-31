@@ -29,10 +29,9 @@
               acceleration: accel
               update: (let ((speed (* (random-real) 2.)))
                         (lambda (this)
-                          (mesh-object-rotation-set!
-                           this
-                           (vec4d-add (mesh-object-rotation this)
-                                      (make-vec4d 0. 0. 0. speed)))
+                          (let ((rot (mesh-object-rotation this)))
+                            (vec4d-w-set! rot (+ (vec4d-w rot) speed)))
+                          (current-perspective 3d-perspective)
                           (let* ((pos (mesh-object-position this))
                                  (screen-y (cadr (unproject (vec3d-x pos)
                                                             (vec3d-y pos)
@@ -57,7 +56,8 @@
                   (eq? mesh sheep-mesh)
                   (eq? mesh cow-mesh)
                   (eq? mesh person-mesh)
-                  (eq? mesh pig-mesh))))))
+                  (eq? mesh pig-mesh)
+                  (eq? mesh box-mesh))))))
 
 ;; the level pump which implements the cracking of the screen and all
 ;; associated events
@@ -192,6 +192,7 @@
     (fire-nuke))
    ((eq? person-mesh
          (mesh-object-mesh obj))
-    (player-has-failed))
+    (player-has-failed)
+    (play-voice scream-audio))
    (else
     (score-increase obj))))

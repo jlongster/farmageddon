@@ -6,7 +6,7 @@
 //  Copyright Coptix, Inc 2009. All rights reserved.
 //
 
-#define ___VERSION 405002
+#define ___VERSION 406000
 
 #import <UIKit/UIKit.h>
 #include "gambit.h"

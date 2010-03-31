@@ -7,7 +7,7 @@
 ### only to generate C code. (Obviously, we can't run "gsc" from the
 ### iPhoneOS build since it's build for ARM.)
 
-gsc=/usr/local/Gambit-C/iPhoneSimulator-3.1.2/bin/gsc
+gsc=/usr/local/iphone/iPhoneSimulator3.1.3/bin/gsc
 
 #### Main
 

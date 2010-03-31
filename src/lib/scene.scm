@@ -164,14 +164,15 @@
 
     (if color
         (begin
-          (glMaterialfv GL_FRONT_AND_BACK
-                        GL_DIFFUSE
-                        (vector->float-array
-                         (vector
-                          (vec4d-x color)
-                          (vec4d-y color)
-                          (vec4d-z color)
-                          (vec4d-w color))))
+          (with-alloc (color-array (vector->float-array
+                                    (vector
+                                     (vec4d-x color)
+                                     (vec4d-y color)
+                                     (vec4d-z color)
+                                     (vec4d-w color))))
+                      (glMaterialfv GL_FRONT_AND_BACK
+                                    GL_DIFFUSE
+                                    color-array))
           (glColor4f (vec4d-x color)
                      (vec4d-y color)
                      (vec4d-z color)
@@ -217,22 +218,21 @@
              (if nuke?
                  (begin
                    (glColor4f 0. 1. 0. .5)
-                   (glMaterialfv GL_FRONT_AND_BACK
-                                 GL_DIFFUSE
-                                 (vector->float-array
-                                  (vector 0. 1. 0. .5))))
+                   (with-alloc (color-array (vector->float-array
+                                             (vector 0. 1. 0. .5)))
+                               (glMaterialfv GL_FRONT_AND_BACK
+                                             GL_DIFFUSE
+                                             color-array)))
                  (begin
-                   (with-alloc
-                    (color-array
-                     (vector->float-array
-                      (vector
-                       (vec4d-x color)
-                       (vec4d-y color)
-                       (vec4d-z color)
-                       (vec4d-w color))))
-                    (glMaterialfv GL_FRONT_AND_BACK
-                                  GL_DIFFUSE
-                                  color-array))
+                   (with-alloc (color-array (vector->float-array
+                                             (vector
+                                              (vec4d-x color)
+                                              (vec4d-y color)
+                                              (vec4d-z color)
+                                              (vec4d-w color))))
+                               (glMaterialfv GL_FRONT_AND_BACK
+                                             GL_DIFFUSE
+                                             color-array))
                    (glColor4f (+ (vec4d-x color) .1)
                               (+ (vec4d-y color) .1)
                               (+ (vec4d-z color) .1)
@@ -315,43 +315,22 @@
     ;; Todo:
     ;; Implement centering (LEFT, CENTER, RIGHT)
     ;; (glTranslatef -x/2 -y/2 0.)
-    
-    (if font
+
+    (if (or (and texture
+                 (img-alpha? texture))
+            font
+            (and color
+                 (< (vec4d-w color) 1.)))
         (begin
           (glEnable GL_BLEND)
           (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)))
     
     (if color
-        (begin
-          (glEnable GL_BLEND)
-          (glBlendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA)
-          (glColor4f (vec4d-x color)
-                     (vec4d-y color)
-                     (vec4d-z color)
-                     (vec4d-w color)))
+        (glColor4f (vec4d-x color)
+                   (vec4d-y color)
+                   (vec4d-z color)
+                   (vec4d-w color))
         (glColor4f 1. 1. 1. 1.))
-
-    (if (and texture color (< (vec4d-w color) 1.))
-        (begin
-
-          ;; Freaking alpha-premultiplication that Cocoa does
-          ;; automatically. This simply allows me to fade out a
-          ;; textured polygon, which is broken due to Apple's
-          ;; crappy premultiplication which is forced on you.
-          ;; Basically, I premultiply the fade out into the
-          ;; color values using glColor4f since the texture
-          ;; environment is set to GL_MODULATE.
-          (glEnable GL_BLEND)
-          (glBlendFunc GL_ONE GL_ONE_MINUS_SRC_ALPHA)
-          (let ((fade (vec4d-w color)))
-            (glColor4f (* fade (vec4d-x color))
-                       (* fade (vec4d-y color))
-                       (* fade (vec4d-z color))
-                       fade)))
-        (if texture
-            (begin
-              (glEnable GL_BLEND)
-              (glBlendFunc GL_ONE GL_ONE_MINUS_SRC_ALPHA))))
 
     (if font
         (begin

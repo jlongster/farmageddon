@@ -2,6 +2,8 @@
 ;; position
 
 (begin
+  (clear-events)
+  
   (define (tween-type type)
     (scene-list-clear!)
     (scene-list-add

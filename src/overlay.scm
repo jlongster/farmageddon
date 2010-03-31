@@ -44,7 +44,7 @@
 (define TX-BUTTON #f)
 
 (define (life-render)
-  (2d-object-prerender #t)
+  (load-perspective 2d-ratio-perspective)
   (glColor4f 1. 1. 1. 1.)
 
   (glLoadIdentity)
@@ -68,8 +68,7 @@
   (glScalef 1. .075 1.)
   (image-render TX-LIFE-GROOVE)
 
-  (glDisable GL_BLEND)
-  (2d-object-postrender #t))
+  (glDisable GL_BLEND))
 
 ;; score
 
@@ -120,7 +119,7 @@
   (set! *counter-object*
         (make-2d-object
          font-perspective
-         position: (make-vec3d 90. 447. 0.)
+         position: (make-vec3d 200. 447. 0.)
          font: (make-2d-font default-font50 "0" 35.)
          center: (make-vec3d 22. 16. 0.)))
   (overlay-list-add *counter-object*))

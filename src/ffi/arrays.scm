@@ -87,15 +87,15 @@
             (loop (+ i 1)))
           buf))))
 
-(with-alloc (buf (make-unsigned-int-array 5))
-  (unsigned-int-array-set! buf 0 70000)
-  (unsigned-int-array-set! buf 1 80000)
-  (assert-equal (unsigned-int-array-ref buf 0) 70000)
-  (assert-equal (unsigned-int-array-ref buf 1) 80000))
+;; (with-alloc (buf (make-unsigned-int-array 5))
+;;   (unsigned-int-array-set! buf 0 70000)
+;;   (unsigned-int-array-set! buf 1 80000)
+;;   (assert-equal (unsigned-int-array-ref buf 0) 70000)
+;;   (assert-equal (unsigned-int-array-ref buf 1) 80000))
 
-(with-alloc (buf (vector->unsigned-int-array (vector 1000000 2000000)))
-  (assert-equal (unsigned-int-array-ref buf 0) 1000000)
-  (assert-equal (unsigned-int-array-ref buf 1) 2000000))
+;; (with-alloc (buf (vector->unsigned-int-array (vector 1000000 2000000)))
+;;   (assert-equal (unsigned-int-array-ref buf 0) 1000000)
+;;   (assert-equal (unsigned-int-array-ref buf 1) 2000000))
 
 ;;; int array
 
@@ -124,6 +124,7 @@
             "((float*)___arg1)[___arg2] = ___arg3;"))
 
 (define (vector->float-array vec)
+  (declare (inlining-limit 10000))
   (let* ((length (vector-length vec))
          (buf (make-float-array length)))
     (let loop ((i 0))
@@ -133,16 +134,16 @@
             (loop (+ i 1)))
           buf))))
 
-(with-alloc (buf (make-float-array 5))
-  (float-array-set! buf 0 1.)
-  (float-array-set! buf 1 5.)
-  (assert-equal (float-array-ref buf 0) 1.)
-  (assert-equal (float-array-ref buf 1) 5.))
+;; (with-alloc (buf (make-float-array 5))
+;;   (float-array-set! buf 0 1.)
+;;   (float-array-set! buf 1 5.)
+;;   (assert-equal (float-array-ref buf 0) 1.)
+;;   (assert-equal (float-array-ref buf 1) 5.))
 
-(with-alloc (buf (vector->float-array (vector 1. 2. 3.)))
-  (assert-equal (float-array-ref buf 0) 1.)
-  (assert-equal (float-array-ref buf 1) 2.)
-  (assert-equal (float-array-ref buf 2) 3.))
+;; (with-alloc (buf (vector->float-array (vector 1. 2. 3.)))
+;;   (assert-equal (float-array-ref buf 0) 1.)
+;;   (assert-equal (float-array-ref buf 1) 2.)
+;;   (assert-equal (float-array-ref buf 2) 3.))
 
 ;; (define-macro (implement-c-array name scheme-type c-type)
 ;;   (define make-symbol

@@ -122,6 +122,7 @@
      // Open a file with ExtAudioFileOpen()
      err = ExtAudioFileOpenURL(inFileURL, &extRef);
      if(err) { printf("MyGetOpenALAudioData: ExtAudioFileOpenURL FAILED, Error = %ld\n", (long int)err); goto Exit; }
+     CFRelease(inFileURL);
  
      // Get the audio data format
      err = ExtAudioFileGetProperty(extRef, kExtAudioFileProperty_FileDataFormat, &thePropertySize, &theFileFormat);
@@ -148,9 +149,9 @@
      thePropertySize = sizeof(theFileLengthInFrames);
      err = ExtAudioFileGetProperty(extRef, kExtAudioFileProperty_FileLengthFrames, &thePropertySize, &theFileLengthInFrames);
      if(err) { printf("MyGetOpenALAudioData: ExtAudioFileGetProperty(kExtAudioFileProperty_FileLengthFrames) FAILED, Error = %ld\n", (long int)err); goto Exit; }
-                     
-     // Read all the data into memory
-     UInt32 dataSize = theFileLengthInFrames * theOutputFormat.mBytesPerFrame;;
+
+       // Read all the data into memory
+     UInt32 dataSize = theFileLengthInFrames * theOutputFormat.mBytesPerFrame;
      theData = malloc(dataSize);
      if (theData)
          {

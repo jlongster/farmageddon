@@ -9,8 +9,6 @@
 ;; init
 
 (define lightning-textures '())
-(define star-texture #f)
-(define explosion-texture #f)
 (define blood-texture #f)
 
 (define (weapons-init)
@@ -18,9 +16,7 @@
         (list (image-opengl-load "line.png")
               (image-opengl-load "line2.png")
               (image-opengl-load "line3.png")))
-  (set! star-texture (image-opengl-load "star.png"))
-  (set! explosion-texture (image-opengl-load "explosion.png"))
-  (set! blood-texture (image-opengl-load "blood.png")))
+  (set! blood-texture (image-opengl-load "blood.pvr")))
 
 ;; nuke
 
@@ -133,6 +129,7 @@
   (2d-object-prerender #t)
   (glEnable GL_BLEND)
   (glBlendFunc GL_ONE GL_ONE_MINUS_SRC_ALPHA)
+  (glColor4f 1. 1. 1. 1.)
 
   (set! %%lightnings
         (reverse
@@ -173,7 +170,7 @@
                position: (vec3d-copy pos)
                scale: (make-vec3d (depth-scale .1) (depth-scale .1) 1.)
                rotation: (make-vec4d 0. 0. 1. (* (random-real) 360.))
-               texture: explosion-texture
+               texture: blood-texture
                color: (make-vec4d 1. 0. 0. 1.)
                center: #t)
               alpha: 0.
@@ -186,8 +183,7 @@
               type: 'ease-out-cubic
               on-finished: (lambda ()
                              #f)))
-            (loop (+ i 1))))))
-  )
+            (loop (+ i 1)))))))
 
 (define (render-dust)
   (load-perspective 2d-ratio-perspective)

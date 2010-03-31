@@ -14,9 +14,9 @@
                                                         NSUserDomainMask,
                                                         YES)
                     objectAtIndex:0];
-   char* name = malloc(1024);
-   [dir getCString:name maxLength:1024 encoding:NSASCIIStringEncoding];
-   ___result = name;
+   ___result = malloc(1024);
+   [dir getCString:___result maxLength:1024 encoding:NSASCIIStringEncoding];
+   #define ___AT_END free (___result);
 end-c-code
 ))
 
@@ -77,25 +77,25 @@ end-c-code
 ))
 
 (c-define (touches-began touches event)
-    (NSSet* UIEvent) void "touches_began" ""
+    (NSSet* UIEvent*) void "touches_began" ""
   (run-event-handlers 'touches-began
                       (NSSet->list touches)
                       event))
 
 (c-define (touches-moved touches event)
-    (NSSet* UIEvent) void "touches_moved" ""
+    (NSSet* UIEvent*) void "touches_moved" ""
   (run-event-handlers 'touches-moved
                       (NSSet->list touches)
                       event))
 
 (c-define (touches-ended touches event)
-    (NSSet* UIEvent) void "touches_ended" ""
+    (NSSet* UIEvent*) void "touches_ended" ""
   (run-event-handlers 'touches-ended
                       (NSSet->list touches)
                       event))
 
 (c-define (touches-cancelled touches event)
-    (NSSet* UIEvent) void "touches_cancelled" ""
+    (NSSet* UIEvent*) void "touches_cancelled" ""
   (run-event-handlers 'touches-cancelled
                       (NSSet->list touches)
                       event))

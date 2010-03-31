@@ -87,7 +87,7 @@
             (make-2d-object
              2d-perspective
              texture: title-texture))
-
+           
            (overlay-add-button "PLAY" (make-vec2d .35 .79) .3 1.
                                (lambda (this)
                                  (stop-explosion-events)
@@ -107,7 +107,8 @@
                                  (stop-explosion-events)
                                  (set-screen! scores-screen)))
            (start-explosion-events)
-           (set! *first-run* #t))
+           (set! *first-run* #t)
+           (add-counter))
   run: (lambda ()
          (scene-list-update)
          (overlay-update)

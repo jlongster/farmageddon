@@ -82,25 +82,29 @@
     (max x (min n y)))
 
   (define (get-pixels x y)
-    (let ((buf (make-unsigned-int8-array 324))
+    ;; buf should be the size of width*height*4
+    (let ((buf (make-unsigned-int8-array 1))
           (width (UIView-height (current-view)))
           (height (UIView-height (current-view))))
-      (glReadPixels (bounds (- x 4) 0 width)
-                    (bounds (- height y 4) 0 height)
-                    9 9
+      (glReadPixels (bounds (- x 0) 0 width)
+                    (bounds (- height y 0) 0 height)
+                    1 1
                     GL_RGBA GL_UNSIGNED_BYTE
                     (->void-array buf))
       buf))
 
   (define (find-object pixels)
     (let loop ((i 0))
-      (if (< i 324)
+      (if (< i 1)
           (or (lookup-color-index (unsigned-int8-array-ref pixels i))
               (loop (+ i 4)))
           #f)))
 
   (define (find-object-at-point x y)
-    (find-object (get-pixels x y)))
+    (let* ((buf (get-pixels x y))
+           (obj (find-object buf)))
+      (free buf)
+      obj))
 
   (if (intersection-waiting?)
       (begin

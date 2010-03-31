@@ -25,17 +25,26 @@
   ;; lights with white ambience.
   (glEnable GL_LIGHTING)
   (glEnable GL_LIGHT0)
-  (glLightfv GL_LIGHT0 GL_AMBIENT (vector->float-array (vector 1. 1. 1. 1.)))
-  (glLightfv GL_LIGHT0 GL_POSITION (vector->float-array (vector 0. 0. -1. 0.)))
-  (glLightfv GL_LIGHT0 GL_DIFFUSE (vector->float-array (vector 1. 1. 1. 1.)))
-  (glLightfv GL_LIGHT1 GL_AMBIENT (vector->float-array (vector 1. 1. 1. 1.)))
-  (glLightfv GL_LIGHT1 GL_POSITION (vector->float-array (vector 0. 0. 1. 0.)))
-  (glLightfv GL_LIGHT1 GL_DIFFUSE (vector->float-array (vector 1. 1. 1. 1.)))
-  (glLightModelfv GL_LIGHT_MODEL_AMBIENT (vector->float-array (vector .3 .3 .3 1.)))
 
-  (glDisable GL_FOG)
+  (with-alloc (color (vector->float-array (vector 1. 1. 1. 1.)))
+              (glLightfv GL_LIGHT0 GL_AMBIENT color))
+  
+  (with-alloc (color (vector->float-array (vector 0. 0. -1. 0.)))
+              (glLightfv GL_LIGHT0 GL_POSITION color))
+  
+  (with-alloc (color (vector->float-array (vector 1. 1. 1. 1.)))
+              (glLightfv GL_LIGHT0 GL_DIFFUSE color))
+  
+  (with-alloc (color (vector->float-array (vector 1. 1. 1. 1.)))
+              (glLightfv GL_LIGHT1 GL_AMBIENT color))
+  
+  (with-alloc (color (vector->float-array (vector 0. 0. 1. 0.)))
+              (glLightfv GL_LIGHT1 GL_POSITION color))
+  
+  (with-alloc (color (vector->float-array (vector 1. 1. 1. 1.)))
+              (glLightfv GL_LIGHT1 GL_DIFFUSE color))
+  
+  (with-alloc (color (vector->float-array (vector .3 .3 .3 1.)))
+              (glLightModelfv GL_LIGHT_MODEL_AMBIENT color))
 
-  ;; This value is rather arbitrary; it just depends on how heavy we
-  ;; set everything in the scene. We are using a gravity with an
-  ;; acceleration of 11 m/s as a reference point.
-  (set! GRAVITY (make-vec3d 0. 0. 0.)))
+  (glDisable GL_FOG))

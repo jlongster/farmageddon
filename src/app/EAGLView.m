@@ -79,9 +79,8 @@ extern "C" {
 		
 		animationInterval = 1.0 / 60.0;
 
-                register_view(self);
-                init();
-                //[self initAccelerometer];
+		register_view(self);
+		init();
 	}
 	return self;
 }

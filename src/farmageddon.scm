@@ -63,19 +63,19 @@
   (glClear (bitwise-ior GL_COLOR_BUFFER_BIT GL_DEPTH_BUFFER_BIT))
   (current-screen-render)
 
+  ;; (##gc)
+
   ;; (if (> (- (real-time) *time-start*) 10.)
   ;;     (begin
   ;;       (profile-stop!)
-  ;;       (write-profile-report "/tmp/farmageddon/" "192.168.0.138:7777")
+  ;;       (write-profile-report "/tmp/farmageddon/")
   ;;       (exit)))
-    
-  ;;(##gc)
 
   (if (> (- (real-time) *time-start*) 1.)
       (begin
-        (NSLog (number->string *frames*))
+        (update-counter *frames*)
         (set! *frames* 0)
         (set! *time-start* (real-time)))
       (set! *frames* (+ *frames* 1))))
 
-;;(gc-report-set! #t)
+;; (gc-report-set! #t)

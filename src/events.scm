@@ -176,7 +176,7 @@
     (case (car msg)
       ((add-object) (scene-list-add (cadr msg)))
       (else (error "run-events: invalid message" (car msg)))))
-  
+
   (cond
    ((not *thread-executioner*) (start-event-executioner))
    ((and (event-done?)

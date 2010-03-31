@@ -16,7 +16,7 @@
   (if (null? *fog-list*)
       (begin
         (let loop ((i 0))
-          (if (< i 6)
+          (if (< i 10)
               (let* ((pos (make-vec3d (random-in-range 10.6 25.)
                                       0.
                                       (random-in-range 9. 10.))))

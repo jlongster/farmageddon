@@ -13,9 +13,9 @@
 (add-centered-mesh cow-part3-mesh 3.)
 
 (begin
+  (set-screen! level-screen)
   (clear-events)
-  (set-difficulty! 1)
-  (scene-list-unpause)
+  (set-difficulty! 4)
   (reset-player)
   
   (define-macro (with-alloc expr . rest)
@@ -37,17 +37,16 @@
                       (cons (lambda ()
                               (,func))
                             (vector-ref *events* ,difficulty))))))
+  
+
   (install-event
-   1
+   4
    (lambda ()
-     (throw-3 (list chicken-mesh
-                    duck-mesh
-                    sheep-mesh) med-gravity 30. -15.)
-     (add-object
-      (make-entity sheep-mesh
-                   (make-vec3d 0. -15. 20.)
-                   (make-vec3d 0. 25. -10.)
-                   med-gravity)))))
+     (throw-attack-line
+      (make-list 4 pig-mesh)
+      high-gravity
+      35.)
+     (play-voice pig1-audio))))
 
 (reset-player)
 

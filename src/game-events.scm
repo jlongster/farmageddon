@@ -6,18 +6,18 @@
          (standard-bindings)
          (extended-bindings))
 
-(set! *max-difficulty* 6)
+(set! *max-difficulty* 8)
 
 (install-difficulties
  0 5 0 3.
- 1 5 0 2.
- 2 5 1 2.
- 3 15 1 1.
- 4 15 1 1.
- 5 10 1 1.
- 6 15 3 .8
- 7 25 1 1.
- 8 25 1 1.
+ 1 8 0 2.
+ 2 10 1 2.
+ 3 20 1 1.5
+ 4 25 1 1.5
+ 5 10 0 1.25
+ 6 25 3 1.
+ 7 25 4 .5
+ 8 25 5 .2
  9 25 1 1.)
 
 (define low-gravity (make-vec3d 0. -11. 0.))
@@ -219,6 +219,18 @@
 ;; only ducks and chickens in various patterns
 ;; ------------------------------------------------------------
 
+;; (define (throw-ducks0)
+;;   (define (throw-duck)
+;;     (add-object
+;;      (make-entity person-mesh
+;;                   (make-vec3d (random-in-range 6.)
+;;                               -13.
+;;                               20.)
+;;                   (make-vec3d 0. 17. 0.)
+;;                   low-gravity)))
+;;   (throw-duck))
+;; (install-event 0 throw-ducks0)
+
 (define (throw-ducks0)
   (define (throw-duck)
     (add-object
@@ -229,8 +241,10 @@
                   (make-vec3d 0. 17. 0.)
                   low-gravity)))
   (throw-duck)
+  (play-voice duck1-audio)
   (wait (random-in-range .3 1.3))
-  (throw-duck))
+  (throw-duck)
+  (play-voice duck1-audio))
 (install-event 0 throw-ducks0)
 
 (define (throw-chickens0)
@@ -262,7 +276,10 @@
    (throw-animal-line
     (make-list 5 duck-mesh)
     low-gravity
-    18.5)))
+    18.5)
+   (play-voice duck1-audio)
+   (wait .6)
+   (play-voice duck1-audio)))
 
 ;; ------------------------------------------------------------
 ;; difficulty 1
@@ -275,7 +292,10 @@
  (lambda ()
    (throw-square
     (make-list 4 duck-mesh)
-    med-gravity)))
+    med-gravity)
+   (play-voice duck1-audio)
+   (wait .4)
+   (play-voice duck1-audio)))
 
 (install-event
  1
@@ -288,12 +308,18 @@
 (install-event
  1
  (lambda ()
+   (throw-2 (make-list 2 sheep-mesh) med-gravity 30. -15.)
+   (play-voice sheep1-audio)))
+
+(install-event
+ 1
+ (lambda ()
    (throw-v (make-list 5 chicken-mesh)
             med-gravity
             34.
             -14.)
    (play-voice chicken1-audio)
-   (wait .05)
+   (wait .1)
    (play-voice chicken2-audio)))
 
 (define (throw-ducks/chickens1)
@@ -309,7 +335,7 @@
   (throw-mesh chicken-mesh -1.1 30. -20.)
   (throw-mesh chicken-mesh -2. 30. -20.)
   (wait .2)
-  (play-voice chicken2-audio))
+  (play-voice duck1-audio))
 (install-event 1 throw-ducks/chickens1)
 
 ;; ------------------------------------------------------------
@@ -334,20 +360,15 @@
 (install-event
  2
  (lambda ()
-   (throw-3 (make-list 3 pig-mesh) med-gravity 30. -15.)))
+   (throw-3 (make-list 3 pig-mesh) med-gravity 30. -15.)
+   (play-voice pig1-audio)))
 
-(define (throw-pigs)
-  (define (throw-pig)
-    (add-object
-     (make-entity pig-mesh
-                  (make-vec3d (random-in-range -3. 3.)
-                              -12. 20.)
-                  (make-vec3d 0. 25. -8.)
-                  med-gravity)))
-  (throw-pig)
-  (throw-pig)
-  (throw-pig))
-(install-event 2 throw-pigs)
+(install-event
+ 2
+ (lambda ()
+   (throw-2 (list pig-mesh sheep-mesh) med-gravity 28. -15.)
+   (play-voice pig1-audio)
+   (play-voice sheep2-audio)))
 
 (define (throw-chickens/ducks2)
   (define (throw-chicken x)
@@ -372,7 +393,8 @@
   (wait .1)
   (throw-human 0. 0.)
   (wait .1)
-  (throw-duck 2.5 -13.))
+  (throw-duck 2.5 -13.)
+  (play-voice duck1-audio))
 (install-event 2 throw-chickens/ducks2)
 
 ;; ------------------------------------------------------------
@@ -400,20 +422,14 @@
 (install-event
  3
  (lambda ()
-   (define (throw-human)
-     (add-object
-      (make-entity person-mesh
-                   (make-vec3d 0. -15. 20.)
-                   (make-vec3d (random-in-range -3. 3.)
-                               30. 0.)
-                   med-gravity)))
    (throw-v
     (randomly-insert-mesh (list sheep-mesh chicken-mesh)
                           cow-mesh)
     med-gravity
     34.
     -14.)
-   (play-voice chicken1-audio)))
+   (play-voice chicken1-audio)
+   (play-voice sheep1-audio)))
 
 (define (throw-cows)
   (define (throw-cow #!optional nuke?)
@@ -428,7 +444,8 @@
   (throw-cow)
   (throw-cow)
   (throw-cow #t)
-  (wait .2))
+  (wait .2)
+  (play-voice cow1-audio))
 (install-event 3 throw-cows)
 
 (install-event
@@ -446,7 +463,8 @@
     med-gravity 34. -14.)
    (wait .2)
    (throw-human)
-   (play-voice chicken1-audio)))
+   (play-voice chicken1-audio)
+   (play-voice cow2-audio)))
 
 ;; ------------------------------------------------------------
 ;; difficulty 4
@@ -458,11 +476,12 @@
 (install-event
    4
    (lambda ()
-     (throw-animal-line
+     (throw-attack-line
       (randomly-insert-mesh (make-list 4 pig-mesh)
                             (make-nuke pig-mesh))
       high-gravity
-      35.)))
+      35.)
+     (play-voice pig1-audio)))
 
 (install-event
    4
@@ -497,7 +516,8 @@
       (make-entity person-mesh
                    (make-vec3d (random-in-range -4. 4.) -20. 30.)
                    (make-vec3d 0. 40. -20.)
-                   high-gravity))))
+                   high-gravity))
+     (play-voice duck1-audio)))
 
 (install-event
    4
@@ -509,6 +529,18 @@
                    high-gravity))
      (play-voice cow2-audio)))
 
+(install-event
+   4
+   (lambda ()
+     (throw-attack-line (make-list 5 chicken-mesh)
+                        high-gravity
+                        38.)
+     (add-object
+      (make-entity person-mesh
+                   (make-vec3d (random-in-range -4. 4.) -20. 30.)
+                   (make-vec3d 0. 40. -20.)
+                   high-gravity))
+     (play-voice duck1-audio)))
 
 ;; ------------------------------------------------------------
 ;; difficulty 5
@@ -525,7 +557,9 @@
     high-gravity
     42.
     -18.)
-   (play-audio cow2-audio)))
+   (play-audio cow2-audio)
+   (wait .3)
+   (play-audio cow1-audio)))
 
 (install-event
    5
@@ -534,13 +568,14 @@
       (make-list 4 cow-mesh)
       high-gravity
       40.)
-     (play-audio cow2-audio)))
+     (play-audio cow2-audio)
+     (play-audio cow1-audio)))
 
-(install-event 4 throw-random-nuke)
+(install-event 5 throw-random-nuke)
 
 ;; ------------------------------------------------------------
 ;; difficulty 6
 ;; what now?
 ;; ------------------------------------------------------------
 
-(install-event 4 throw-random-nuke)
+(install-event 6 throw-random-nuke)

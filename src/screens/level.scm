@@ -35,13 +35,17 @@
 
 (define level-bg #f)
 (define fog-texture #f)
+(define star-texture #f)
 
 (define sheep1-audio #f)
 (define sheep2-audio #f)
-(define cow-audio #f)
+(define cow1-audio #f)
 (define cow2-audio #f)
 (define chicken1-audio #f)
 (define chicken2-audio #f)
+(define pig1-audio #f)
+(define duck1-audio #f)
+(define scream-audio)
 (define thud-audio #f)
 (define shatter-audio #f)
 (define lightning-audio #f)
@@ -50,6 +54,7 @@
 (define explosion3-audio #f)
 (define explosion4-audio #f)
 (define fog-audio #f)
+(define clap-audio #f)
 
 (define default-font50 #f)
 (define thin-font50 #f)
@@ -231,6 +236,30 @@
                                          (eq? victor cow-part3-mesh)) .7 1.))
        (on-complete)))))
 
+(define (on-win)
+  (play-voice clap-audio)
+  (let loop ((ang 0.))
+    (if (<= ang 360.)
+        (begin
+          (overlay-list-add
+           (make-tween
+            (make-2d-object
+             2d-ratio-perspective
+             texture: star-texture
+             scale: (make-vec3d .1 .1 1.)
+             position: (make-vec3d .58 .84 0.)
+             color: (make-vec4d 1. 1. 1. 1.)
+             rotation: (make-vec4d 0. 0. 1. 0.)
+             center: #t)
+            position: (make-vec3d (+ .58 (* (sin ang) .5))
+                                  (+ .84 (* (cos ang) .5))
+                                  0.)
+            rotation: (make-vec4d 0. 0. 1. 360.)
+            alpha: 0.
+            length: .5)
+           important: #t)
+          (loop (+ ang 36.))))))
+
 (define (on-complete)
   (define (process-score)
     (save-score
@@ -275,7 +304,7 @@
 
     (let* ((scores (get-high-scores))
            (high-score (if (null? scores)
-                           (score)
+                           0.
                            (persistent-score-score (car scores)))))
       (add-tweened
        (make-2d-object
@@ -291,19 +320,24 @@
         font: (make-2d-font default-font50
                             (number->string high-score)
                             20.)
-        position: (to-font-space .52 (+ .57 top)))))
+        position: (to-font-space .52 (+ .57 top))))
+
+      (if (> (score) high-score)
+          (on-win)))
 
     (overlay-add-button "TRY AGAIN"
                         (make-vec2d .25 (+ .63 top))
                         .5 1.
                         (lambda (this)
                           (process-score)
+                          (fog-list-clear!)
                           (set-screen! level-screen)))
     (overlay-add-button "MENU"
                         (make-vec2d .25 (+ .75 top))
                         .5 1.
                         (lambda (this)
                           (process-score)
+                          (fog-list-clear!)
                           (set-screen! title-screen)))))
 
 ;; init
@@ -315,14 +349,19 @@
          (height (UIView-height (current-view)))
          (3d-pers (perspective 40.
                                (exact->inexact (/ width height))
-                               1. 1000.)))
+                               1. 1000.))
+         (initial-matrix (perspective-matrix 3d-pers))
+         (lookat-matrix (lookat (make-vec3d 0. 0. 0.)
+                                (make-vec3d 0. 0. 1.)
+                                (make-vec3d 0. 1. 0.))))
+    
     (perspective-matrix-set!
      3d-pers
-     (4x4matrix-multiply
-      (lookat (make-vec3d 0. 0. 0.)
-              (make-vec3d 0. 0. 1.)
-              (make-vec3d 0. 1. 0.))
-      (perspective-matrix 3d-pers)))
+     (4x4matrix-multiply lookat-matrix initial-matrix))
+
+    (free initial-matrix)
+    (free lookat-matrix)
+    
     (set! 3d-perspective 3d-pers)
 
     (set! font-perspective
@@ -330,16 +369,31 @@
                  0 (exact->inexact height)
                  -10000.0 10000.0)))
 
-  (set! level-bg (image-opengl-load "background.png"))
-  (set! fog-texture (image-opengl-load "fog.png"))
+  (set! level-bg (image-opengl-load "background.pvr"))
+  (set! fog-texture (image-opengl-load "fog.pvr"))
+  (set! star-texture (image-opengl-load "star.pvr"))
+
+  (glBindTexture GL_TEXTURE_2D (img-id fog-texture))
+  (glTexParameteri GL_TEXTURE_2D
+                   GL_TEXTURE_MIN_FILTER
+                   GL_LINEAR)
+  (glTexParameteri GL_TEXTURE_2D
+                   GL_TEXTURE_MAG_FILTER
+                   GL_LINEAR)
+  (glBindTexture GL_TEXTURE_2D 0)
   
   (weapons-init)
   
   (init-audio)
   (set! sheep1-audio (load-audio "sheep1.wav"))
   (set! sheep2-audio (load-audio "sheep2.wav"))
-  (set! cow-audio (load-audio "cow.wav"))
+  (set! cow1-audio (load-audio "cow1.wav"))
   (set! cow2-audio (load-audio "cow2.wav"))
+  (set! pig1-audio (load-audio "pig1.wav"))
+  (set! chicken1-audio (load-audio "chicken1.wav"))
+  (set! chicken2-audio (load-audio "chicken2.wav"))
+  (set! duck1-audio (load-audio "duck1.wav"))
+  (set! scream-audio (load-audio "scream.wav"))
   (set! thud-audio (load-audio "thud.wav"))
   (set! shatter-audio (load-audio "shatter.wav"))
   (set! lightning-audio (load-audio "lightning.wav"))
@@ -347,9 +401,8 @@
   (set! explosion2-audio (load-audio "explosion2.wav"))
   (set! explosion3-audio (load-audio "explosion3.wav"))
   (set! explosion4-audio (load-audio "explosion4.wav"))
-  (set! chicken1-audio (load-audio "chicken1.wav"))
-  (set! chicken2-audio (load-audio "chicken2.wav"))
   (set! fog-audio (load-audio "fog.wav"))
+  (set! clap-audio (load-audio "clap.wav"))
   
   (set! default-font50
         (ftgl-create-texture-font (resource "ApexSansExtraBoldC.ttf")))
@@ -429,12 +482,14 @@
   (player-update)
   (update-weapons)
   (update-fog)
-
+  
   (if (check-difficulty)
       (background-pop (make-vec4d 0. 1. 0. 1.)))
   
   (if (not (player-finished?))
-      (run-events)))
+      (run-events))
+
+  (update-counter *current-difficulty*))
 
 ;; rendering
 
