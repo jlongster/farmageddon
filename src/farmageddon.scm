@@ -7,13 +7,9 @@
 
 (include "ffi/ffi#.scm")
 (include "lib/macros.scm")
-(include "lib/srfi/srfi-1.scm")
 (include "lib/srfi/srfi-2.scm")
-(include "lib/srfi/sort.scm")
-(include "lib/vectors.scm")
 (include "lib/events#.scm")
-(include "lib/events.scm")
-(include "lib/obj-loader.scm")
+(include "lib/vectors.scm")
 (include "lib/scene.scm")
 (include "lib/physics.scm")
 (include "lib/standard-meshes.scm")
@@ -47,7 +43,7 @@
 (define (init)
   (random-source-randomize! default-random-source)
   (default-opengl)
-  (set-screen! level-screen))
+  (set-screen! title-screen))
 
 (define *time-start* (real-time))
 (define *frames* 0)
@@ -71,6 +67,7 @@
   ;;       (write-profile-report "/tmp/farmageddon/")
   ;;       (exit)))
 
+  #;
   (if (> (- (real-time) *time-start*) 1.)
       (begin
         (update-counter *frames*)

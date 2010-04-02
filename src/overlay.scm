@@ -86,22 +86,17 @@
    center: (make-vec3d 22. 16. 0.)))
 
 (define (on-score-increase)
-  (let ((f (2d-object-font score-object)))
-    (2d-font-text-set! f (number->string (score))))
-  
-  ;; (overlay-list-remove score-object)
-  ;; (overlay-list-add
-  ;;  (make-tween
-  ;;   score-object
-  ;;   scale: (make-vec3d 2.5 2.5 2.5)
-  ;;   alpha: 0.
-  ;;   length: .5
-  ;;   type: 'ease-out-cubic
-  ;;   on-finished: (lambda () #f)))
-  ;; (set! score-object (make-score-object))
-  ;; (overlay-list-add score-object)
-
-  )
+  (overlay-list-remove score-object)
+  (overlay-list-add
+   (make-tween
+    score-object
+    scale: (make-vec3d 2.5 2.5 2.5)
+    alpha: 0.
+    length: .5
+    type: 'ease-out-cubic
+    on-finished: (lambda () #f)))
+  (set! score-object (make-score-object))
+  (overlay-list-add score-object))
 
 (define (score-setup)
   (set! score-object (make-score-object))

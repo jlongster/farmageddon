@@ -10,11 +10,15 @@
 (define (buttons-clear!)
   (set! buttons '()))
 
-(define (overlay-add-button label pos width height on-click)
+(define (add-button button)
+  (set! buttons
+        (cons button buttons)))
+
+(define (overlay-add-button label pos width height on-click #!optional tex)
   (overlay-list-add
    (make-2d-object
     2d-perspective
-    texture: TX-BUTTON
+    texture: (or tex TX-BUTTON)
     
     ;; We have to scale the image because we had to enlarge
     ;; it to be a power of 2 size, and the following

@@ -3,6 +3,7 @@
 (define cow-texture #f)
 (define pig-texture #f)
 (define chicken-texture #f)
+(define round-btn-texture #f)
 
 (define *explosion-thread* #f)
 
@@ -68,6 +69,19 @@
       #f))
    important: #t))
 
+(define (add-info-button)
+  (let ((obj (make-2d-object
+              font-perspective
+              font: (make-2d-font thin-font50 "?" 15.)
+              position: (to-font-space .962 .983))))
+    (overlay-list-add obj important: #t)
+    (add-button
+     (make-button (make-vec2d .93 .93)
+                  (make-vec2d .1 .1)
+                  (lambda (this)
+                    (set-screen! credits-screen))
+                  obj))))
+
 (define *first-run* #t)
 
 (define-screen title-screen
@@ -76,6 +90,7 @@
           (set! cow-texture (image-opengl-load "cow.png"))
           (set! pig-texture (image-opengl-load "pig.png"))
           (set! chicken-texture (image-opengl-load "chicken.png"))
+          (set! round-btn-texture (image-opengl-load "round-button.png"))
 
           (if (not (read-sound))
               (mute-audio)))
@@ -87,7 +102,7 @@
             (make-2d-object
              2d-perspective
              texture: title-texture))
-           
+
            (overlay-add-button "PLAY" (make-vec2d .35 .79) .3 1.
                                (lambda (this)
                                  (stop-explosion-events)
@@ -106,9 +121,9 @@
                                (lambda (this)
                                  (stop-explosion-events)
                                  (set-screen! scores-screen)))
+           (add-info-button)
            (start-explosion-events)
-           (set! *first-run* #t)
-           (add-counter))
+           (set! *first-run* #t))
   run: (lambda ()
          (scene-list-update)
          (overlay-update)

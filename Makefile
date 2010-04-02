@@ -11,12 +11,24 @@ gsc=/usr/local/iphone/iPhoneSimulator3.1.3/bin/gsc
 
 #### Main
 
-all: simul_config src/init_.c
+all: simulator
 
-iphone: iphone_config src/init_.c
+iphone: iphone_config src/init.c src/farmageddon.c src/harness.c
+	cd src && $(gsc) -link -o init_.c init.c harness.c farmageddon.c
 
-src/init_.c: src/init.scm src/ffi/gl.scm src/farmageddon.scm
-	cd src && $(gsc) -link init.scm
+simulator: simul_config src/init.c src/harness.c
+	cd src && $(gsc) -link -o init_.c init.c harness.c
+	cd src && echo '' > farmageddon.c
+
+src/init.c: src/init.scm src/ffi/gl.scm src/farmageddon.scm
+	cd src && $(gsc) -c init.scm
+
+src/farmageddon.c: src/farmageddon.scm
+	cd src && $(gsc) -c farmageddon.scm
+
+src/harness.c: src/harness.scm
+	cd src && $(gsc) -c harness.scm
+
 ### -track-scheme -debug-location 
 
 config:
@@ -29,6 +41,8 @@ iphone_config: config
 	echo '(define-expand-var SIMULATOR #f)' >> src/config.scm
 
 clean:
+	rm -f src/init.c
+	rm -f src/farmageddon.c
 	rm -f src/init_.c
 
 #### Loadable modules

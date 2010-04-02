@@ -2,17 +2,7 @@
 ;;; Pulls together all of the modules for our system and provides a C
 ;;; interface for the outside world.
 
-(define-macro (expand-eval expr)
-  (eval expr))
-
-(define-macro (define-expand-var name value)
-  `(expand-eval (define ,name ,value)))
-
-(define-macro (expand-if cond then . else)
-  `(expand-eval (if ,cond
-                    ',then
-                    ',(if (null? else) (void) (car else)))))
-
+(include "lib/macros.scm")
 (include "config.scm")
 
 ;; SLIME support
@@ -40,12 +30,6 @@
 (include "ffi/al.scm")
 (include "ffi/ftgl.scm")
 (include "ffi/view.scm")
-
-;; load the game
-
-(expand-if SIMULATOR
-           (load (local-resource "src/farmageddon"))
-           (include "farmageddon.scm"))
 
 ;; provide entry points
 

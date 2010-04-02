@@ -226,7 +226,7 @@
                               ((eq? victor cow-part2-mesh) "COW UDDERS")
                               ((eq? victor cow-part3-mesh) "A COW BUTT")
                               (else ""))
-                             " BESTED YOU ~")))
+                             " KILLED YOU ~")))
     (darken
      (lambda ()
        (add-centered-font default-font50 line 380. 18.)
@@ -304,7 +304,7 @@
 
     (let* ((scores (get-high-scores))
            (high-score (if (null? scores)
-                           0.
+                           0
                            (persistent-score-score (car scores)))))
       (add-tweened
        (make-2d-object
@@ -417,7 +417,7 @@
   (ftgl-set-font-face-size thin-font50 50)
   (ftgl-get-font-advance
    thin-font50
-   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
+   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/.")
   
   (load-randomized-cracks)
   
@@ -455,8 +455,7 @@
          texture: (current-background-texture)))
 
   (scene-list-add *background-object* unimportant: #t)
-  (fog-list-clear!)
-  (add-counter))
+  (fog-list-clear!))
 
 (define (background-pop color)
   (scene-list-remove *background-object*)
@@ -487,9 +486,7 @@
       (background-pop (make-vec4d 0. 1. 0. 1.)))
   
   (if (not (player-finished?))
-      (run-events))
-
-  (update-counter *current-difficulty*))
+      (run-events)))
 
 ;; rendering
 

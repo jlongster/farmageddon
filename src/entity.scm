@@ -178,11 +178,12 @@
 (define (entity-points obj)
   (let ((mesh (mesh-object-mesh obj)))
     (cond
-     ((eq? mesh chicken-mesh) 20)
-     ((eq? mesh duck-mesh) 100)
-     ((eq? mesh sheep-mesh) 500)
-     ((eq? mesh cow-mesh) 700)
-     (else 100))))
+     ((eq? mesh chicken-mesh) 100)
+     ((eq? mesh duck-mesh) 300)
+     ((eq? mesh sheep-mesh) 400)
+     ((eq? mesh pig-mesh) 500)
+     ((eq? mesh cow-mesh) 500)
+     (else 300))))
 
 (define (on-entity-kill obj)
   (explode-entity obj)
