@@ -1,4 +1,4 @@
-;;;; level screen
+;;; level screen
 ;;; Implements the screen which actually plays the game
 
 (declare (block)
@@ -20,7 +20,8 @@
 
 ;; resources
 
-(define box-mesh (obj-load (resource "box")))
+(define steak-mesh (obj-load (resource "steak") #t))
+(define bones-mesh (obj-load (resource "bones") #t))
 (define chicken-mesh (obj-load (resource "chicken") #t))
 (define duck-mesh (obj-load (resource "duck") #t))
 (define cow-mesh (obj-load (resource "cow") #t))
@@ -57,7 +58,7 @@
 (define clap-audio #f)
 
 (define default-font50 #f)
-(define thin-font50 #f)
+(define default-font24 #f)
 
 ;; util
 
@@ -132,31 +133,19 @@
          (font-width (if size
                          (* advance (/ size (ftgl-get-font-face-size
                                                font)))
-                         advance)))
-    (overlay-list-add
-     (make-2d-object
-      font-perspective
-      font: (make-2d-font font msg size)
-      color: (make-vec4d 1. 1. 1. 1.)
-      position: (make-vec3d (/ (exact->inexact width) 2.)
-                            y
-                            0.)
-      center: (make-vec3d (/ font-width 2.)
-                          0.
-                          0.))
-     important: #t)
-    #;
-    (add-tweened
-     (make-2d-object
-      font-perspective
-      font: (make-2d-font font msg size)
-      color: (make-vec4d 1. 1. 1. 0.)
-      position: (make-vec3d (/ (exact->inexact width) 2.)
-                            y
-                            0.)
-      center: (make-vec3d (/ font-width 2.)
-                          0.
-                          0.)))))
+                         advance))
+         (obj (make-2d-object
+               font-perspective
+               font: (make-2d-font font msg size)
+               color: (make-vec4d 1. 1. 1. 1.)
+               position: (make-vec3d (/ (exact->inexact width) 2.)
+                                     y
+                                     0.)
+               center: (make-vec3d (/ font-width 2.)
+                                   0.
+                                   0.))))
+    (overlay-list-add obj important: #t)
+    obj))
 
 (define (add-tweened obj)
   (generic-object-color-set! obj (make-vec4d 1. 1. 1. 0.))
@@ -186,10 +175,19 @@
                                (+ (vec4d-w rot) 1.))))))
      important: #t)))
 
+(define (on-trial-ended)
+  (darken
+   (lambda ()
+     ;;(add-centered-font default-font24 "~ LITE VERSION ENDED ~" 380. 18.)
+     (add-centered-font default-font24 "THANKS FOR PLAYING!" 360. 24.)
+     (add-centered-font default-font24 "BUY THE FULL VERSION" 335. 18.)
+     (add-centered-font default-font24 "TO SCORE HIGHER!" 315. 18.)
+     (on-complete))))
+
 (define (on-fail)
   (darken
    (lambda ()
-     (add-centered-font default-font50 "~ YOU KILLED A HUMAN ~" 380. 18.)
+     (add-centered-font default-font24 "~ YOU KILLED A HUMAN ~" 380. 18.)
      (add-centered-mesh person-mesh)
      (on-complete))))
 
@@ -229,7 +227,7 @@
                              " KILLED YOU ~")))
     (darken
      (lambda ()
-       (add-centered-font default-font50 line 380. 18.)
+       (add-centered-font default-font24 line 380. 18.)
        (add-centered-mesh victor (if (or (eq? victor cow-mesh)
                                          (eq? victor cow-part1-mesh)
                                          (eq? victor cow-part2-mesh)
@@ -261,12 +259,6 @@
           (loop (+ ang 36.))))))
 
 (define (on-complete)
-  (define (process-score)
-    (save-score
-     (let ((name (high-score-field-value)))
-       (if (equal? name "") "soldier" name)))
-    (hide-high-score-field))
-
   (stop-event-executioner)
   (score-remove)
 
@@ -276,7 +268,7 @@
     (add-tweened
      (make-2d-object
       font-perspective
-      font: (make-2d-font default-font50
+      font: (make-2d-font default-font24
                           (string-append "NAME:")
                           20.)
       position: (to-font-space .295 (+ .435 top))))
@@ -289,7 +281,7 @@
     (add-tweened
      (make-2d-object
       font-perspective
-      font: (make-2d-font default-font50
+      font: (make-2d-font default-font24
                           "SCORE:"
                           20.)
       position: (to-font-space .27 (+ .51 top))))
@@ -297,7 +289,7 @@
     (add-tweened
      (make-2d-object
       font-perspective
-      font: (make-2d-font default-font50
+      font: (make-2d-font default-font24
                           (number->string (score))
                           20.)
       position: (to-font-space .52 (+ .51 top))))
@@ -309,7 +301,7 @@
       (add-tweened
        (make-2d-object
         font-perspective
-        font: (make-2d-font default-font50
+        font: (make-2d-font default-font24
                             (string-append "HIGH SCORE:")
                             20.)
         position: (to-font-space .112 (+ .57 top))))
@@ -317,7 +309,7 @@
       (add-tweened
        (make-2d-object
         font-perspective
-        font: (make-2d-font default-font50
+        font: (make-2d-font default-font24
                             (number->string high-score)
                             20.)
         position: (to-font-space .52 (+ .57 top))))
@@ -329,16 +321,18 @@
                         (make-vec2d .25 (+ .63 top))
                         .5 1.
                         (lambda (this)
-                          (process-score)
                           (fog-list-clear!)
+                          (hide-high-score-field)
                           (set-screen! level-screen)))
     (overlay-add-button "MENU"
                         (make-vec2d .25 (+ .75 top))
                         .5 1.
                         (lambda (this)
-                          (process-score)
                           (fog-list-clear!)
-                          (set-screen! title-screen)))))
+                          (hide-high-score-field)
+                          (set-screen! title-screen)))
+    
+    (save-score)))
 
 ;; init
 
@@ -406,19 +400,19 @@
   
   (set! default-font50
         (ftgl-create-texture-font (resource "ApexSansExtraBoldC.ttf")))
-  (set! thin-font50
-        (ftgl-create-texture-font (resource "ApexSansBookC.ttf")))
+  (set! default-font24
+        (ftgl-create-texture-font (resource "ApexSansExtraBoldC.ttf")))
   
   (ftgl-set-font-face-size default-font50 50)
   (ftgl-get-font-advance
    default-font50
-   "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~-:!")
+   "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~-:!>")
 
-  (ftgl-set-font-face-size thin-font50 50)
+  (ftgl-set-font-face-size default-font24 24)
   (ftgl-get-font-advance
-   thin-font50
-   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/.")
-  
+   default-font24
+   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~-:/!.>")
+    
   (load-randomized-cracks)
   
   (overlay-init)
@@ -455,7 +449,9 @@
          texture: (current-background-texture)))
 
   (scene-list-add *background-object* unimportant: #t)
-  (fog-list-clear!))
+  (fog-list-clear!)
+
+  (add-counter))
 
 (define (background-pop color)
   (scene-list-remove *background-object*)
@@ -473,7 +469,6 @@
 
 (define (level-screen-run)
   (load-perspective 3d-perspective)
-
   (handle-intersections)
 
   (scene-list-update global-update)
@@ -481,21 +476,22 @@
   (player-update)
   (update-weapons)
   (update-fog)
-  
-  (if (check-difficulty)
-      (background-pop (make-vec4d 0. 1. 0. 1.)))
+  (check-difficulty)
+
+  (update-counter (current-difficulty))
   
   (if (not (player-finished?))
       (run-events)))
 
 ;; rendering
 
-(define (level-screen-render)  
+(define (level-screen-render)
+  (load-perspective 3d-perspective)
+  
   ;; 3d
   (scene-list-render)
 
   ;; overlay
-  
   (load-perspective 2d-ratio-perspective)
   (render-weapons)
 

@@ -9,16 +9,16 @@
 (set! *max-difficulty* 8)
 
 (install-difficulties
- 0 5 0 3.
- 1 8 0 2.
- 2 10 1 2.
- 3 20 1 1.5
- 4 25 1 1.5
- 5 10 0 1.25
- 6 25 3 1.
- 7 25 4 .5
- 8 25 5 .2
- 9 25 1 1.)
+ 0 5 0  3.   1.
+ 1 8 0  2.   1.
+ 2 10 1 2.   1.
+ 3 20 1 1.5  .75
+ 4 25 2 1.25 .75
+ 5 10 0 1.   1.5
+ 6 25 3 1.   1.
+ 7 25 4 .3   .75
+ 8 25 5 .2   .75
+ 9 25 1 .2   .75)
 
 (define low-gravity (make-vec3d 0. -11. 0.))
 (define med-gravity (make-vec3d 0. -25. 0.))
@@ -29,12 +29,13 @@
 ;; these functions help construct lists of meshes to be used in
 ;; formations
 
-(define (random-mesh)
-  (let ((meshes (list cow-mesh
-                      sheep-mesh
-                      chicken-mesh
-                      duck-mesh
-                      pig-mesh)))
+(define (random-mesh #!optional lst)
+  (let ((meshes (or lst
+                    (list cow-mesh
+                          sheep-mesh
+                          chicken-mesh
+                          duck-mesh
+                          pig-mesh))))
     (list-ref meshes (random-integer (length meshes)))))
 
 (define (randomly-insert-mesh meshes mesh)
@@ -208,28 +209,22 @@
 (define (throw-random-nuke)
   (add-object
    (make-entity (random-mesh)
-                (make-vec3d (random-in-range -5. 5.) -20. 30.)
+                (make-vec3d (random-in-range -4. 4.) -20. 30.)
                 (make-vec3d 0. 40. -20.)
                 high-gravity
                 #t)))
 
+(define (throw-random-healer)
+  (add-object
+   (make-entity (random-mesh (list steak-mesh bones-mesh))
+                (make-vec3d (random-in-range -4. 4.) -10. 20.)
+                (make-vec3d 0. 35. 0.)
+                high-gravity)))
 
 ;; ------------------------------------------------------------
 ;; difficulty 0
 ;; only ducks and chickens in various patterns
 ;; ------------------------------------------------------------
-
-;; (define (throw-ducks0)
-;;   (define (throw-duck)
-;;     (add-object
-;;      (make-entity person-mesh
-;;                   (make-vec3d (random-in-range 6.)
-;;                               -13.
-;;                               20.)
-;;                   (make-vec3d 0. 17. 0.)
-;;                   low-gravity)))
-;;   (throw-duck))
-;; (install-event 0 throw-ducks0)
 
 (define (throw-ducks0)
   (define (throw-duck)
@@ -274,7 +269,7 @@
  0
  (lambda ()
    (throw-animal-line
-    (make-list 5 duck-mesh)
+    (make-list 4 duck-mesh)
     low-gravity
     18.5)
    (play-voice duck1-audio)
@@ -343,13 +338,15 @@
 ;; ducks, chickens, sheep, humans, PIGS (a few here and there)
 ;; ------------------------------------------------------------
 
+(install-event 2 throw-random-healer)
+
 (install-event 2 make-fog)
 
 (install-event
  2
  (lambda ()
    (throw-animal-line
-    (randomly-insert-mesh (make-list 5 chicken-mesh)
+    (randomly-insert-mesh (make-list 3 chicken-mesh)
                           person-mesh)
     med-gravity
     28.)
@@ -403,16 +400,16 @@
 ;; and humans (go minimal on the humans)
 ;; ------------------------------------------------------------
 
+(install-event 3 throw-random-healer)
+
 (install-event 3 make-fog)
 
 (install-event
  3
  (lambda ()
    (throw-animal-line
-    (randomly-insert-mesh 
-     (randomly-insert-mesh (make-list 4 chicken-mesh)
-                           person-mesh)
-     person-mesh)
+    (randomly-insert-mesh (make-list 4 chicken-mesh)
+                          person-mesh)
     med-gravity
     27.)
    (play-voice chicken1-audio)
@@ -430,23 +427,6 @@
     -14.)
    (play-voice chicken1-audio)
    (play-voice sheep1-audio)))
-
-(define (throw-cows)
-  (define (throw-cow #!optional nuke?)
-    (add-object
-     (make-entity cow-mesh
-                  (make-vec3d (random-in-range -5. 5.) -20. 35.)
-                  (make-vec3d 0. 35. -14.)
-                  med-gravity
-                  nuke?)))
-  (play-voice cow2-audio)
-  (throw-cow)
-  (throw-cow)
-  (throw-cow)
-  (throw-cow #t)
-  (wait .2)
-  (play-voice cow1-audio))
-(install-event 3 throw-cows)
 
 (install-event
  3
@@ -471,13 +451,15 @@
 ;; increase gravity, make everything go faster
 ;; ------------------------------------------------------------
 
+(install-event 4 throw-random-healer)
+
 (install-event 4 make-fog)
 
 (install-event
    4
    (lambda ()
      (throw-attack-line
-      (randomly-insert-mesh (make-list 4 pig-mesh)
+      (randomly-insert-mesh (make-list 2 pig-mesh)
                             (make-nuke pig-mesh))
       high-gravity
       35.)
@@ -549,6 +531,8 @@
 
 (install-event 5 make-fog)
 
+(install-event 5 throw-random-nuke)
+
 (install-event
  5
  (lambda ()
@@ -562,20 +546,18 @@
    (play-audio cow1-audio)))
 
 (install-event
-   5
-   (lambda ()
-     (throw-animal-line
-      (make-list 4 cow-mesh)
-      high-gravity
-      40.)
-     (play-audio cow2-audio)
-     (play-audio cow1-audio)))
-
-(install-event 5 throw-random-nuke)
+ 5
+ (lambda ()
+   (throw-animal-line
+    (make-list 4 cow-mesh)
+    high-gravity
+    40.)
+   (play-audio cow2-audio)
+   (play-audio cow1-audio)))
 
 ;; ------------------------------------------------------------
 ;; difficulty 6
 ;; what now?
 ;; ------------------------------------------------------------
 
-(install-event 6 throw-random-nuke)
+;(install-event 6 throw-random-nuke)

@@ -6,8 +6,10 @@
 ;; libraries
 
 (include "ffi/ffi#.scm")
+(include "lib/obj-loader.scm")
 (include "lib/macros.scm")
 (include "lib/srfi/srfi-2.scm")
+(include "lib/srfi/srfi-13.scm")
 (include "lib/events#.scm")
 (include "lib/vectors.scm")
 (include "lib/scene.scm")
@@ -73,6 +75,6 @@
         (update-counter *frames*)
         (set! *frames* 0)
         (set! *time-start* (real-time)))
-      (set! *frames* (+ *frames* 1))))
+      (set! *frames* (+ *frames* 1)))
 
-;; (gc-report-set! #t)
+  (thread-yield!))

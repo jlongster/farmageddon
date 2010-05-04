@@ -1,4 +1,11 @@
 
+(declare (block)
+         (standard-bindings)
+         (extended-bindings))
+
+(include "../lib/macros.scm")
+(include "../config.scm")
+
 (define title-texture #f)
 (define cow-texture #f)
 (define pig-texture #f)
@@ -65,20 +72,23 @@
     type: 'ease-out-quad
     on-finished:
     (lambda ()
-      (set-screen! level-screen)
+      (if (player-seen-instructions?)
+          (set-screen! level-screen)
+          (set-screen! instructions-screen))
       #f))
    important: #t))
 
 (define (add-info-button)
   (let ((obj (make-2d-object
               font-perspective
-              font: (make-2d-font thin-font50 "?" 15.)
+              font: (make-2d-font default-font24 "?" 15.)
               position: (to-font-space .962 .983))))
     (overlay-list-add obj important: #t)
     (add-button
      (make-button (make-vec2d .93 .93)
                   (make-vec2d .1 .1)
                   (lambda (this)
+                    (stop-explosion-events)
                     (set-screen! credits-screen))
                   obj))))
 
@@ -86,7 +96,10 @@
 
 (define-screen title-screen
   init: (lambda ()
-          (set! title-texture (image-opengl-load "title-screen.png"))
+          (set! title-texture
+                (expand-if LITE
+                           (image-opengl-load "title-lite.png")
+                           (image-opengl-load "title-screen.png")))
           (set! cow-texture (image-opengl-load "cow.png"))
           (set! pig-texture (image-opengl-load "pig.png"))
           (set! chicken-texture (image-opengl-load "chicken.png"))
@@ -101,7 +114,10 @@
            (scene-list-add
             (make-2d-object
              2d-perspective
-             texture: title-texture))
+             texture: title-texture
+             scale: (make-vec3d (/ 512. 320.)
+                                (/ 512. 480.)
+                                1.)))
 
            (overlay-add-button "PLAY" (make-vec2d .35 .79) .3 1.
                                (lambda (this)

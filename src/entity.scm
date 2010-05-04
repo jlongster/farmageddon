@@ -22,12 +22,12 @@
               rotation: (make-vec4d (random-real)
                                     (random-real)
                                     (random-real)
-                                    (random-in-range 0. 90.))
+                                    (random-in-range -90. 90.))
               scale: (make-vec3d ENTITY-SCALE ENTITY-SCALE ENTITY-SCALE)
               color: (make-vec4d 1. 1. 1. 1.)
               velocity: vel
               acceleration: accel
-              update: (let ((speed (* (random-real) 2.)))
+              update: (let ((speed (random-in-range -2. 2.)))
                         (lambda (this)
                           (let ((rot (mesh-object-rotation this)))
                             (vec4d-w-set! rot (+ (vec4d-w rot) speed)))
@@ -55,9 +55,7 @@
                   (eq? mesh duck-mesh)
                   (eq? mesh sheep-mesh)
                   (eq? mesh cow-mesh)
-                  (eq? mesh person-mesh)
-                  (eq? mesh pig-mesh)
-                  (eq? mesh box-mesh))))))
+                  (eq? mesh pig-mesh))))))
 
 ;; the level pump which implements the cracking of the screen and all
 ;; associated events
@@ -78,8 +76,8 @@
                    (< (car coords) width)
                    (< (cadr coords) height)
                    (not (player-finished?))
-                   (not (eq? (mesh-object-mesh el) person-mesh))
-                   (not (mesh-object-nuke? el)))
+                   (not (mesh-object-nuke? el))
+                   (valid-mesh-object? el))
               (begin
                 (life-decrease! el)
 
@@ -120,8 +118,7 @@
     (let ((dir (body-part-direction part-obj)))
       (mesh-object-velocity-set!
        part-obj
-       (vec3d-add
-        (vec3d-scalar-mul dir 5.) (mesh-object-velocity obj)))
+       (vec3d-scalar-mul dir 15.))
       
       (mesh-object-rotation-set!
        part-obj
@@ -191,6 +188,9 @@
   (cond
    ((mesh-object-nuke? obj)
     (fire-nuke))
+   ((or (eq? (mesh-object-mesh obj) steak-mesh)
+        (eq? (mesh-object-mesh obj) bones-mesh))
+    (player-heal))
    ((eq? person-mesh
          (mesh-object-mesh obj))
     (player-has-failed)

@@ -42,7 +42,7 @@
          (btn-width (* scn-width width))
          (obj (make-2d-object
                font-perspective
-               font: (make-2d-font default-font50 label (* 22. height))
+               font: (make-2d-font default-font24 label (* 22. height))
                position: (make-vec3d
                           (+ (* (vec2d-x pos) scn-width)
                              (/ (- btn-width txt-width) 2.))

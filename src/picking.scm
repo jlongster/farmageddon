@@ -29,22 +29,21 @@
 
     (if pos
         (glTranslatef (vec3d-x pos) (vec3d-y pos) (vec3d-z pos)))
-    
+
     (if rot
         (glRotatef (vec4d-w rot)
                    (vec4d-x rot)
                    (vec4d-y rot)
                    (vec4d-z rot)))
-    
+
     (if scale
         (glScalef (vec3d-x scale) (vec3d-y scale) (vec3d-z scale)))
     
     (glColor4f (exact->inexact (/ (mesh-object-data obj) 255.)) 1. 1. 1.)
-    
+
     (glVertexPointer
      3 GL_FLOAT 0
      (obj-bounding-box-mesh (mesh-object-mesh obj)))
-    (glEnableClientState GL_VERTEX_ARRAY)
     (glDisable GL_LIGHTING)
     (glDrawArrays GL_TRIANGLES 0 36)
     (glEnable GL_LIGHTING)))
@@ -106,17 +105,16 @@
       (free buf)
       obj))
 
-  (if (intersection-waiting?)
-      (begin
-        (render-intersection-buffer)
-        (let loop ()
-          (let ((loc (dequeue-intersection)))
-            (if loc
-                (begin
-                  (and-let* ((obj (find-object-at-point (car loc) (cadr loc))))
-                    (on-entity-kill obj)
-                    (add-dust (car loc)
-                              (cadr loc)
-                              (vec3d-z (mesh-object-position obj)))
-                    (remove-entity obj))
-                  (loop))))))))
+  (begin
+    (render-intersection-buffer)
+    (let loop ()
+      (let ((loc (dequeue-intersection)))
+        (if loc
+            (begin
+              (and-let* ((obj (find-object-at-point (car loc) (cadr loc))))
+                (on-entity-kill obj)
+                (add-dust (car loc)
+                          (cadr loc)
+                          (vec3d-z (mesh-object-position obj)))
+                (remove-entity obj))
+              (loop)))))))

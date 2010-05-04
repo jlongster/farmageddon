@@ -1,7 +1,0 @@
-#! /bin/sh
-
-root=`dirname $0`
-
-echo ",exec ,load \"$root/compile.s48\"" | \
-scheme48 -i "/usr/local/scheme48/current/ps-compiler/ps-compiler.image" -a batch
-    

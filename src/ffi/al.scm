@@ -150,9 +150,7 @@
      err = ExtAudioFileGetProperty(extRef, kExtAudioFileProperty_FileLengthFrames, &thePropertySize, &theFileLengthInFrames);
      if(err) { printf("MyGetOpenALAudioData: ExtAudioFileGetProperty(kExtAudioFileProperty_FileLengthFrames) FAILED, Error = %ld\n", (long int)err); goto Exit; }
 
-                     theFileLengthInFrames -= 9000;
-                     
-       // Read all the data into memory
+     // Read all the data into memory
      UInt32 dataSize = theFileLengthInFrames * theOutputFormat.mBytesPerFrame;
      theData = malloc(dataSize);
      if (theData)

@@ -167,7 +167,7 @@
 
   (if (< z (bounding-box-min-z box))
       (bounding-box-min-z-set! box z)
-      (if (> z (bounding-box-max-x box))
+      (if (> z (bounding-box-max-z box))
           (bounding-box-max-z-set! box z))))
 
 (define (lookup-vertex obj index)

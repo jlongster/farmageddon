@@ -8,8 +8,10 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import <OpenGLES/EAGLDrawable.h>
-
+#import "OpenFeint.h"
+#import "OFHighScoreService.h"
 #import "EAGLView.h"
+#import "feintDelegate.h"
 
 #define USE_DEPTH_BUFFER 1
 
@@ -23,12 +25,12 @@ extern "C" {
     void touches_moved(NSSet*, UIEvent*);
     void touches_ended(NSSet*, UIEvent*);
     void touches_cancelled(NSSet*, UIEvent*);
+	void save_score();
 #if __cplusplus
 }
 #endif
 
 
-// A class extension to declare private methods
 @interface EAGLView ()
 
 @property (nonatomic, retain) EAGLContext *context;
@@ -43,6 +45,7 @@ extern "C" {
 
 - (bool)textFieldShouldReturn:(UITextField*)field {
     [field resignFirstResponder];
+	save_score();
 	return YES;
 }
 
@@ -76,8 +79,6 @@ extern "C" {
 			[self release];
 			return nil;
 		}
-		
-		animationInterval = 1.0 / 60.0;
 
 		register_view(self);
 		init();
@@ -99,9 +100,20 @@ extern "C" {
 }
 
 - (char*)highScoreFieldValue {
-	char* name = malloc(1024);
+	char* name = (char*)malloc(1024);
 	[highScoreName.text getCString:name maxLength:1024 encoding:NSASCIIStringEncoding];
 	return name;
+}
+
+- (void)submitHighScore:(int)score {
+	[OFHighScoreService setHighScore: score
+						forLeaderboard:@"241623"
+						onSuccess:OFDelegate()
+						onFailure:OFDelegate()];
+}
+
+- (void)fetchGlobalScores {
+	[feintDelegate loadHighScores];
 }
 
 //// Touches
@@ -123,6 +135,10 @@ extern "C" {
 }
 
 //// Rendering
+
+- (void)feintOpenDashboard {
+	[OpenFeint launchDashboardWithHighscorePage:@"241623"];
+}
 
 - (void)drawView {
     [EAGLContext setCurrentContext:context];

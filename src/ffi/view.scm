@@ -11,3 +11,11 @@
 (define (high-score-field-value)
   ((c-lambda (UIView*) char-string "___result = [___arg1 highScoreFieldValue];")
    (current-view)))
+
+(define (submit-high-score score)
+  ((c-lambda (UIView* int) void "[___arg1 submitHighScore: ___arg2];")
+   (current-view) score))
+
+(define (fetch-global-scores)
+  ((c-lambda (UIView*) void "[___arg1 fetchGlobalScores];")
+   (current-view)))

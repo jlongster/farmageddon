@@ -10,7 +10,6 @@
 (include "lib/srfi/sort.scm")
 (include "lib/events#.scm")
 (include "lib/events.scm")
-(include "lib/obj-loader.scm")
 
 ;; load the game
 

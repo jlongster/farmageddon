@@ -14,9 +14,10 @@
     (mesh-object-last-update-set! obj now)))
 
 (define (apply-acceleration obj change)
-  (let ((velocity (mesh-object-velocity obj)))
-    (if velocity
-        (let* ((acceleration (mesh-object-acceleration obj)))
+  (let ((velocity (mesh-object-velocity obj))
+        (acceleration (mesh-object-acceleration obj)))
+    (if (and velocity acceleration)
+        (begin
           (vec3d-x-set! velocity
                         (+ (vec3d-x velocity)
                            (* (vec3d-x acceleration) change)))

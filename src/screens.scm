@@ -81,6 +81,7 @@
 
 (include "screens/title.scm")
 (include "screens/level.scm")
+(include "screens/instructions.scm")
 (include "screens/credits.scm")
 (include "screens/scores.scm")
 (include "screens/test.scm")

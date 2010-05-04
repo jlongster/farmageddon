@@ -1,6 +1,10 @@
 ;;;; events
 ;;; Implements the harnesses for pumping through events in the game
 
+(declare (block)
+         (standard-bindings)
+         (extended-bindings))
+
 (define *current-difficulty* #f)
 (define *max-difficulty* 10)
 (define *events* (make-vector 10 '()))
@@ -50,14 +54,15 @@
 (define (%install-difficulties lst)
   (if (not (null? lst))
       (begin
-        (if (< (length lst) 4)
+        (if (< (length lst) 5)
             (error "install-difficulties: ill-formed arguments"))
         (let ((diff (first lst))
               (shift (second lst))
               (span (third lst))
-              (delay (fourth lst)))
-          (vector-set! *difficulties* diff (list shift span delay))
-          (%install-difficulties (drop lst 4))))))
+              (min-delay (fourth lst))
+              (delay-window (fifth lst)))
+          (vector-set! *difficulties* diff (list shift span min-delay delay-window))
+          (%install-difficulties (drop lst 5))))))
 
 (define (install-difficulties . args)
   (%install-difficulties args))
@@ -74,8 +79,11 @@
 (define (current-difficulty-span)
   (get-difficulty-span (current-difficulty)))
 
-(define (current-difficulty-delay)
-  (get-difficulty-delay (current-difficulty)))
+(define (current-difficulty-min-delay)
+  (get-difficulty-min-delay (current-difficulty)))
+
+(define (current-difficulty-delay-window)
+  (get-difficulty-delay-window (current-difficulty)))
 
 (define (%get-difficulty difficulty)
   (let ((x (vector-ref *difficulties* difficulty)))
@@ -89,8 +97,11 @@
 (define (get-difficulty-span difficulty)
   (second (%get-difficulty difficulty)))
 
-(define (get-difficulty-delay difficulty)
+(define (get-difficulty-min-delay difficulty)
   (third (%get-difficulty difficulty)))
+
+(define (get-difficulty-delay-window difficulty)
+  (fourth (%get-difficulty difficulty)))
 
 (define (apply-difficulty-shift?)
   (and (>= (kill-count) (current-difficulty-shift))
@@ -124,8 +135,9 @@
 (define *thread-event-group* (make-thread-group 'events))
 
 (define (wait-for-a-time)
-  (thread-sleep! (+ (current-difficulty-delay)
-                    (* (random-real) 1))))
+  (let ((d-min (current-difficulty-min-delay))
+        (d-window (current-difficulty-delay-window)))
+    (thread-sleep! (+ d-min (* (random-real) d-window)))))
 
 (define (start-event-executioner)
   (set! *thread-executioner*
@@ -162,21 +174,18 @@
         (event)))
     'event *thread-event-group*)))
 
-(define (event-done?)
-  (null? (filter valid-mesh-object? scene-list)))
-
-(define (no-event-threads?)
-  (null? (thread-group->thread-list *thread-event-group*)))
-
 (define (run-events)
   (if (not *receiver-thread*)
       (set! *receiver-thread* (current-thread)))
+  (if (not *thread-executioner*)
+      (start-event-executioner))
 
   (and-let* ((msg (thread-receive 0 #f)))
     (case (car msg)
       ((add-object) (scene-list-add (cadr msg)))
       (else (error "run-events: invalid message" (car msg)))))
 
+  #;
   (cond
    ((not *thread-executioner*) (start-event-executioner))
    ((and (event-done?)

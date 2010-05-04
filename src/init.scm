@@ -30,8 +30,28 @@
 (include "ffi/al.scm")
 (include "ffi/ftgl.scm")
 (include "ffi/view.scm")
+(include "ffi/feint.scm")
 
 ;; provide entry points
+
+(c-define (c-save-score) () void "save_score" ""
+  (save-score))
+
+(c-define (c-on-scores-loaded arr) (NSArray*) void "on_scores_loaded" ""
+  (on-scores-loaded
+   (and arr
+        (map
+         (lambda (score-obj)
+           (make-persistent-score
+            (HighScore-name score-obj)
+            (HighScore-score score-obj)))
+         (NSArray->list arr)))))
+
+(c-define (c-load-global-scores) () void "load_global_scores" ""
+  (if (eq? (current-screen) scores-screen)
+      (begin
+        (set! *have-scores?* #f)
+        (load-global-scores))))
 
 (c-define (c-init) () void "init" ""
   (init))
