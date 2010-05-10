@@ -69,8 +69,8 @@
 
 (define (shorten-name name)
   (let ((len (string-length name)))
-    (if (> len 9)
-        (string-append (string-copy name 0 5)
+    (if (> len 13)
+        (string-append (string-copy name 0 8)
                        "..."
                        (string-copy name (- len 4) len))
         name)))
@@ -87,7 +87,7 @@
             font: (make-2d-font default-font24
                                 (shorten-name (persistent-score-name score))
                                 22.)
-            position: (to-font-space .18 (+ .49 (* i .05)))
+            position: (to-font-space .1 (+ .49 (* i .05)))
             color: color))
           
           (overlay-list-add
