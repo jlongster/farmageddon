@@ -22,7 +22,7 @@
           (make-img
            (image-pvr-upload pvr)
            (pvr-alpha pvr)))
-        (let* ((image (CGImageRef-load path)))
+        (let* ((image (CGImageRef-load name)))
           (make-img
            (image-opengl-upload (CGImageRef-data image)
                                 (CGImageRef-width image)
@@ -62,10 +62,10 @@
   (glTexEnvi GL_TEXTURE_ENV GL_TEXTURE_ENV_MODE GL_MODULATE)
   (glTexParameteri GL_TEXTURE_2D
                    GL_TEXTURE_MIN_FILTER
-                   GL_NEAREST)
+                   GL_LINEAR)
   (glTexParameteri GL_TEXTURE_2D
                    GL_TEXTURE_MAG_FILTER
-                   GL_NEAREST)
+                   GL_LINEAR)
   (glTexParameteri GL_TEXTURE_2D
                    GL_TEXTURE_WRAP_S
                    GL_CLAMP_TO_EDGE)

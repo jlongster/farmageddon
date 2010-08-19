@@ -22,6 +22,8 @@ ___setup_params_struct setup_params;
 
 int main(int argc, char *argv[]) {
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+
+    NSLog(@"%f", [[NSDate date] timeIntervalSince1970]);
     
     // Taken from gambit, lib/main.c. 
     int debug_settings = ___DEBUG_SETTINGS_INITIAL;
@@ -58,7 +60,9 @@ int main(int argc, char *argv[]) {
 
 
     ___setup(&setup_params);
-                                  
+
+    NSLog(@"%f", [[NSDate date] timeIntervalSince1970]);
+    
     int retVal = UIApplicationMain(argc, argv, nil, nil);
     
     ___cleanup();

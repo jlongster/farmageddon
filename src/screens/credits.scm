@@ -29,9 +29,10 @@
            (add-centered-font default-font24 "HTTP://FARMAGEDDONGAME.COM" 100. 18.)
 
            (overlay-add-button "BACK"
+                               (make-vec2d .5 1.)
                                (make-vec2d .25 .85)
-                               .5 1.
+                               22.
                                (lambda (this)
-                                 (set-screen! title-screen))))
+                                       (set-screen! title-screen))))
   run: overlay-update
   render: overlay-render)

@@ -26,7 +26,9 @@
                     alpha
                     scale
                     position
+                    local-position
                     rotation
+                    (render #t)
                     (type 'linear)
                     (on-finished values))
   (let* ((started-time (real-time))
@@ -37,12 +39,15 @@
                       (vec3d-copy vec)))
          (src-position (and-let* ((vec (generic-object-position scene-obj)))
                          (vec3d-copy vec)))
+         (src-local-position (and-let* ((vec (generic-object-local-position scene-obj)))
+                               (vec4d-copy vec)))
          (src-rotation (and-let* ((vec (generic-object-rotation scene-obj)))
                          (vec4d-copy vec))))
     (make-scene-object
      (generic-object-perspective scene-obj)
      (lambda (fader)
-       (render-generic-object scene-obj))
+       (if render
+           (render-generic-object scene-obj)))
      (lambda (fader)
        (and (update-generic-object scene-obj)
             (let* ((time-span (- (real-time) started-time))
@@ -74,13 +79,19 @@
                                   interp
                                   src-position
                                   position))
+              (if local-position
+                  (tween-local-position scene-obj
+                                        type
+                                        interp
+                                        src-local-position
+                                        local-position))
               (if rotation
                   (tween-rotation scene-obj
                                   type
                                   interp
                                   src-rotation
                                   rotation))
-            
+           
               (if (> time-span length)
                   (if (not (on-finished))
                       (scene-list-remove fader))))))
@@ -222,6 +233,15 @@
 
 (define (tween-position scene-obj type interp src-position position)
   (let ((vec (generic-object-position scene-obj)))
+    (vec3d-x-set! vec (tween type interp
+                             (vec3d-x src-position) (vec4d-x position)))
+    (vec3d-y-set! vec (tween type interp
+                             (vec3d-y src-position) (vec4d-y position)))
+    (vec3d-z-set! vec (tween type interp
+                             (vec3d-z src-position) (vec4d-z position)))))
+
+(define (tween-local-position scene-obj type interp src-position position)
+  (let ((vec (generic-object-local-position scene-obj)))
     (vec3d-x-set! vec (tween type interp
                              (vec3d-x src-position) (vec4d-x position)))
     (vec3d-y-set! vec (tween type interp

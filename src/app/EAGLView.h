@@ -35,16 +35,21 @@
 	NSTimeInterval animationInterval;
 
 	IBOutlet UITextField *highScoreName;
+        IBOutlet UIButton *infoButton;
+        UIAlertView *infoAlert;
 }
 
 @property NSTimeInterval animationInterval;
-@property (retain, nonatomic) UITextField *highScoreName;
                               
 - (void)startAnimation;
 - (void)stopAnimation;
 - (void)drawView;
+- (void)gotoFullVersion;
+- (void)showInfoButton;
+- (IBAction)showInfo;
+- (void)hideInfoButton;
 - (void)hideHighScoreField;
-- (void)showHighScoreField:(int)x:(int)y;
+- (void)showHighScoreField:(int)x y:(int)y;
 - (char*)highScoreFieldValue;
 
 @end

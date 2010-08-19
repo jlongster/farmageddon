@@ -14,8 +14,8 @@
 
 (define PRELOADED-CRACKS '())
 (define EXISTING-CRACKS '())
-(define NUM-PRELOADED 10)
-(define NUM-LINES 20)
+(define NUM-PRELOADED 15)
+(define NUM-LINES 5)
 (define LINE-SPREAD 2)
 
 (define (load-randomized-cracks)

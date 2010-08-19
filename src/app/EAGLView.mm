@@ -13,6 +13,12 @@
 #import "EAGLView.h"
 #import "feintDelegate.h"
 
+enum {
+    INFO_WEBSITE = 1,
+    INFO_TWITTER,
+    INFO_DEVELOPER
+};
+
 #define USE_DEPTH_BUFFER 1
 
 #if __cplusplus
@@ -56,7 +62,6 @@ extern "C" {
 @synthesize context;
 @synthesize animationTimer;
 @synthesize animationInterval;
-@synthesize highScoreName;
 
 // You must implement this
 + (Class)layerClass {
@@ -65,25 +70,81 @@ extern "C" {
 
 //The GL view is stored in the nib file. When it's unarchived it's sent -initWithCoder:
 - (id)initWithCoder:(NSCoder*)coder {
-	if ((self = [super initWithCoder:coder])) {
-		// Get the layer
-		CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
+    if ((self = [super initWithCoder:coder])) {
+        // Get the layer
+        CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
 		
-		eaglLayer.opaque = YES;
-		eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                 [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
-                
-		context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+        eaglLayer.opaque = YES;
+        eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                         [NSNumber numberWithBool:NO],
+                                                     kEAGLDrawablePropertyRetainedBacking,
+                                                     kEAGLColorFormatRGBA8,
+                                                     kEAGLDrawablePropertyColorFormat,
+                                                     nil];
 
-		if (!context || ![EAGLContext setCurrentContext:context]) {
-			[self release];
-			return nil;
-		}
+        UIScreen* mainscr = [UIScreen mainScreen];
 
-		register_view(self);
-		init();
-	}
-	return self;
+        if([mainscr respondsToSelector:@selector(currentMode)]) {
+            CGSize screenSize = mainscr.currentMode.size;
+            
+            if(screenSize.width == 640.f && screenSize.height == 960.f) {
+                self.contentScaleFactor = 2.0;
+            }
+        }
+
+        context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+
+        if (!context || ![EAGLContext setCurrentContext:context]) {
+            [self release];
+            return nil;
+        }
+
+        register_view(self);
+        init();
+    }
+    return self;
+}
+
+- (void)hideInfoButton {
+    infoButton.hidden = YES;
+}
+
+- (void)showInfoButton {
+    infoButton.hidden = NO;
+}
+
+- (IBAction)showInfo {
+    infoAlert = [[UIAlertView alloc] initWithTitle:@"Information"
+                                                        message:nil
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:nil];
+    [infoAlert addButtonWithTitle:@"Website"];
+    [infoAlert addButtonWithTitle:@"Twitter"];
+    [infoAlert addButtonWithTitle:@"Developed by James Long"];
+    [infoAlert show];
+}
+
+- (void)alertView:(UIAlertView*)view clickedButtonAtIndex:(NSInteger)idx {
+    UIApplication *app = [UIApplication sharedApplication];
+
+    if(idx == INFO_WEBSITE) {
+        [app openURL:[NSURL URLWithString:@"http://farmageddongame.com"]];
+    }
+    else if(idx == INFO_TWITTER) {
+        [app openURL:[NSURL URLWithString:@"http://twitter.com/farmageddongame"]];
+    }
+    else if(idx == INFO_DEVELOPER) {
+        [app openURL:[NSURL URLWithString:@"http://jlongster.com"]];
+    }
+
+    [infoAlert release];
+    infoAlert = nil;
+}
+
+- (void)gotoFullVersion {
+    UIApplication *app = [UIApplication sharedApplication];
+    [app openURL:[NSURL URLWithString:@"http://itunes.apple.com/us/app/farmageddon/id365634742?mt=8"]];
 }
 
 - (void)hideHighScoreField {
@@ -137,7 +198,8 @@ extern "C" {
 //// Rendering
 
 - (void)feintOpenDashboard {
-	[OpenFeint launchDashboardWithHighscorePage:@"241623"];
+    NSLog(@"opening dashboard");
+    [OpenFeint launchDashboardWithHighscorePage:@"241623"];
 }
 
 - (void)drawView {

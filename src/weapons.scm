@@ -194,7 +194,8 @@
   (2d-object-postrender #t))
 
 (define (update-dust)
-  (set! dust-list (scene-list-update #f #f dust-list)))
+  (scene-list-purely-updates #f #f dust-list)
+  (set! dust-list (scene-list-purely-removes dust-list)))
 
 ;; interface
 

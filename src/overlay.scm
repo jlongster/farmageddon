@@ -42,6 +42,8 @@
 (define TX-LIFE-GROOVE #f)
 (define TX-LIFE-BAR #f)
 (define TX-BUTTON #f)
+(define *button-width* #f)
+(define *button-height* #f)
 
 (define (life-render)
   (load-perspective 2d-ratio-perspective)
@@ -129,4 +131,9 @@
 (define (overlay-init)
   (set! TX-LIFE-GROOVE (image-opengl-load "life-groove.png"))
   (set! TX-LIFE-BAR (image-opengl-load "life-bar.png"))
-  (set! TX-BUTTON (image-opengl-load "button.png")))
+  (set! TX-BUTTON (image-opengl-load "button.png"))
+
+  (let ((width (UIView-width (current-view)))
+        (height (UIView-height (current-view))))
+    (set! *button-width* (/ 134. width))
+    (set! *button-height* (/ 45. height))))

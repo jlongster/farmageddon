@@ -126,6 +126,7 @@
   perspective
   color
   position
+  local-position
   rotation
   scale
   texture
@@ -137,11 +138,13 @@
 
 (define (make-2d-object pers
                         #!key
-                        color position rotation scale texture font center
+                        color position local-position rotation
+                        scale texture font center
                         render update)
   (really-make-2d-object pers
                          color
                          position
+                         local-position
                          rotation
                          scale
                          texture
@@ -287,12 +290,13 @@
   
   (let ((color (2d-object-color obj))
         (pos (2d-object-position obj))
+        (local-pos (2d-object-local-position obj))
         (rot (2d-object-rotation obj))
         (scale (2d-object-scale obj))
         (texture (2d-object-texture obj))
         (font (2d-object-font obj))
         (center (2d-object-center obj)))
-    
+
     (if pos
         (glTranslatef (vec3d-x pos) (vec3d-y pos) (vec3d-z pos)))
 
@@ -301,6 +305,9 @@
                    (vec4d-x rot)
                    (vec4d-y rot)
                    (vec4d-z rot)))
+
+    (if local-pos
+        (glTranslatef (vec3d-x local-pos) (vec3d-y local-pos) (vec3d-z local-pos)))
     
     (if scale
         (glScalef (vec2d-x scale) (vec2d-y scale) 1.))
@@ -357,6 +364,7 @@
 (implement-generic-field color)
 (implement-generic-field scale)
 (implement-generic-field position)
+(implement-generic-field local-position)
 (implement-generic-field rotation)
 (implement-generic-field mark)
 (implement-generic-field render-proc)

@@ -6,7 +6,7 @@
 ;;;; util
 
 (define (read-map #!optional f)
-  (unfold (lambda (x) (eof-object? x))
+  (unfold eof-object?
           (lambda (x) (if f (f x) x))
           (lambda (x) (read))
           (read)))

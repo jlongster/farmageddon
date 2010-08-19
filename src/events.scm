@@ -183,10 +183,4 @@
   (and-let* ((msg (thread-receive 0 #f)))
     (case (car msg)
       ((add-object) (scene-list-add (cadr msg)))
-      (else (error "run-events: invalid message" (car msg)))))
-
-  #;
-  (cond
-   ((not *thread-executioner*) (start-event-executioner))
-   ((and (event-done?)
-         (no-event-threads?)) (restart-event-executioner))))
+      (else (error "run-events: invalid message" (car msg))))))

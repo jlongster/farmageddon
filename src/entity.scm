@@ -142,6 +142,81 @@
    (list pig-part1-mesh
          pig-part2-mesh)))
 
+(define (explode-with-feathers obj)
+  (define (depth-scale #!optional n)
+    (+ (expt .95 (vec3d-z (generic-object-position obj)))
+       (or n 0.)))
+
+  (define (get-color)
+    (let ((mesh (mesh-object-mesh obj)))
+      (cond
+       ((eq? mesh duck-mesh) (make-vec4d .725 .808 .647 1.))
+       ((eq? mesh chicken-mesh) (make-vec4d .804 .753 .608 1.))
+       (else (make-vec4d 1. 1. 1. 1.)))))
+  
+  (parameterize
+   ((current-perspective 3d-perspective))
+   
+   (let* ((pos (generic-object-position obj))
+          (screen (unproject (vec3d-x pos)
+                             (vec3d-y pos)
+                             (vec3d-z pos)))
+          (width (UIView-width (current-view)))
+          (height (UIView-height (current-view)))
+          (x (/ (exact->inexact (car screen)) width))
+          (y (* (/ (exact->inexact (cadr screen)) height) 1.5)))
+     (let loop ((i 0))
+       (if (< i 10)
+           (let* ((fpos (make-vec3d x y 0.))
+                  (localpos (make-vec3d (* (random-in-range -.4 .4) (depth-scale))
+                                        (- (* (random-in-range -.4 .4) (depth-scale)) .1)
+                                        0.))
+                  (newpos (vec3d-add fpos localpos))
+                  (obj (make-2d-object
+                        2d-ratio-perspective
+                        texture: feather-texture
+                        scale: (make-vec3d (* (depth-scale .1) .2)
+                                           (* (depth-scale .1) .2)
+                                           1.)
+                        position: (vec3d-copy newpos)
+                        local-position: (make-vec3d 0. (* (depth-scale) .1) 0.)
+                        color: (get-color)
+                        rotation: (make-vec4d 0. 0. 1. (random-in-range -45. 45.))
+                        center: (make-vec3d .5 .5 0.))))
+             (define (tween neg? count rot)
+               (dust-list-add
+                (make-tween
+                 obj
+                 length: .3
+                 rotation: (make-vec4d 0. 0. 1.
+                                       (+ (vec4d-w (generic-object-rotation obj))
+                                          (if neg?
+                                              (- rot)
+                                              rot)))
+                 type: 'ease-out-quad
+                 on-finished:
+                 (lambda ()
+                   (if (> count 0)
+                       (tween (not neg?)
+                              (- count 1)
+                              rot))
+                   #f))))
+             
+             (tween #f 4 (random-in-range -45. 45))
+
+             (dust-list-add
+              (make-tween
+               obj
+               length: (random-in-range .7 1.2)
+               render: #f
+               alpha: 0.
+               position: (vec3d-add newpos
+                                    (make-vec3d 0. (* .3 (depth-scale)) 0.))
+               type: 'linear
+               on-finished:
+               (lambda () #f)))
+             (loop (+ i 1))))))))
+
 (define (explode-generic obj)
   #f)
 
@@ -151,6 +226,8 @@
         (cond
          ((eq? mesh cow-mesh) (explode-cow obj))
          ((eq? mesh pig-mesh) (explode-pig obj))
+         ((or (eq? mesh duck-mesh)
+              (eq? mesh chicken-mesh)) (explode-with-feathers obj))
          (else (explode-generic obj))))))
 
 ;; audio

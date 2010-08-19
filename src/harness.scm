@@ -13,5 +13,5 @@
 
 ;; load the game
 
-(expand-if SIMULATOR
-           (load (local-resource "src/farmageddon")))
+;; (expand-if SIMULATOR
+;;            (load (local-resource "src/farmageddon")))

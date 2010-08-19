@@ -20,23 +20,24 @@
 
 ;; resources
 
-(define steak-mesh (obj-load (resource "steak") #t))
-(define bones-mesh (obj-load (resource "bones") #t))
-(define chicken-mesh (obj-load (resource "chicken") #t))
-(define duck-mesh (obj-load (resource "duck") #t))
-(define cow-mesh (obj-load (resource "cow") #t))
-(define cow-part1-mesh (obj-load (resource "cow-part1") #t))
-(define cow-part2-mesh (obj-load (resource "cow-part2") #t))
-(define cow-part3-mesh (obj-load (resource "cow-part3") #t))
-(define person-mesh (obj-load (resource "person") #t))
-(define sheep-mesh (obj-load (resource "sheep") #t))
-(define pig-mesh (obj-load (resource "pig") #t))
-(define pig-part1-mesh (obj-load (resource "pig-part1") #t))
-(define pig-part2-mesh (obj-load (resource "pig-part2") #t))
+(define steak-mesh #f)
+(define bones-mesh #f)
+(define chicken-mesh #f)
+(define duck-mesh #f)
+(define cow-mesh #f)
+(define cow-part1-mesh #f)
+(define cow-part2-mesh #f)
+(define cow-part3-mesh #f)
+(define person-mesh #f)
+(define sheep-mesh #f)
+(define pig-mesh #f)
+(define pig-part1-mesh #f)
+(define pig-part2-mesh #f)
 
 (define level-bg #f)
 (define fog-texture #f)
 (define star-texture #f)
+(define feather-texture #f)
 
 (define sheep1-audio #f)
 (define sheep2-audio #f)
@@ -178,10 +179,16 @@
 (define (on-trial-ended)
   (darken
    (lambda ()
-     ;;(add-centered-font default-font24 "~ LITE VERSION ENDED ~" 380. 18.)
-     (add-centered-font default-font24 "THANKS FOR PLAYING!" 360. 24.)
-     (add-centered-font default-font24 "BUY THE FULL VERSION" 335. 18.)
-     (add-centered-font default-font24 "TO SCORE HIGHER!" 315. 18.)
+     (add-centered-font default-font24 "THANKS FOR PLAYING!" 370. 24.)
+     (add-centered-font default-font24 "BUY THE FULL VERSION" 345. 18.)
+     (add-centered-font default-font24 "TO SCORE HIGHER!" 325. 18.)
+
+     (overlay-add-fancy-button "BUY"
+                               (make-vec2d (/ (- 1. *button-width*) 2.) .345)
+                               (lambda (this)
+                                 (fog-list-clear!)
+                                 (goto-full-version)))
+     
      (on-complete))))
 
 (define (on-fail)
@@ -317,20 +324,18 @@
       (if (> (score) high-score)
           (on-win)))
 
-    (overlay-add-button "TRY AGAIN"
-                        (make-vec2d .25 (+ .63 top))
-                        .5 1.
-                        (lambda (this)
-                          (fog-list-clear!)
-                          (hide-high-score-field)
-                          (set-screen! level-screen)))
-    (overlay-add-button "MENU"
-                        (make-vec2d .25 (+ .75 top))
-                        .5 1.
-                        (lambda (this)
-                          (fog-list-clear!)
-                          (hide-high-score-field)
-                          (set-screen! title-screen)))
+    (overlay-add-fancy-button "RETRY"
+                              (make-vec2d (/ (- 1. *button-width*) 2.) (+ .63 top))
+                              (lambda (this)
+                                (fog-list-clear!)
+                                (hide-high-score-field)
+                                (set-screen! level-screen)))
+    (overlay-add-fancy-button "MENU"
+                              (make-vec2d (/ (- 1. *button-width*) 2.) (+ .73 top))
+                              (lambda (this)
+                                (fog-list-clear!)
+                                (hide-high-score-field)
+                                (set-screen! title-screen)))
     
     (save-score)))
 
@@ -339,6 +344,8 @@
 (define font-perspective #f)
 
 (define (level-screen-init)
+  (NSLog (number->string (real-time)))
+  
   (let* ((width (UIView-width (current-view)))
          (height (UIView-height (current-view)))
          (3d-pers (perspective 40.
@@ -366,6 +373,7 @@
   (set! level-bg (image-opengl-load "background.pvr"))
   (set! fog-texture (image-opengl-load "fog.pvr"))
   (set! star-texture (image-opengl-load "star.pvr"))
+  (set! feather-texture (image-opengl-load "feather.png"))
 
   (glBindTexture GL_TEXTURE_2D (img-id fog-texture))
   (glTexParameteri GL_TEXTURE_2D
@@ -378,6 +386,24 @@
   
   (weapons-init)
   
+  (NSLog (number->string (real-time)))
+
+  ;; meshes
+  (set! steak-mesh (obj-load (resource "steak") #t))
+  (set! bones-mesh (obj-load (resource "bones") #t))
+  (set! chicken-mesh (obj-load (resource "chicken") #t))
+  (set! duck-mesh (obj-load (resource "duck") #t))
+  (set! cow-mesh (obj-load (resource "cow") #t))
+  (set! cow-part1-mesh (obj-load (resource "cow-part1") #t))
+  (set! cow-part2-mesh (obj-load (resource "cow-part2") #t))
+  (set! cow-part3-mesh (obj-load (resource "cow-part3") #t))
+  (set! person-mesh (obj-load (resource "person") #t))
+  (set! sheep-mesh (obj-load (resource "sheep") #t))
+  (set! pig-mesh (obj-load (resource "pig") #t))
+  (set! pig-part1-mesh (obj-load (resource "pig-part1") #t))
+  (set! pig-part2-mesh (obj-load (resource "pig-part2") #t))
+
+  ;; sounds
   (init-audio)
   (set! sheep1-audio (load-audio "sheep1.wav"))
   (set! sheep2-audio (load-audio "sheep2.wav"))
@@ -417,7 +443,9 @@
   
   (overlay-init)
   (scene-init)
-  (fog-init))
+  (fog-init)
+
+  (NSLog (number->string (real-time))))
 
 ;; setup the scene
 
@@ -431,6 +459,7 @@
   (glEnable GL_RESCALE_NORMAL)
 
   (scene-list-clear!)
+  (hide-info-button)
   
   (overlay-list-add
    (make-scene-object
@@ -449,9 +478,7 @@
          texture: (current-background-texture)))
 
   (scene-list-add *background-object* unimportant: #t)
-  (fog-list-clear!)
-
-  (add-counter))
+  (fog-list-clear!))
 
 (define (background-pop color)
   (scene-list-remove *background-object*)
@@ -478,7 +505,7 @@
   (update-fog)
   (check-difficulty)
 
-  (update-counter (current-difficulty))
+  ;;(update-counter (current-difficulty))
   
   (if (not (player-finished?))
       (run-events)))

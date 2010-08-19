@@ -1,4 +1,16 @@
 
+(define (goto-full-version)
+  ((c-lambda (UIView*) void "[___arg1 gotoFullVersion];")
+   (current-view)))
+
+(define (hide-info-button)
+  ((c-lambda (UIView*) void "[___arg1 hideInfoButton];")
+   (current-view)))
+
+(define (show-info-button)
+  ((c-lambda (UIView*) void "[___arg1 showInfoButton];")
+   (current-view)))
+
 (define (hide-high-score-field)
   ((c-lambda (UIView*) void "[___arg1 hideHighScoreField];")
    (current-view)))

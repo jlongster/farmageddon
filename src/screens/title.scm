@@ -62,6 +62,7 @@
       on-finished: (lambda () #f)))))
 
 (define (fade-out)
+  (hide-info-button)
   (overlay-list-add
    (make-tween
     (make-2d-object
@@ -114,16 +115,19 @@
            (scene-list-add
             (make-2d-object
              2d-perspective
-             texture: title-texture
-             scale: (make-vec3d (/ 512. 320.)
-                                (/ 512. 480.)
-                                1.)))
+             texture: title-texture))
 
-           (overlay-add-button "PLAY" (make-vec2d .35 .79) .3 1.
-                               (lambda (this)
-                                 (stop-explosion-events)
-                                 (fade-out)))
-           (overlay-add-button (get-sound-text) (make-vec2d .1 .9) .4 .7
+           (overlay-add-fancy-button
+            "PLAY"
+            (make-vec2d (/ (- 1. *button-width*) 2.) .82)
+            (lambda (this)
+              (stop-explosion-events)
+              (fade-out)))
+           
+           (overlay-add-button (get-sound-text)
+                               (make-vec2d .495 .055)
+                               (make-vec2d .0 .945)
+                               15.
                                (lambda (this)
                                  (if (is-audio-muted?)
                                      (begin
@@ -133,11 +137,16 @@
                                        (mute-audio)
                                        (2d-font-text-set! this (get-sound-text))))
                                  (save-sound)))
-           (overlay-add-button "SCORES" (make-vec2d .5 .9) .4 .7
+           
+           (overlay-add-button "SCORES"
+                               (make-vec2d .495 .055)
+                               (make-vec2d .505 .945)
+                               15.
                                (lambda (this)
                                  (stop-explosion-events)
                                  (set-screen! scores-screen)))
-           (add-info-button)
+           
+           (show-info-button)
            (start-explosion-events)
            (set! *first-run* #t))
   run: (lambda ()

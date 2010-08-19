@@ -14,45 +14,74 @@
   (set! buttons
         (cons button buttons)))
 
-(define (overlay-add-button label pos width height on-click #!optional tex)
-  (overlay-list-add
-   (make-2d-object
-    2d-perspective
-    texture: (or tex TX-BUTTON)
-    
-    ;; We have to scale the image because we had to enlarge
-    ;; it to be a power of 2 size, and the following
-    ;; seemingly arbitrary scales were the proportions.
-    ;; Previous size: 270x88
-    ;; Current size: 512x128
-    ;; Ratios: 512/270 and 128/88
-    scale: (make-vec3d (* width 1.8962962963)
-                       (* height .1 1.45454545)
-                       1.)
-    
-    position: (make-vec3d
-               (vec2d-x pos)
-               (vec2d-y pos)
-               0.))
-   important: #t)
-
+(define (overlay-add-fancy-button label pos on-click)
   (let* ((scn-width (UIView-width (current-view)))
          (scn-height (UIView-height (current-view)))
-         (txt-width (* (ftgl-get-font-advance default-font50 label) .44 height))
-         (btn-width (* scn-width width))
+         (txt-width (* (ftgl-get-font-advance default-font24 label) .917))
+         (btn-width 134.)
+         (btn-height 45.)
          (obj (make-2d-object
                font-perspective
-               font: (make-2d-font default-font24 label (* 22. height))
+               font: (make-2d-font default-font24 label 22.)
                position: (make-vec3d
                           (+ (* (vec2d-x pos) scn-width)
                              (/ (- btn-width txt-width) 2.))
-                          (* (- 1. (+ (vec2d-y pos) (* .065 height))) scn-height)
+                          (- (* (- 1. (vec2d-y pos)) scn-height) (* btn-height .68))
                           0.))))
+    (let ((scale (make-vec3d (exact->inexact (/ 134. scn-width))
+                             (exact->inexact (/ 45. scn-height))
+                             1.))
+          (pos (make-vec3d (vec2d-x pos) (vec2d-y pos) 0.)))
+      (overlay-list-add
+       (make-2d-object
+        2d-perspective
+        texture: TX-BUTTON
+        scale: scale
+        position: pos)
+       important: #t))
+    
     (overlay-list-add obj important: #t)
-  
+    
     (set! buttons
           (cons (make-button pos
-                             (make-vec2d width (* .1 height))
+                             (make-vec2d (exact->inexact (/ 134. scn-width))
+                                         (exact->inexact (/ 45. scn-height)))
+                             on-click
+                             obj)
+                buttons))))
+
+(define (overlay-add-button label scale pos font-size on-click)
+  (let* ((scn-width (UIView-width (current-view)))
+         (scn-height (UIView-height (current-view)))
+         (txt-width (* (ftgl-get-font-advance default-font24 label) (/ font-size 24.)))
+         (btn-width (vec2d-x scale))
+         (btn-height (vec2d-y scale))
+         (obj (make-2d-object
+               font-perspective
+               font: (make-2d-font default-font24 label font-size)
+               position: (make-vec3d
+                          (+ (* (vec2d-x pos) scn-width)
+                             (/ (- (* btn-width scn-width) txt-width) 2.))
+                          (- (* (- 1. (vec2d-y pos)) scn-height)
+                             (* (* btn-height scn-height) .76))
+                          0.))))
+    (let ((scale (make-vec3d (vec2d-x scale)
+                             (vec2d-y scale)
+                             1.))
+          (pos (make-vec3d (vec2d-x pos) (vec2d-y pos) 0.)))
+      (overlay-list-add
+       (make-2d-object
+        2d-perspective
+        color: (make-vec4d .84 .137 .137 1.)
+        scale: scale
+        position: pos)
+       important: #t))
+    
+    (overlay-list-add obj important: #t)
+    
+    (set! buttons
+          (cons (make-button pos
+                             scale
                              on-click
                              obj)
                 buttons))))

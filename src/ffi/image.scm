@@ -8,7 +8,7 @@
 
  CGImageRef CGImageRef_load(const char *filename) {
     NSString *path = [NSString stringWithFormat:@"%s", filename];
-    UIImage *img = [UIImage imageWithContentsOfFile:path];
+    UIImage *img = [UIImage imageNamed:path];
     if(img) return [img CGImage];
     return NULL;
  }

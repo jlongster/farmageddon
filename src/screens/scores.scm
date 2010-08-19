@@ -26,7 +26,8 @@
 
 (define (load-default-screen)
   (overlay-list-clear!)
-
+  (hide-info-button)
+  
   (overlay-list-add
    (make-2d-object
     2d-ratio-perspective
@@ -59,11 +60,10 @@
   
   (overlay-list-add *global-score-obj*)
 
-  (overlay-add-button "BACK"
-                      (make-vec2d .51 .87)
-                      .35 .7
-                      (lambda (this)
-                        (set-screen! title-screen)))
+  (overlay-add-fancy-button "BACK"
+                            (make-vec2d (+ .09 *button-width*) .855)
+                            (lambda (this)
+                              (set-screen! title-screen)))
 
   (add-feint-button))
 
@@ -111,11 +111,10 @@
   (set! *loading-obj*
         (add-centered-font default-font24 "loading..." 240. 20.))
   
-  (overlay-add-button "LOCAL"
-                      (make-vec2d .14 .87)
-                      .35 .7
-                      (lambda (this)
-                        (load-local-scores)))
+  (overlay-add-fancy-button "LOCAL"
+                            (make-vec2d .09 .855)
+                            (lambda (this)
+                              (load-local-scores)))
   
   (fetch-global-scores))
 
@@ -141,9 +140,9 @@
               (show-feint-enable)))))
 
 (define (show-feint-enable)
-  (overlay-add-button "ENABLE FEINT"
-                      (make-vec2d .25 .48)
-                      .5 .7
+  (add-centered-font default-font24 "FEINT IS NOT ENABLED!" 200. 18.)
+  (overlay-add-fancy-button "FEINT"
+                      (make-vec2d (/ (- 1. *button-width*) 2.) .60)
                       (lambda (this)
                         (feint-open-dashboard))))
 
@@ -155,11 +154,10 @@
 
   (add-centered-font default-font24 "LOCAL SCORES" 275. 24.)
   
-  (overlay-add-button "GLOBAL"
-                      (make-vec2d .14 .87)
-                      .35 .7
-                      (lambda (this)
-                        (load-global-scores)))
+  (overlay-add-fancy-button "GLOBAL"
+                            (make-vec2d .09 .855)
+                            (lambda (this)
+                              (load-global-scores)))
   
   (show-scores (get-high-scores)
                (make-vec4d 1. .3 .3 1.)))

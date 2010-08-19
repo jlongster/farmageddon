@@ -21,320 +21,312 @@
 		vrLen = 698;
 		vrLoc = 0;
 	};
-	1A1C5DDF112B838000F53340 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1A1C5DE0112B838000F53340 /* gl.h */;
-		name = "gl.h: 1";
+	1A1907E211FE1C5700B98AB2 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 1AF06442118688FB00C74C4A /* title-lite.png */;
+	};
+	1A19082411FE8A2800B98AB2 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 1AF06442118688FB00C74C4A /* title-lite.png */;
+	};
+	1A19E9D111FD57D700B98AB2 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UIPrerenderedIcon,
+		);
+		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
 		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 1382;
-		vrLoc = 0;
-	};
-	1A1C5DE0112B838000F53340 /* gl.h */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.h;
-		name = gl.h;
-		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.sdk/System/Library/Frameworks/OpenGLES.framework/Headers/ES1/gl.h;
-		sourceTree = "<absolute>";
-	};
-	1A2DC78C1178D629008FAEE2 /* OFChallengeToUser.mm */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {852, 2379}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 638}";
-		};
-	};
-	1A2DC7B81178D629008FAEE2 /* OFForumService.mm */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {852, 1430}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 638}";
-		};
+		rLoc = 9223372036854775808;
 	};
 	1A2DC7C61178D629008FAEE2 /* OFHighScore.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {854, 871}}";
-			sepNavSelRange = "{1039, 8}";
-			sepNavVisRange = "{638, 1651}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFHighScore.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/HighScore/OFHighScore.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC7C71178D629008FAEE2 /* OFHighScore.mm */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {854, 3211}}";
-			sepNavSelRange = "{1749, 0}";
-			sepNavVisRange = "{2636, 743}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.objcpp;
+		name = OFHighScore.mm;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/HighScore/OFHighScore.mm;
+		sourceTree = "<absolute>";
 	};
 	1A2DC7CA1178D629008FAEE2 /* OFHighScoreService.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {2084, 1092}}";
-			sepNavSelRange = "{968, 0}";
-			sepNavVisRange = "{0, 3915}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFHighScoreService.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/HighScore/OFHighScoreService.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC7CB1178D629008FAEE2 /* OFHighScoreService.mm */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {2077, 6552}}";
-			sepNavSelRange = "{1027, 0}";
-			sepNavVisRange = "{4208, 2310}";
-			sepNavWindowFrame = "{{75, 0}, {894, 878}}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.objcpp;
+		name = OFHighScoreService.mm;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/HighScore/OFHighScoreService.mm;
+		sourceTree = "<absolute>";
 	};
 	1A2DC7CC1178D629008FAEE2 /* OFHighScoreService.mm.orig */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1391, 6578}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 2044}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = text;
+		name = OFHighScoreService.mm.orig;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/HighScore/OFHighScoreService.mm.orig;
+		sourceTree = "<absolute>";
 	};
 	1A2DC7CE1178D629008FAEE2 /* OFDependencies.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {854, 674}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 1238}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFDependencies.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/OFDependencies.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC7EE1178D629008FAEE2 /* OpenFeint+Private.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1048, 1534}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{409, 2334}";
-		};
-	};
-	1A2DC8131178D629008FAEE2 /* OFAchievementService+Private.mm */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1181, 6552}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{16649, 1142}";
-			sepNavWindowFrame = "{{75, 0}, {894, 878}}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = "OpenFeint+Private.h";
+		path = "/usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/OpenFeint/OpenFeint+Private.h";
+		sourceTree = "<absolute>";
 	};
 	1A2DC81C1178D629008FAEE2 /* OFResource.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {854, 649}}";
-			sepNavSelRange = "{936, 0}";
-			sepNavVisRange = "{0, 1465}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFResource.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/OpenFeint/Services/Bases/OFResource.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC81D1178D629008FAEE2 /* OFResource.mm */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1069, 2977}}";
-			sepNavSelRange = "{1217, 0}";
-			sepNavVisRange = "{5831, 1399}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.objcpp;
+		name = OFResource.mm;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/OpenFeint/Services/Bases/OFResource.mm;
+		sourceTree = "<absolute>";
 	};
 	1A2DC8201178D629008FAEE2 /* OFService+Private.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {927, 858}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{170, 2089}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = "OFService+Private.h";
+		path = "/usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/OpenFeint/Services/Bases/OFService+Private.h";
+		sourceTree = "<absolute>";
 	};
 	1A2DC8211178D629008FAEE2 /* OFService+Private.mm */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {927, 2418}}";
-			sepNavSelRange = "{1346, 12}";
-			sepNavVisRange = "{409, 1860}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.objcpp;
+		name = "OFService+Private.mm";
+		path = "/usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/OpenFeint/Services/Bases/OFService+Private.mm";
+		sourceTree = "<absolute>";
 	};
 	1A2DC8231178D629008FAEE2 /* OFService.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {854, 936}}";
-			sepNavSelRange = "{1112, 0}";
-			sepNavVisRange = "{711, 1564}";
-			sepNavWindowFrame = "{{75, 0}, {894, 878}}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFService.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/OpenFeint/Services/Bases/OFService.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC8241178D629008FAEE2 /* OFService.mm */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {854, 674}}";
-			sepNavSelRange = "{1033, 0}";
-			sepNavVisRange = "{0, 1311}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.objcpp;
+		name = OFService.mm;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/OpenFeint/Services/Bases/OFService.mm;
+		sourceTree = "<absolute>";
 	};
 	1A2DC8411178D629008FAEE2 /* OFHighScoreService+Private.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {2364, 689}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{121, 3494}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = "OFHighScoreService+Private.h";
+		path = "/usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/OpenFeint/Services/HighScore/OFHighScoreService+Private.h";
+		sourceTree = "<absolute>";
 	};
 	1A2DC8501178D629008FAEE2 /* OFPaginatedSeries.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {854, 672}}";
-			sepNavSelRange = "{1768, 0}";
-			sepNavVisRange = "{0, 1768}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFPaginatedSeries.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/OpenFeint/Services/Pagination/OFPaginatedSeries.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC86B1178D629008FAEE2 /* OFBase.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1335, 1547}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{2800, 1862}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFBase.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/Systems/AuroraLib/Common/OFBase.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC86C1178D629008FAEE2 /* OFCallbackable.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {854, 674}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 960}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFCallbackable.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/Systems/AuroraLib/Common/OFCallbackable.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC86D1178D629008FAEE2 /* OFDelegate.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {854, 741}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 2115}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFDelegate.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/Systems/AuroraLib/Common/OFDelegate.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC8711178D629008FAEE2 /* OFHashedString.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {854, 674}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 1509}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFHashedString.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/Systems/AuroraLib/Common/OFHashedString.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC8771178D629008FAEE2 /* OFRTTI.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1223, 2249}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{1057, 2267}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFRTTI.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/Systems/AuroraLib/Common/OFRTTI.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC87F1178D629008FAEE2 /* OFStringUtility.mm */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1118, 674}}";
-			sepNavSelRange = "{1451, 0}";
-			sepNavVisRange = "{0, 1451}";
-		};
-	};
-	1A2DC88C1178D629008FAEE2 /* OFBinarySink.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {852, 702}}";
-			sepNavSelRange = "{1011, 0}";
-			sepNavVisRange = "{0, 638}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.objcpp;
+		name = OFStringUtility.mm;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/Systems/AuroraLib/Common/OFStringUtility.mm;
+		sourceTree = "<absolute>";
 	};
 	1A2DC8AA1178D629008FAEE2 /* OFBlobDownloadObserver.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {854, 674}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 1575}";
-			sepNavWindowFrame = "{{75, 0}, {894, 878}}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFBlobDownloadObserver.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/Systems/AuroraLib/Kernel/Network/HTTP/OFBlobDownloadObserver.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC8AD1178D629008FAEE2 /* OFHttpRequest.mm */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1489, 5096}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{7054, 1303}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.objcpp;
+		name = OFHttpRequest.mm;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/Systems/AuroraLib/Kernel/Network/HTTP/OFHttpRequest.mm;
+		sourceTree = "<absolute>";
 	};
 	1A2DC8BC1178D629008FAEE2 /* OFSqlQuery.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {852, 1053}}";
-			sepNavSelRange = "{907, 0}";
-			sepNavVisRange = "{752, 373}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFSqlQuery.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/Systems/AuroraLib/Kernel/Sql/OFSqlQuery.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC8EE1178D62A008FAEE2 /* OFTableSectionDescription.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {854, 767}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{354, 1852}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFTableSectionDescription.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/Systems/ControllerHelpers/TableControllerHelper/OFTableSectionDescription.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC9461178D62A008FAEE2 /* OFTimerHeartbeat.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {927, 649}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 1164}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFTimerHeartbeat.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/Systems/Heartbeat/OFTimerHeartbeat.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC9471178D62A008FAEE2 /* OFTimerHeartbeat.mm */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {927, 650}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 1562}";
-		};
-	};
-	1A2DC9871178D62A008FAEE2 /* Base64Transcoder.mm */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {817, 2990}}";
-			sepNavSelRange = "{1283, 0}";
-			sepNavVisRange = "{1066, 354}";
-		};
-	};
-	1A2DC9921178D62A008FAEE2 /* MPOAuthAPI.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1762, 1079}}";
-			sepNavSelRange = "{2397, 0}";
-			sepNavVisRange = "{2185, 996}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.objcpp;
+		name = OFTimerHeartbeat.mm;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/internal/Systems/Heartbeat/OFTimerHeartbeat.mm;
+		sourceTree = "<absolute>";
 	};
 	1A2DC9C91178D62A008FAEE2 /* OFLeaderboard.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {957, 741}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 1624}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFLeaderboard.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/Leaderboard/OFLeaderboard.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC9CA1178D62A008FAEE2 /* OFLeaderboard.mm */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {950, 1963}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 1293}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.objcpp;
+		name = OFLeaderboard.mm;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/Leaderboard/OFLeaderboard.mm;
+		sourceTree = "<absolute>";
 	};
 	1A2DC9CB1178D62A008FAEE2 /* OFLeaderboardService.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1314, 674}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 1576}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFLeaderboardService.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/Leaderboard/OFLeaderboardService.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC9CC1178D62A008FAEE2 /* OFLeaderboardService.mm */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1307, 1144}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{1367, 1956}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.objcpp;
+		name = OFLeaderboardService.mm;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/Leaderboard/OFLeaderboardService.mm;
+		sourceTree = "<absolute>";
 	};
 	1A2DC9F21178D62A008FAEE2 /* OFUser.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {873, 923}}";
-			sepNavSelRange = "{968, 0}";
-			sepNavVisRange = "{875, 1548}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFUser.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/USer/OFUser.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC9F41178D62A008FAEE2 /* OFUserService.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1230, 674}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 1697}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OFUserService.h;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/USer/OFUserService.h;
+		sourceTree = "<absolute>";
 	};
 	1A2DC9F51178D62A008FAEE2 /* OFUserService.mm */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {854, 1846}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 2007}";
-		};
-	};
-	1A2DCA091178D62A008FAEE2 /* OpenFeint.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {956, 3211}}";
-			sepNavSelRange = "{908, 0}";
-			sepNavVisRange = "{0, 1940}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.objcpp;
+		name = OFUserService.mm;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/api/USer/OFUserService.mm;
+		sourceTree = "<absolute>";
 	};
 	1A2DCA0A1178D62A008FAEE2 /* OpenFeintPrefix.pch */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {852, 449}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 1084}";
-		};
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = OpenFeintPrefix.pch;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/OpenFeintPrefix.pch;
+		sourceTree = "<absolute>";
+	};
+	1A2DCB971178D62A008FAEE2 /* OFPanelButtonLong.png */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = image.png;
+		name = OFPanelButtonLong.png;
+		path = /usr/local/iphone/OpenFeint2.4.5/OpenFeint/resources/Portrait/Buttons/OFPanelButtonLong.png;
+		sourceTree = "<absolute>";
 	};
 	1A2DD05B1178D939008FAEE2 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -369,9 +361,9 @@
 	};
 	1A2F09A6117A8455008CD555 /* feintDelegate.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {854, 1651}}";
-			sepNavSelRange = "{750, 0}";
-			sepNavVisRange = "{643, 1436}";
+			sepNavIntBoundsRect = "{{0, 0}, {847, 1482}}";
+			sepNavSelRange = "{1913, 0}";
+			sepNavVisRange = "{1686, 542}";
 		};
 	};
 	1A2F09B7117AC65C008CD555 /* PBXTextBookmark */ = {
@@ -403,9 +395,9 @@
 	};
 	1A3261141163E8F7009034AD /* farmageddon.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {817, 1.49159e+06}}";
-			sepNavSelRange = "{3511154, 0}";
-			sepNavVisRange = "{3510863, 527}";
+			sepNavIntBoundsRect = "{{0, 0}, {875, 2.42082e+06}}";
+			sepNavSelRange = "{5104349, 0}";
+			sepNavVisRange = "{5104066, 503}";
 		};
 	};
 	1A3261151163E8F7009034AD /* harness.c */ = {
@@ -505,6 +497,16 @@
 		path = "/Users/james/projects/scheme/gambit-iphone-example/app/EAGLView.m";
 		sourceTree = "<absolute>";
 	};
+	1A604497119DA76600DABCBA /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1A8AAD7C1100F83C006ABDA6 /* EAGLView.mm */;
+		name = "EAGLView.mm: 137";
+		rLen = 0;
+		rLoc = 3117;
+		rType = 0;
+		vrLen = 811;
+		vrLoc = 2073;
+	};
 	1A85C29A10105263003E0CC8 /* init.c */ = {
 		isa = PBXFileReference;
 		lastKnownFileType = sourcecode.c.c;
@@ -531,9 +533,9 @@
 	};
 	1A8AAD7C1100F83C006ABDA6 /* EAGLView.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1377, 3341}}";
-			sepNavSelRange = "{3117, 0}";
-			sepNavVisRange = "{2254, 1215}";
+			sepNavIntBoundsRect = "{{0, 0}, {1069, 4095}}";
+			sepNavSelRange = "{8034, 0}";
+			sepNavVisRange = "{1730, 638}";
 			sepNavWindowFrame = "{{75, 0}, {894, 878}}";
 		};
 	};
@@ -556,7 +558,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {880, 845}}";
 			sepNavSelRange = "{202, 26}";
-			sepNavVisRange = "{229, 1519}";
+			sepNavVisRange = "{229, 1263}";
 			sepNavWindowFrame = "{{72, 0}, {894, 878}}";
 		};
 	};
@@ -584,28 +586,6 @@
 		rType = 0;
 		vrLen = 998;
 		vrLoc = 575;
-	};
-	1A9F74FB118778A200390223 /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-		);
-		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
-		rLen = 0;
-		rLoc = 9223372036854775808;
-	};
-	1A9F74FC118778A200390223 /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-		);
-		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
-		rLen = 0;
-		rLoc = 9223372036854775808;
 	};
 	1AA2D93C10AF23B400BF3FB2 /* cow.mtl */ = {
 		uiCtxt = {
@@ -652,26 +632,6 @@
 		uiCtxt = {
 			sepNavWindowFrame = "{{425, 0}, {894, 878}}";
 		};
-	};
-	1AACA891112CA5550091BC66 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1AF90E7E112C97BB00742CE8 /* gl.h */;
-		name = "gl.h: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 967;
-		vrLoc = 0;
-	};
-	1AB6F2A8117E4A9600D94783 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1A2DCA091178D62A008FAEE2 /* OpenFeint.h */;
-		name = "OpenFeint.h: 22";
-		rLen = 0;
-		rLoc = 908;
-		rType = 0;
-		vrLen = 1940;
-		vrLoc = 0;
 	};
 	1AB6F2BE117E95D600D94783 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -816,16 +776,6 @@
 		rType = 0;
 		vrLen = 1181;
 		vrLoc = 0;
-	};
-	1AB6F3661185E4B900D94783 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1A8AAD7C1100F83C006ABDA6 /* EAGLView.mm */;
-		name = "EAGLView.mm: 137";
-		rLen = 0;
-		rLoc = 3117;
-		rType = 0;
-		vrLen = 1215;
-		vrLoc = 2254;
 	};
 	1AB6F3681185E4B900D94783 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -1077,39 +1027,6 @@
 		vrLen = 923;
 		vrLoc = 0;
 	};
-	1AC5DF8C118B2B9A002507F2 /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-		);
-		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
-		rLen = 0;
-		rLoc = 9223372036854775807;
-	};
-	1AC5DF94118CC1F5002507F2 /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-		);
-		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
-		rLen = 0;
-		rLoc = 9223372036854775807;
-	};
-	1AC5DF95118CC1F5002507F2 /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-		);
-		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
-		rLen = 0;
-		rLoc = 9223372036854775807;
-	};
 	1ACA2F310FD4E7FC005851FB /* farmageddon */ = {
 		isa = PBXExecutable;
 		activeArgIndices = (
@@ -1117,7 +1034,7 @@
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
-		breakpointsEnabled = 0;
+		breakpointsEnabled = 1;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
@@ -1163,6 +1080,262 @@
 			sepNavVisRange = "{0, 698}";
 		};
 	};
+	1ADD6D0A11F752E900D74B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1A2F09A6117A8455008CD555 /* feintDelegate.mm */;
+		name = "feintDelegate.mm: 21";
+		rLen = 0;
+		rLoc = 423;
+		rType = 0;
+		vrLen = 593;
+		vrLoc = 0;
+	};
+	1ADE219B121D969000616BAB /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 1AF06442118688FB00C74C4A /* title-lite.png */;
+	};
+	1ADE2BEF121D9D7800616BAB /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 1AF06442118688FB00C74C4A /* title-lite.png */;
+	};
+	1ADE2BF0121D9D7800616BAB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1A8AAD7C1100F83C006ABDA6 /* EAGLView.mm */;
+		name = "EAGLView.mm: 304";
+		rLen = 0;
+		rLoc = 7945;
+		rType = 0;
+		vrLen = 789;
+		vrLoc = 1897;
+	};
+	1ADE2BF1121D9D7800616BAB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UIPrerenderedIcon,
+		);
+		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	1ADE2C00121DA0EB00616BAB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UIPrerenderedIcon,
+		);
+		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	1ADE2C05121DA20200616BAB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UIPrerenderedIcon,
+		);
+		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	1ADE2C6A121DA55B00616BAB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UIPrerenderedIcon,
+		);
+		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	1ADE2C6D121DA59300616BAB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UIPrerenderedIcon,
+		);
+		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	1ADE2C72121DA7E000616BAB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UIPrerenderedIcon,
+		);
+		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	1ADE2C77121DAADD00616BAB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UIPrerenderedIcon,
+		);
+		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	1ADE2C81121DAD6E00616BAB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UIPrerenderedIcon,
+		);
+		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	1ADE2C85121DAEF700616BAB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UIPrerenderedIcon,
+		);
+		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	1ADE2CA4121DB00100616BAB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UIPrerenderedIcon,
+		);
+		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	1ADE2CA9121DB04D00616BAB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UIPrerenderedIcon,
+		);
+		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	1ADE2CAD121DB0DA00616BAB /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "Confused by earlier errors, bailing out";
+		fRef = 1A8AAD7C1100F83C006ABDA6 /* EAGLView.mm */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 88;
+		rType = 1;
+	};
+	1ADE2CAE121DB0DA00616BAB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1A8AAD7C1100F83C006ABDA6 /* EAGLView.mm */;
+		name = "EAGLView.mm: 307";
+		rLen = 0;
+		rLoc = 8034;
+		rType = 0;
+		vrLen = 735;
+		vrLoc = 1643;
+	};
+	1ADE2CB1121DB0E700616BAB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UIPrerenderedIcon,
+		);
+		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	1ADE2CB3121DB11B00616BAB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UIPrerenderedIcon,
+		);
+		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	1ADE2CCC121DB1C700616BAB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1A8AAD7C1100F83C006ABDA6 /* EAGLView.mm */;
+		name = "EAGLView.mm: 307";
+		rLen = 0;
+		rLoc = 8034;
+		rType = 0;
+		vrLen = 735;
+		vrLoc = 1643;
+	};
+	1ADE2CCD121DB1C700616BAB /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "Duplicate case value";
+		fRef = 1A3261141163E8F7009034AD /* farmageddon.c */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 152183;
+		rType = 1;
+	};
+	1ADE2CCE121DB1C700616BAB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1A3261141163E8F7009034AD /* farmageddon.c */;
+		name = "farmageddon.c: 152184";
+		rLen = 0;
+		rLoc = 5104349;
+		rType = 0;
+		vrLen = 503;
+		vrLoc = 5104066;
+	};
+	1ADE2CCF121DB1CB00616BAB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UIPrerenderedIcon,
+		);
+		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	1ADE2CDC121DB4C600616BAB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 1AAB11BD1100FBA2005EAADF /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UIPrerenderedIcon,
+		);
+		name = /Users/james/projects/scheme/farmageddon/src/app/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
 	1AE1CAB111231EFB00225D96 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 1A3002C711227464001917BE /* ftgles.h */;
@@ -1172,6 +1345,16 @@
 		rType = 0;
 		vrLen = 768;
 		vrLoc = 662;
+	};
+	1AEC0AED1198F37900B6E2CD /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1A8AAD7F1100F83C006ABDA6 /* tosserAppDelegate.mm */;
+		name = "tosserAppDelegate.mm: 11";
+		rLen = 26;
+		rLoc = 202;
+		rType = 0;
+		vrLen = 1263;
+		vrLoc = 229;
 	};
 	1AF0645B11868D6300C74C4A /* feintDelegate.mm:84 */ = {
 		isa = PBXFileBreakpoint;
@@ -1183,11 +1366,11 @@
 		delayBeforeContinue = 0;
 		fileReference = 1A2F09A6117A8455008CD555 /* feintDelegate.mm */;
 		functionName = "+_scoresDownloaded:";
-		hitCount = 1;
+		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 84;
 		location = farmageddon;
-		modificationTime = 294030713.538602;
+		modificationTime = 303937887.142643;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -1201,16 +1384,6 @@
 		vrLen = 1852;
 		vrLoc = 354;
 	};
-	1AF0646D11868F1300C74C4A /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1A8AAD7F1100F83C006ABDA6 /* tosserAppDelegate.mm */;
-		name = "tosserAppDelegate.mm: 11";
-		rLen = 26;
-		rLoc = 202;
-		rType = 0;
-		vrLen = 1519;
-		vrLoc = 229;
-	};
 	1AF0646E11868F1300C74C4A /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 1A2DC8501178D629008FAEE2 /* OFPaginatedSeries.h */;
@@ -1220,16 +1393,6 @@
 		rType = 0;
 		vrLen = 1768;
 		vrLoc = 0;
-	};
-	1AF064FB1187514800C74C4A /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1A2F09A6117A8455008CD555 /* feintDelegate.mm */;
-		name = "feintDelegate.mm: 47";
-		rLen = 0;
-		rLoc = 750;
-		rType = 0;
-		vrLen = 1522;
-		vrLoc = 643;
 	};
 	1AF0659B11876C7E00C74C4A /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -1252,13 +1415,6 @@
 		rLen = 0;
 		rLoc = 9223372036854775808;
 	};
-	1AF90E7E112C97BB00742CE8 /* gl.h */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.h;
-		name = gl.h;
-		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.sdk/System/Library/Frameworks/OpenGLES.framework/Headers/ES2/gl.h;
-		sourceTree = "<absolute>";
-	};
 	1D6058900D05DD3D006BFB54 /* farmageddon */ = {
 		activeExec = 0;
 		executables = (
@@ -1266,9 +1422,9 @@
 		);
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
-		activeBuildConfigurationName = Release;
+		activeBuildConfigurationName = "Debug iPhone";
 		activeExecutable = 1ACA2F310FD4E7FC005851FB /* farmageddon */;
-		activeSDKPreference = iphonesimulator3.1.3;
+		activeSDKPreference = iphoneos4.0;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* farmageddon */;
 		addToTargets = (
 			1D6058900D05DD3D006BFB54 /* farmageddon */,
@@ -1366,13 +1522,15 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 294333333;
-			PBXWorkspaceStateSaveDate = 294333333;
+			PBXPerProjectTemplateStateSaveDate = 303928832;
+			PBXWorkspaceStateSaveDate = 303928832;
 		};
 		perUserProjectItems = {
 			1A167198116125B400E26B48 = 1A167198116125B400E26B48 /* PBXBookmark */;
 			1A1672321161B2D200E26B48 = 1A1672321161B2D200E26B48 /* PBXTextBookmark */;
-			1A1C5DDF112B838000F53340 = 1A1C5DDF112B838000F53340 /* PBXTextBookmark */;
+			1A1907E211FE1C5700B98AB2 = 1A1907E211FE1C5700B98AB2 /* PBXBookmark */;
+			1A19082411FE8A2800B98AB2 = 1A19082411FE8A2800B98AB2 /* PBXBookmark */;
+			1A19E9D111FD57D700B98AB2 = 1A19E9D111FD57D700B98AB2 /* PlistBookmark */;
 			1A2DD05B1178D939008FAEE2 = 1A2DD05B1178D939008FAEE2 /* PBXTextBookmark */;
 			1A2F08C61178D9AF008CD555 = 1A2F08C61178D9AF008CD555 /* PBXBookmark */;
 			1A2F08EE1178E03C008CD555 = 1A2F08EE1178E03C008CD555 /* PBXTextBookmark */;
@@ -1394,12 +1552,9 @@
 			1A3261AD116402C2009034AD = 1A3261AD116402C2009034AD /* PBXBookmark */;
 			1A3261F011641941009034AD = 1A3261F011641941009034AD /* PBXBookmark */;
 			1A3B7340101900D300887149 = 1A3B7340101900D300887149 /* PBXTextBookmark */;
+			1A604497119DA76600DABCBA = 1A604497119DA76600DABCBA /* PBXTextBookmark */;
 			1A861ADD1091744700706CC5 = 1A861ADD1091744700706CC5 /* PBXTextBookmark */;
 			1A9614811012282700A54EBA = 1A9614811012282700A54EBA /* PBXTextBookmark */;
-			1A9F74FB118778A200390223 = 1A9F74FB118778A200390223 /* PlistBookmark */;
-			1A9F74FC118778A200390223 = 1A9F74FC118778A200390223 /* PlistBookmark */;
-			1AACA891112CA5550091BC66 = 1AACA891112CA5550091BC66 /* PBXTextBookmark */;
-			1AB6F2A8117E4A9600D94783 = 1AB6F2A8117E4A9600D94783 /* PBXTextBookmark */;
 			1AB6F2BE117E95D600D94783 = 1AB6F2BE117E95D600D94783 /* PBXTextBookmark */;
 			1AB6F2BF117E95D600D94783 = 1AB6F2BF117E95D600D94783 /* PBXTextBookmark */;
 			1AB6F2C0117E95D600D94783 = 1AB6F2C0117E95D600D94783 /* PBXTextBookmark */;
@@ -1413,7 +1568,6 @@
 			1AB6F31F117EC31000D94783 = 1AB6F31F117EC31000D94783 /* PBXTextBookmark */;
 			1AB6F336117EC58400D94783 = 1AB6F336117EC58400D94783 /* PBXTextBookmark */;
 			1AB6F337117EC58400D94783 = 1AB6F337117EC58400D94783 /* PBXTextBookmark */;
-			1AB6F3661185E4B900D94783 = 1AB6F3661185E4B900D94783 /* PBXTextBookmark */;
 			1AB6F3681185E4B900D94783 = 1AB6F3681185E4B900D94783 /* PBXTextBookmark */;
 			1AB6F3691185E4B900D94783 = 1AB6F3691185E4B900D94783 /* PBXTextBookmark */;
 			1AB6F36A1185E4B900D94783 = 1AB6F36A1185E4B900D94783 /* PBXTextBookmark */;
@@ -1439,14 +1593,34 @@
 			1AB6F37E1185E4B900D94783 = 1AB6F37E1185E4B900D94783 /* PBXTextBookmark */;
 			1AB6F37F1185E4B900D94783 = 1AB6F37F1185E4B900D94783 /* PBXTextBookmark */;
 			1AB6F39C1185FB9A00D94783 = 1AB6F39C1185FB9A00D94783 /* PBXTextBookmark */;
-			1AC5DF8C118B2B9A002507F2 /* PlistBookmark */ = 1AC5DF8C118B2B9A002507F2 /* PlistBookmark */;
-			1AC5DF94118CC1F5002507F2 /* PlistBookmark */ = 1AC5DF94118CC1F5002507F2 /* PlistBookmark */;
-			1AC5DF95118CC1F5002507F2 /* PlistBookmark */ = 1AC5DF95118CC1F5002507F2 /* PlistBookmark */;
+			1ADD6D0A11F752E900D74B48 = 1ADD6D0A11F752E900D74B48 /* PBXTextBookmark */;
+			1ADE219B121D969000616BAB /* PBXBookmark */ = 1ADE219B121D969000616BAB /* PBXBookmark */;
+			1ADE2BEF121D9D7800616BAB /* PBXBookmark */ = 1ADE2BEF121D9D7800616BAB /* PBXBookmark */;
+			1ADE2BF0121D9D7800616BAB /* PBXTextBookmark */ = 1ADE2BF0121D9D7800616BAB /* PBXTextBookmark */;
+			1ADE2BF1121D9D7800616BAB /* PlistBookmark */ = 1ADE2BF1121D9D7800616BAB /* PlistBookmark */;
+			1ADE2C00121DA0EB00616BAB /* PlistBookmark */ = 1ADE2C00121DA0EB00616BAB /* PlistBookmark */;
+			1ADE2C05121DA20200616BAB /* PlistBookmark */ = 1ADE2C05121DA20200616BAB /* PlistBookmark */;
+			1ADE2C6A121DA55B00616BAB /* PlistBookmark */ = 1ADE2C6A121DA55B00616BAB /* PlistBookmark */;
+			1ADE2C6D121DA59300616BAB /* PlistBookmark */ = 1ADE2C6D121DA59300616BAB /* PlistBookmark */;
+			1ADE2C72121DA7E000616BAB /* PlistBookmark */ = 1ADE2C72121DA7E000616BAB /* PlistBookmark */;
+			1ADE2C77121DAADD00616BAB /* PlistBookmark */ = 1ADE2C77121DAADD00616BAB /* PlistBookmark */;
+			1ADE2C81121DAD6E00616BAB /* PlistBookmark */ = 1ADE2C81121DAD6E00616BAB /* PlistBookmark */;
+			1ADE2C85121DAEF700616BAB /* PlistBookmark */ = 1ADE2C85121DAEF700616BAB /* PlistBookmark */;
+			1ADE2CA4121DB00100616BAB /* PlistBookmark */ = 1ADE2CA4121DB00100616BAB /* PlistBookmark */;
+			1ADE2CA9121DB04D00616BAB /* PlistBookmark */ = 1ADE2CA9121DB04D00616BAB /* PlistBookmark */;
+			1ADE2CAD121DB0DA00616BAB /* XCBuildMessageTextBookmark */ = 1ADE2CAD121DB0DA00616BAB /* XCBuildMessageTextBookmark */;
+			1ADE2CAE121DB0DA00616BAB /* PBXTextBookmark */ = 1ADE2CAE121DB0DA00616BAB /* PBXTextBookmark */;
+			1ADE2CB1121DB0E700616BAB /* PlistBookmark */ = 1ADE2CB1121DB0E700616BAB /* PlistBookmark */;
+			1ADE2CB3121DB11B00616BAB /* PlistBookmark */ = 1ADE2CB3121DB11B00616BAB /* PlistBookmark */;
+			1ADE2CCC121DB1C700616BAB /* PBXTextBookmark */ = 1ADE2CCC121DB1C700616BAB /* PBXTextBookmark */;
+			1ADE2CCD121DB1C700616BAB /* XCBuildMessageTextBookmark */ = 1ADE2CCD121DB1C700616BAB /* XCBuildMessageTextBookmark */;
+			1ADE2CCE121DB1C700616BAB /* PBXTextBookmark */ = 1ADE2CCE121DB1C700616BAB /* PBXTextBookmark */;
+			1ADE2CCF121DB1CB00616BAB /* PlistBookmark */ = 1ADE2CCF121DB1CB00616BAB /* PlistBookmark */;
+			1ADE2CDC121DB4C600616BAB /* PlistBookmark */ = 1ADE2CDC121DB4C600616BAB /* PlistBookmark */;
 			1AE1CAB111231EFB00225D96 = 1AE1CAB111231EFB00225D96 /* PBXTextBookmark */;
+			1AEC0AED1198F37900B6E2CD = 1AEC0AED1198F37900B6E2CD /* PBXTextBookmark */;
 			1AF0646C11868F1300C74C4A = 1AF0646C11868F1300C74C4A /* PBXTextBookmark */;
-			1AF0646D11868F1300C74C4A = 1AF0646D11868F1300C74C4A /* PBXTextBookmark */;
 			1AF0646E11868F1300C74C4A = 1AF0646E11868F1300C74C4A /* PBXTextBookmark */;
-			1AF064FB1187514800C74C4A = 1AF064FB1187514800C74C4A /* PBXTextBookmark */;
 			1AF0659B11876C7E00C74C4A = 1AF0659B11876C7E00C74C4A /* PBXTextBookmark */;
 			1AF065B61187760D00C74C4A = 1AF065B61187760D00C74C4A /* PlistBookmark */;
 		};

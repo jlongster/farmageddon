@@ -9,15 +9,15 @@
 (set! *max-difficulty* 8)
 
 (install-difficulties
- 0 5 0  3.   1.
+ 0 5 0  2.5   1.
  1 8 0  2.   1.
  2 10 1 2.   1.
  3 20 1 1.5  .75
  4 25 2 1.25 .75
  5 10 0 1.   1.5
- 6 25 3 1.   1.
- 7 25 4 .3   .75
- 8 25 5 .2   .75
+ 6 25 3 1.   1.25
+ 7 20 4 .85   1.25
+ 8 25 5 .75   1.15
  9 25 1 .2   .75)
 
 (define low-gravity (make-vec3d 0. -11. 0.))
@@ -338,8 +338,6 @@
 ;; ducks, chickens, sheep, humans, PIGS (a few here and there)
 ;; ------------------------------------------------------------
 
-(install-event 2 throw-random-healer)
-
 (install-event 2 make-fog)
 
 (install-event
@@ -451,28 +449,23 @@
 ;; increase gravity, make everything go faster
 ;; ------------------------------------------------------------
 
-(install-event 4 throw-random-healer)
-
 (install-event 4 make-fog)
 
 (install-event
    4
    (lambda ()
      (throw-attack-line
-      (randomly-insert-mesh (make-list 2 pig-mesh)
-                            (make-nuke pig-mesh))
+      (make-list 3 pig-mesh)
       high-gravity
-      35.)
+      40.)
      (play-voice pig1-audio)))
 
 (install-event
    4
    (lambda ()
      (throw-square
-      (randomly-insert-mesh
-       (randomly-insert-mesh (make-list 2 chicken-mesh)
-                             person-mesh)
-       person-mesh)
+      (randomly-insert-mesh (make-list 3 chicken-mesh)
+                            person-mesh)
       high-gravity)
      (play-voice chicken2-audio)))
 
@@ -489,16 +482,9 @@
 (install-event
    4
    (lambda ()
-     (throw-attack-line (randomly-insert-mesh
-                         (make-list 5 duck-mesh)
-                         (make-nuke duck-mesh))
+     (throw-attack-line (make-list 5 duck-mesh)
                         high-gravity
                         38.)
-     (add-object
-      (make-entity person-mesh
-                   (make-vec3d (random-in-range -4. 4.) -20. 30.)
-                   (make-vec3d 0. 40. -20.)
-                   high-gravity))
      (play-voice duck1-audio)))
 
 (install-event
@@ -517,21 +503,25 @@
      (throw-attack-line (make-list 5 chicken-mesh)
                         high-gravity
                         38.)
-     (add-object
-      (make-entity person-mesh
-                   (make-vec3d (random-in-range -4. 4.) -20. 30.)
-                   (make-vec3d 0. 40. -20.)
-                   high-gravity))
-     (play-voice duck1-audio)))
+     (play-voice chicken2-audio)))
 
 ;; ------------------------------------------------------------
 ;; difficulty 5
 ;; COW LEVEL!  all cows, everywhere!
 ;; ------------------------------------------------------------
 
-(install-event 5 make-fog)
+(install-event
+ 5
+ (lambda ()
+   (throw-attack-line
+    (make-list 7 sheep-mesh)
+    med-gravity
+    34.)
+   (play-voice sheep1-audio)
+   (wait .2)
+   (throw-random-nuke)))
 
-(install-event 5 throw-random-nuke)
+(install-event 5 make-fog)
 
 (install-event
  5
@@ -542,7 +532,9 @@
     42.
     -18.)
    (play-audio cow2-audio)
-   (wait .3)
+   (wait .2)
+   (throw-random-nuke)
+   (wait .1)
    (play-audio cow1-audio)))
 
 (install-event
@@ -560,4 +552,4 @@
 ;; what now?
 ;; ------------------------------------------------------------
 
-;(install-event 6 throw-random-nuke)
+(install-event 6 throw-random-healer)
