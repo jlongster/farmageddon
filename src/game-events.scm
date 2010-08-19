@@ -11,14 +11,14 @@
 (install-difficulties
  0 5 0  2.5   1.
  1 8 0  2.   1.
- 2 10 1 2.   1.
- 3 20 1 1.5  .75
- 4 25 2 1.25 .75
- 5 10 0 1.   1.5
- 6 25 3 1.   1.25
- 7 20 4 .85   1.25
- 8 25 5 .75   1.15
- 9 25 1 .2   .75)
+ 2 10 1 1.75   1.
+ 3 20 1 1.5  1.
+ 4 25 2 1.   1.
+ 5 10 0 1.   1.
+ 6 25 3 1.   1.
+ 7 20 4 .85   1.5
+ 8 25 5 .75   1.25
+ 9 25 1 .2   1)
 
 (define low-gravity (make-vec3d 0. -11. 0.))
 (define med-gravity (make-vec3d 0. -25. 0.))
@@ -438,7 +438,7 @@
    (throw-2
     (randomly-insert-mesh (list chicken-mesh)
                           cow-mesh)
-    med-gravity 34. -14.)
+    med-gravity 30. -14.)
    (wait .2)
    (throw-human)
    (play-voice chicken1-audio)

@@ -341,10 +341,8 @@
 
 ;; init
 
-(define font-perspective #f)
-
 (define (level-screen-init)
-  (NSLog (number->string (real-time)))
+  (set-loading-text! "CLEANING COW POO...")
   
   (let* ((width (UIView-width (current-view)))
          (height (UIView-height (current-view)))
@@ -363,12 +361,7 @@
     (free initial-matrix)
     (free lookat-matrix)
     
-    (set! 3d-perspective 3d-pers)
-
-    (set! font-perspective
-          (ortho 0 (exact->inexact width)
-                 0 (exact->inexact height)
-                 -10000.0 10000.0)))
+    (set! 3d-perspective 3d-pers))
 
   (set! level-bg (image-opengl-load "background.pvr"))
   (set! fog-texture (image-opengl-load "fog.pvr"))
@@ -386,49 +379,63 @@
   
   (weapons-init)
   
-  (NSLog (number->string (real-time)))
-
   ;; meshes
-  (set! steak-mesh (obj-load (resource "steak") #t))
-  (set! bones-mesh (obj-load (resource "bones") #t))
-  (set! chicken-mesh (obj-load (resource "chicken") #t))
-  (set! duck-mesh (obj-load (resource "duck") #t))
-  (set! cow-mesh (obj-load (resource "cow") #t))
-  (set! cow-part1-mesh (obj-load (resource "cow-part1") #t))
-  (set! cow-part2-mesh (obj-load (resource "cow-part2") #t))
-  (set! cow-part3-mesh (obj-load (resource "cow-part3") #t))
-  (set! person-mesh (obj-load (resource "person") #t))
-  (set! sheep-mesh (obj-load (resource "sheep") #t))
-  (set! pig-mesh (obj-load (resource "pig") #t))
-  (set! pig-part1-mesh (obj-load (resource "pig-part1") #t))
-  (set! pig-part2-mesh (obj-load (resource "pig-part2") #t))
+  (thread-start!
+   (make-thread
+    (lambda ()
+      (set-loading-text! "LOADING CHICKENS...")
+      (thread-yield!)
+      
+      (set! steak-mesh (obj-load (resource "steak") #t))
+      (set! bones-mesh (obj-load (resource "bones") #t))
+      (set! chicken-mesh (obj-load (resource "chicken") #t))
+      (set! duck-mesh (obj-load (resource "duck") #t))
+      (set! cow-mesh (obj-load (resource "cow") #t))
+      (set! cow-part1-mesh (obj-load (resource "cow-part1") #t))
+      (set! cow-part2-mesh (obj-load (resource "cow-part2") #t))
 
-  ;; sounds
-  (init-audio)
-  (set! sheep1-audio (load-audio "sheep1.wav"))
-  (set! sheep2-audio (load-audio "sheep2.wav"))
-  (set! cow1-audio (load-audio "cow1.wav"))
-  (set! cow2-audio (load-audio "cow2.wav"))
-  (set! pig1-audio (load-audio "pig1.wav"))
-  (set! chicken1-audio (load-audio "chicken1.wav"))
-  (set! chicken2-audio (load-audio "chicken2.wav"))
-  (set! duck1-audio (load-audio "duck1.wav"))
-  (set! scream-audio (load-audio "scream.wav"))
-  (set! thud-audio (load-audio "thud.wav"))
-  (set! shatter-audio (load-audio "shatter.wav"))
-  (set! lightning-audio (load-audio "lightning.wav"))
-  (set! explosion1-audio (load-audio "explosion1.wav"))
-  (set! explosion2-audio (load-audio "explosion2.wav"))
-  (set! explosion3-audio (load-audio "explosion3.wav"))
-  (set! explosion4-audio (load-audio "explosion4.wav"))
-  (set! fog-audio (load-audio "fog.wav"))
-  (set! clap-audio (load-audio "clap.wav"))
-  
+      (set-loading-text! "LOADING COWS...")
+      (thread-yield!)
+            
+      (set! cow-part3-mesh (obj-load (resource "cow-part3") #t))
+      (set! person-mesh (obj-load (resource "person") #t))
+      (set! sheep-mesh (obj-load (resource "sheep") #t))
+      (set! pig-mesh (obj-load (resource "pig") #t))
+      (set! pig-part1-mesh (obj-load (resource "pig-part1") #t))
+      (set! pig-part2-mesh (obj-load (resource "pig-part2") #t))
+
+      (set-loading-text! "LOADING NOISES...")
+      (thread-yield!)
+      
+      (init-audio)
+      (set! sheep1-audio (load-audio "sheep1.wav"))
+      (set! sheep2-audio (load-audio "sheep2.wav"))
+      (set! cow1-audio (load-audio "cow1.wav"))
+      (set! cow2-audio (load-audio "cow2.wav"))
+      (set! pig1-audio (load-audio "pig1.wav"))
+      (set! chicken1-audio (load-audio "chicken1.wav"))
+      (set! chicken2-audio (load-audio "chicken2.wav"))
+      (set! duck1-audio (load-audio "duck1.wav"))
+      (set! scream-audio (load-audio "scream.wav"))
+      (set! thud-audio (load-audio "thud.wav"))
+      (set! shatter-audio (load-audio "shatter.wav"))
+      (set! lightning-audio (load-audio "lightning.wav"))
+      (set! explosion1-audio (load-audio "explosion1.wav"))
+      (set! explosion2-audio (load-audio "explosion2.wav"))
+      (set! explosion3-audio (load-audio "explosion3.wav"))
+      (set! explosion4-audio (load-audio "explosion4.wav"))
+      (set! fog-audio (load-audio "fog.wav"))
+      (set! clap-audio (load-audio "clap.wav"))
+
+      (fog-init)
+
+      (loading-finished))))
+
   (set! default-font50
         (ftgl-create-texture-font (resource "ApexSansExtraBoldC.ttf")))
   (set! default-font24
         (ftgl-create-texture-font (resource "ApexSansExtraBoldC.ttf")))
-  
+
   (ftgl-set-font-face-size default-font50 50)
   (ftgl-get-font-advance
    default-font50
@@ -438,14 +445,11 @@
   (ftgl-get-font-advance
    default-font24
    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~-:/!.>")
-    
+
   (load-randomized-cracks)
   
   (overlay-init)
-  (scene-init)
-  (fog-init)
-
-  (NSLog (number->string (real-time))))
+  (scene-init))
 
 ;; setup the scene
 

@@ -82,9 +82,11 @@
 
   (define (get-pixels x y)
     ;; buf should be the size of width*height*4
-    (let ((buf (make-unsigned-int8-array 1))
-          (width (UIView-height (current-view)))
-          (height (UIView-height (current-view))))
+    (let* ((buf (make-unsigned-int8-array 1))
+           (pwidth (UIView-width (current-view)))
+           (pheight (UIView-height (current-view)))
+           (width (if (high-res?) (* pwidth 2) pwidth))
+           (height (if (high-res?) (* pheight 2) pheight)))
       (glReadPixels (bounds (- x 0) 0 width)
                     (bounds (- height y 0) 0 height)
                     1 1
@@ -100,7 +102,11 @@
           #f)))
 
   (define (find-object-at-point x y)
-    (let* ((buf (get-pixels x y))
+    (let* ((width (UIView-width (current-view)))
+           (height (UIView-height (current-view)))
+           (buf (if (high-res?)
+                    (get-pixels (* x 2) (* y 2))
+                    (get-pixels x y)))
            (obj (find-object buf)))
       (free buf)
       obj))

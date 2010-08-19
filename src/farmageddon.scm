@@ -45,7 +45,7 @@
 (define (init)
   (random-source-randomize! default-random-source)
   (default-opengl)
-  (set-screen! title-screen))
+  (set-screen! load-screen))
 
 (define *time-start* (real-time))
 (define *frames* 0)

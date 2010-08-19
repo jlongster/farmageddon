@@ -1,4 +1,10 @@
 
+(c-declare "#import \"EAGLView.h\"")
+
+(define (high-res?)
+  ((c-lambda (UIView*) bool "___result = [___arg1 isHighRes];")
+   (current-view)))
+
 (define (goto-full-version)
   ((c-lambda (UIView*) void "[___arg1 gotoFullVersion];")
    (current-view)))

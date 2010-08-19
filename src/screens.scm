@@ -33,19 +33,12 @@
                                 ,touches-began))
      (set! SCREEN-LIST (cons ,name SCREEN-LIST))))
 
-(define NEED-INIT #t)
-
-(define (run-initializers)
+(define (screen-run-initializers)
   (for-each (lambda (screen)
               ((screen-init screen)))
             SCREEN-LIST))
 
 (define (set-screen! screen)
-  (if NEED-INIT
-      (begin
-        (run-initializers)
-        (set! NEED-INIT #f)))
-
   (scene-list-clear!)
   (overlay-list-clear!)
   (buttons-clear!)
@@ -79,9 +72,10 @@
 (define 2d-ratio-perspective
   (ortho 0.0 1.0 1.5 0.0 -1.0 1.0))
 
+(include "screens/load.scm")
 (include "screens/title.scm")
 (include "screens/level.scm")
 (include "screens/instructions.scm")
-(include "screens/credits.scm")
+;; (include "screens/credits.scm")
 (include "screens/scores.scm")
-(include "screens/test.scm")
+;; (include "screens/test.scm")

@@ -82,16 +82,10 @@ extern "C" {
                                                      kEAGLDrawablePropertyColorFormat,
                                                      nil];
 
-        UIScreen* mainscr = [UIScreen mainScreen];
-
-        if([mainscr respondsToSelector:@selector(currentMode)]) {
-            CGSize screenSize = mainscr.currentMode.size;
-            
-            if(screenSize.width == 640.f && screenSize.height == 960.f) {
-                self.contentScaleFactor = 2.0;
-            }
+        if([self isHighRes]) {
+            self.contentScaleFactor = 2.0;
         }
-
+        
         context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
 
         if (!context || ![EAGLContext setCurrentContext:context]) {
@@ -103,6 +97,20 @@ extern "C" {
         init();
     }
     return self;
+}
+
+- (BOOL)isHighRes {
+    UIScreen* mainscr = [UIScreen mainScreen];
+    
+    if([mainscr respondsToSelector:@selector(currentMode)]) {
+        CGSize screenSize = mainscr.currentMode.size;
+        
+        if(screenSize.width == 640.f && screenSize.height == 960.f) {
+            return YES;
+        }
+    }
+
+    return NO;
 }
 
 - (void)hideInfoButton {
