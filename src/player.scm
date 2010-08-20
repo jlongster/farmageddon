@@ -80,8 +80,8 @@
         ;; Inject it into the current high scores
         (set! *high-scores* (%inject-score scores current))
         ;; Submit score to feint
-        ;; (expand-if (not LITE)
-        ;;            (submit-high-score (score)))
+        (expand-if (not LITE)
+                   (submit-high-score (score)))
         (set! *current-pers-score* current)))
 
   (call-with-output-file (writable "high-scores.txt")

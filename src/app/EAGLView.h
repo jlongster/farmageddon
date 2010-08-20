@@ -34,11 +34,14 @@
 	NSTimer *animationTimer;
 	NSTimeInterval animationInterval;
 
+        id delegate;
+        
 	IBOutlet UITextField *highScoreName;
         IBOutlet UIButton *infoButton;
         UIAlertView *infoAlert;
 }
 
+@property (nonatomic, assign) id delegate;
 @property NSTimeInterval animationInterval;
                               
 - (void)startAnimation;

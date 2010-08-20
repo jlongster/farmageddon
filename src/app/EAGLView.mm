@@ -12,11 +12,13 @@
 #import "OFHighScoreService.h"
 #import "EAGLView.h"
 #import "feintDelegate.h"
+#import "tosserAppDelegate.h"
 
 enum {
-    INFO_WEBSITE = 1,
+    INFO_FEEDBACK = 1,
+    INFO_WEBSITE,
     INFO_TWITTER,
-    INFO_DEVELOPER
+    INFO_DEVELOPER,
 };
 
 #define USE_DEPTH_BUFFER 1
@@ -59,6 +61,7 @@ extern "C" {
 
 @implementation EAGLView
 
+@synthesize delegate;
 @synthesize context;
 @synthesize animationTimer;
 @synthesize animationInterval;
@@ -127,6 +130,7 @@ extern "C" {
                                                        delegate:self
                                               cancelButtonTitle:@"Cancel"
                                               otherButtonTitles:nil];
+    [infoAlert addButtonWithTitle:@"Feedback"];    
     [infoAlert addButtonWithTitle:@"Website"];
     [infoAlert addButtonWithTitle:@"Twitter"];
     [infoAlert addButtonWithTitle:@"Developed by James Long"];
@@ -136,7 +140,11 @@ extern "C" {
 - (void)alertView:(UIAlertView*)view clickedButtonAtIndex:(NSInteger)idx {
     UIApplication *app = [UIApplication sharedApplication];
 
-    if(idx == INFO_WEBSITE) {
+    if(idx == INFO_FEEDBACK) {
+        tosserAppDelegate *del = (tosserAppDelegate *)delegate;
+        [del showFeedback];
+    }
+    else if(idx == INFO_WEBSITE) {
         [app openURL:[NSURL URLWithString:@"http://farmageddongame.com"]];
     }
     else if(idx == INFO_TWITTER) {
@@ -206,7 +214,6 @@ extern "C" {
 //// Rendering
 
 - (void)feintOpenDashboard {
-    NSLog(@"opening dashboard");
     [OpenFeint launchDashboardWithHighscorePage:@"241623"];
 }
 

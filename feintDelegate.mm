@@ -112,7 +112,8 @@ extern "C" {
 // http://www.cocos2d-iphone.org/forum/topic/1551
 @implementation feintNotificationDelegate
 - (BOOL)isOpenFeintNotificationAllowed:(OFNotificationData*)notificationData {
-	return notificationData.notificationCategory == kNotificationCategoryLogin;
+    //return notificationData.notificationCategory == kNotificationCategoryLogin;
+    return NO;
 }
 
 - (void)handleDisallowedNotification:(OFNotificationData*)notificationData {

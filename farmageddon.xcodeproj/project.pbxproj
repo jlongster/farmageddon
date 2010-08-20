@@ -48,6 +48,9 @@
 		1A4FE2B711754A87005926DB /* box.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 1A4FE2B611754A87005926DB /* box.mtl */; };
 		1A593E2B115C9CD500E12C7D /* fog.pvr in Resources */ = {isa = PBXBuildFile; fileRef = 1A593E2A115C9CD500E12C7D /* fog.pvr */; };
 		1A604469119D1C3300DABCBA /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A604468119D1C3300DABCBA /* MapKit.framework */; };
+		1A657642121E335900035B48 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A657641121E335900035B48 /* MessageUI.framework */; };
+		1A6576E8121E344E00035B48 /* Appirater.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6576BA121E344E00035B48 /* Appirater.m */; };
+		1A6576EB121E345F00035B48 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A6576EA121E345F00035B48 /* CFNetwork.framework */; };
 		1A6ABCAE11626E64003266FA /* pig1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A6ABCAC11626E64003266FA /* pig1.wav */; };
 		1A6ABCB811627E4F003266FA /* duck1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A6ABCB711627E4F003266FA /* duck1.wav */; };
 		1A6ABCCC116289BA003266FA /* clap.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A6ABCCB116289BA003266FA /* clap.wav */; };
@@ -951,6 +954,10 @@
 		1A4FE2B611754A87005926DB /* box.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = box.mtl; sourceTree = "<group>"; };
 		1A593E2A115C9CD500E12C7D /* fog.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = fog.pvr; sourceTree = "<group>"; };
 		1A604468119D1C3300DABCBA /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		1A657641121E335900035B48 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		1A6576B9121E344E00035B48 /* Appirater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Appirater.h; sourceTree = "<group>"; };
+		1A6576BA121E344E00035B48 /* Appirater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Appirater.m; sourceTree = "<group>"; };
+		1A6576EA121E345F00035B48 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		1A6ABCAC11626E64003266FA /* pig1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pig1.wav; sourceTree = "<group>"; };
 		1A6ABCB711627E4F003266FA /* duck1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = duck1.wav; sourceTree = "<group>"; };
 		1A6ABCCB116289BA003266FA /* clap.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = clap.wav; sourceTree = "<group>"; };
@@ -2305,6 +2312,8 @@
 				1A604469119D1C3300DABCBA /* MapKit.framework in Frameworks */,
 				1ADE2BDC121D9D0800616BAB /* AddressBook.framework in Frameworks */,
 				1ADE2BE4121D9D2300616BAB /* AddressBookUI.framework in Frameworks */,
+				1A657642121E335900035B48 /* MessageUI.framework in Frameworks */,
+				1A6576EB121E345F00035B48 /* CFNetwork.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2318,6 +2327,15 @@
 				1AA90AF81111FF6A0045309E /* farmageddon-iPad.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		1A657666121E344E00035B48 /* appirater */ = {
+			isa = PBXGroup;
+			children = (
+				1A6576B9121E344E00035B48 /* Appirater.h */,
+				1A6576BA121E344E00035B48 /* Appirater.m */,
+			);
+			path = appirater;
 			sourceTree = "<group>";
 		};
 		1A8BCDAE101A1BEA00DED70B /* resources */ = {
@@ -5645,6 +5663,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				1A657666121E344E00035B48 /* appirater */,
 				1ADE21E6121D9AFB00616BAB /* OpenFeint2.6 */,
 				1A3261141163E8F7009034AD /* farmageddon.c */,
 				1A3261151163E8F7009034AD /* harness.c */,
@@ -5666,6 +5685,8 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				1A16722111615A8700E26B48 /* dist.plist */,
+				1A657641121E335900035B48 /* MessageUI.framework */,
+				1A6576EA121E345F00035B48 /* CFNetwork.framework */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -6654,6 +6675,7 @@
 				1ADE2BD0121D9AFD00616BAB /* OFTickerProxy.mm in Sources */,
 				1ADE2BD1121D9AFD00616BAB /* OFTickerView.mm in Sources */,
 				1ADE2BD2121D9AFD00616BAB /* OFColors.mm in Sources */,
+				1A6576E8121E344E00035B48 /* Appirater.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

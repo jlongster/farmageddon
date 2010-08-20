@@ -132,8 +132,7 @@
          (advance (ftgl-get-font-advance font
                                          msg))
          (font-width (if size
-                         (* advance (/ size (ftgl-get-font-face-size
-                                               font)))
+                         (* advance (/ size (ftgl-get-font-face-size font)))
                          advance))
          (obj (make-2d-object
                font-perspective
@@ -383,6 +382,8 @@
   (thread-start!
    (make-thread
     (lambda ()
+      (thread-sleep! .2)
+      
       (set-loading-text! "LOADING CHICKENS...")
       (thread-yield!)
       

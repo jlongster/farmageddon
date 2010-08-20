@@ -7,16 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 
 @class EAGLView;
 
-@interface tosserAppDelegate : NSObject <UIApplicationDelegate> {
+@interface tosserAppDelegate : NSObject <UIApplicationDelegate,
+                                             MFMailComposeViewControllerDelegate> {
 	IBOutlet UIWindow *window;
+        IBOutlet UIViewController *rootController;
 	IBOutlet EAGLView *glView;
 }
 
 @property (nonatomic, retain) UIWindow *window;
+@property (nonatomic, retain) UIViewController *rootController;
 @property (nonatomic, retain) EAGLView *glView;
+
+- (void)showFeedback;
 
 @end
 
