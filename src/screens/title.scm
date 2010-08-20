@@ -115,7 +115,10 @@
            (scene-list-add
             (make-2d-object
              2d-perspective
-             texture: title-texture))
+             texture: title-texture
+             texture-scale: (if (high-res?)
+                                (make-vec2d 1. 1.)
+                                (make-vec2d (/ 320. 512.) (/ 480. 512.)))))
 
            (overlay-add-fancy-button
             "PLAY"

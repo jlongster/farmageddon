@@ -130,6 +130,7 @@
   rotation
   scale
   texture
+  texture-scale
   font
   center
   render-proc
@@ -140,7 +141,8 @@
                         #!key
                         color position local-position rotation
                         scale texture font center
-                        render update)
+                        render update
+                        texture-scale)
   (really-make-2d-object pers
                          color
                          position
@@ -148,6 +150,7 @@
                          rotation
                          scale
                          texture
+                         texture-scale
                          font
                          center
                          (or render 2d-object-render)
@@ -294,6 +297,7 @@
         (rot (2d-object-rotation obj))
         (scale (2d-object-scale obj))
         (texture (2d-object-texture obj))
+        (texture-scale (2d-object-texture-scale obj))
         (font (2d-object-font obj))
         (center (2d-object-center obj)))
 
@@ -339,6 +343,14 @@
                    (vec4d-w color))
         (glColor4f 1. 1. 1. 1.))
 
+    (glMatrixMode GL_TEXTURE)
+    (glLoadIdentity)
+    (if texture-scale
+        (glScalef (vec2d-x texture-scale)
+                  (vec2d-y texture-scale)
+                  1.))
+    (glMatrixMode GL_MODELVIEW)
+    
     (if font
         (begin
           (glDisable GL_CULL_FACE)

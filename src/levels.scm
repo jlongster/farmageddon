@@ -12,7 +12,7 @@
 (define current-available-meshes (make-parameter #f))
 
 (define (scene-init)
-  (current-max-life 15)
+  (current-max-life 14)
   (current-background-texture level-bg)
   (current-animal-frequency .5)
   (current-available-meshes #f)

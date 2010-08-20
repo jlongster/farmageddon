@@ -43,6 +43,9 @@
 		1A3F681811529B9800C2E3AF /* chicken1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A3F681511529B9800C2E3AF /* chicken1.wav */; };
 		1A3F681D11529E8800C2E3AF /* sheep2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A3F681B11529E8800C2E3AF /* sheep2.wav */; };
 		1A3F681E11529E8800C2E3AF /* sheep1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A3F681C11529E8800C2E3AF /* sheep1.wav */; };
+		1A45E225121EE22C006C1DB6 /* Info-lite.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A45E224121EE22C006C1DB6 /* Info-lite.plist */; };
+		1A45E229121EE25C006C1DB6 /* Icon-lite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A45E227121EE25C006C1DB6 /* Icon-lite@2x.png */; };
+		1A45E22A121EE25C006C1DB6 /* Icon-light.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A45E228121EE25C006C1DB6 /* Icon-light.png */; };
 		1A4FE2B311754A72005926DB /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = 1A4FE2B211754A72005926DB /* sphere.obj */; };
 		1A4FE2B511754A7C005926DB /* sphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 1A4FE2B411754A7C005926DB /* sphere.mtl */; };
 		1A4FE2B711754A87005926DB /* box.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 1A4FE2B611754A87005926DB /* box.mtl */; };
@@ -56,6 +59,7 @@
 		1A6ABCCC116289BA003266FA /* clap.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A6ABCCB116289BA003266FA /* clap.wav */; };
 		1A6ABCCE11628B88003266FA /* star.pvr in Resources */ = {isa = PBXBuildFile; fileRef = 1A6ABCCD11628B88003266FA /* star.pvr */; };
 		1A6F5E7E112DECCE00AB5CB8 /* ApexSansExtraBoldC.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A6F5E7D112DECCE00AB5CB8 /* ApexSansExtraBoldC.ttf */; };
+		1A78E767121ED5EF00BAFC21 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A78E766121ED5EF00BAFC21 /* Icon@2x.png */; };
 		1A861A8510916C0500706CC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A861A8410916C0500706CC5 /* CoreGraphics.framework */; };
 		1A8AAD811100F83C006ABDA6 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AAD7C1100F83C006ABDA6 /* EAGLView.mm */; };
 		1A8AAD821100F83C006ABDA6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AAD7D1100F83C006ABDA6 /* main.m */; };
@@ -949,6 +953,9 @@
 		1A3F681511529B9800C2E3AF /* chicken1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chicken1.wav; sourceTree = "<group>"; };
 		1A3F681B11529E8800C2E3AF /* sheep2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sheep2.wav; sourceTree = "<group>"; };
 		1A3F681C11529E8800C2E3AF /* sheep1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sheep1.wav; sourceTree = "<group>"; };
+		1A45E224121EE22C006C1DB6 /* Info-lite.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Info-lite.plist"; path = "src/app/Info-lite.plist"; sourceTree = "<group>"; };
+		1A45E227121EE25C006C1DB6 /* Icon-lite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-lite@2x.png"; sourceTree = "<group>"; };
+		1A45E228121EE25C006C1DB6 /* Icon-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-light.png"; sourceTree = "<group>"; };
 		1A4FE2B211754A72005926DB /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.obj; sourceTree = "<group>"; };
 		1A4FE2B411754A7C005926DB /* sphere.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.mtl; sourceTree = "<group>"; };
 		1A4FE2B611754A87005926DB /* box.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = box.mtl; sourceTree = "<group>"; };
@@ -963,6 +970,7 @@
 		1A6ABCCB116289BA003266FA /* clap.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = clap.wav; sourceTree = "<group>"; };
 		1A6ABCCD11628B88003266FA /* star.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = star.pvr; sourceTree = "<group>"; };
 		1A6F5E7D112DECCE00AB5CB8 /* ApexSansExtraBoldC.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ApexSansExtraBoldC.ttf; sourceTree = "<group>"; };
+		1A78E766121ED5EF00BAFC21 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		1A861A8410916C0500706CC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		1A8AAD7B1100F83C006ABDA6 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = src/app/EAGLView.h; sourceTree = "<group>"; };
 		1A8AAD7C1100F83C006ABDA6 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EAGLView.mm; path = src/app/EAGLView.mm; sourceTree = "<group>"; };
@@ -2341,6 +2349,9 @@
 		1A8BCDAE101A1BEA00DED70B /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				1A45E227121EE25C006C1DB6 /* Icon-lite@2x.png */,
+				1A45E228121EE25C006C1DB6 /* Icon-light.png */,
+				1A78E766121ED5EF00BAFC21 /* Icon@2x.png */,
 				1A19081D11FE3B2300B98AB2 /* Default@2x.png */,
 				1A1907E411FE1C8E00B98AB2 /* title-lite@2x.png */,
 				1A19E9DF11FD5EE100B98AB2 /* button@2x.png */,
@@ -5668,6 +5679,7 @@
 				1A3261141163E8F7009034AD /* farmageddon.c */,
 				1A3261151163E8F7009034AD /* harness.c */,
 				1AAB11BD1100FBA2005EAADF /* Info.plist */,
+				1A45E224121EE22C006C1DB6 /* Info-lite.plist */,
 				1A8AAD851100F85B006ABDA6 /* init_.c */,
 				1A8AAD861100F85B006ABDA6 /* init.c */,
 				1A8AAD7B1100F83C006ABDA6 /* EAGLView.h */,
@@ -6206,6 +6218,10 @@
 				1ADE2B26121D9AFD00616BAB /* OFDashboardTabNowPlayingPortrait.png in Resources */,
 				1ADE2B27121D9AFD00616BAB /* OFDashboardTabNowPlayingPortraitDisabled.png in Resources */,
 				1ADE2B28121D9AFD00616BAB /* OFDashboardTabNowPlayingPortraitHit.png in Resources */,
+				1A78E767121ED5EF00BAFC21 /* Icon@2x.png in Resources */,
+				1A45E225121EE22C006C1DB6 /* Info-lite.plist in Resources */,
+				1A45E229121EE25C006C1DB6 /* Icon-lite@2x.png in Resources */,
+				1A45E22A121EE25C006C1DB6 /* Icon-light.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6686,8 +6702,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_ENTITLEMENTS = dist.plist;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: James Long";
+				CODE_SIGN_ENTITLEMENTS = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: James Long (9XL3GTK9AZ)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -6695,6 +6711,8 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
 					"-D___LIBRARY",
@@ -6726,7 +6744,7 @@
 					"-lgambc",
 				);
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "333FB54F-4A73-4E42-85E7-3279FFF93CD7";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "60F0ED71-A411-4B90-8BA3-25ED4D06698E";
 				SDKROOT = iphoneos4.0;
 				USER_HEADER_SEARCH_PATHS = "/usr/local/iphone/iPhoneOS3.1.3/include /usr/local/iphone/iPhoneOS3.1.2/include/freetype2 /usr/local/iphone/iPhoneOS3.1.2/include";
 			};
@@ -6766,6 +6784,94 @@
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = "Release iPhone";
+		};
+		1A45E22D121EE26D006C1DB6 /* Release iPhone lite */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: James Long (9XL3GTK9AZ)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_SYMBOL_SEPARATION = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OBJC_CALL_CXX_CDTORS = YES;
+				GCC_THUMB_SUPPORT = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Info-lite.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = (
+					"-D___LIBRARY",
+					"-x",
+					"objective-c",
+					"-Wno-unused",
+					"-fno-math-errno",
+					"-fschedule-insns2",
+					"-fno-trapping-math",
+					"-fno-strict-aliasing",
+					"-fwrapv",
+					"-fmodulo-sched",
+					"-freschedule-modulo-scheduled-loops",
+					"-fno-common",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-x",
+					"objective-c++",
+				);
+				OTHER_LDFLAGS = (
+					"-weak_framework",
+					UIKit,
+					"-lstdc++",
+					"-lz",
+					/usr/local/iphone/iPhoneOS3.1.2/lib/libfreetype.a,
+					/usr/local/iphone/iPhoneOS3.1.2/lib/libftgl.a,
+					"-L/usr/local/iphone/iPhoneOS3.1.3/lib",
+					"-lgambc",
+				);
+				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "60F0ED71-A411-4B90-8BA3-25ED4D06698E";
+				SDKROOT = iphoneos4.0;
+				USER_HEADER_SEARCH_PATHS = "/usr/local/iphone/iPhoneOS3.1.3/include /usr/local/iphone/iPhoneOS3.1.2/include/freetype2 /usr/local/iphone/iPhoneOS3.1.2/include";
+			};
+			name = "Release iPhone lite";
+		};
+		1A45E22E121EE26D006C1DB6 /* Release iPhone lite */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = src/app/farmageddon_Prefix.pch;
+				INFOPLIST_FILE = "src/app/Info-lite.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/iphone/iPhoneOS3.1.2/lib,
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-x",
+					"objective-c++",
+				);
+				PRODUCT_NAME = farmageddon;
+				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR) /usr/local/iphone/iPhoneOS3.1.3/include /usr/local/iphone/iPhoneOS3.1.2/include/freetype2 /usr/local/iphone/iPhoneOS3.1.2/include";
+			};
+			name = "Release iPhone lite";
+		};
+		1A45E22F121EE26D006C1DB6 /* Release iPhone lite */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = src/app/farmageddon_Prefix.pch;
+				INFOPLIST_FILE = src/app/Info.plist;
+				PRODUCT_NAME = "farmageddon-iPad";
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = "Release iPhone lite";
 		};
 		1AA90AF51111FF6A0045309E /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -6917,7 +7023,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: James Long";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: James Long (9XL3GTK9AZ)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OBJC_CALL_CXX_CDTORS = YES;
@@ -6959,7 +7065,6 @@
 					"-L/usr/local/iphone/iPhoneSimulator3.1.2/lib",
 				);
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphonesimulator4.0;
 				STRIP_INSTALLED_PRODUCT = YES;
 				USER_HEADER_SEARCH_PATHS = "/usr/local/iphone/iPhoneSimulator3.1.3/include /usr/local/iphone/iPhoneSimulator3.1.2/include/freetype2 /usr/local/iphone/iPhoneSimulator3.1.2/include";
@@ -7021,6 +7126,7 @@
 				1AA90AF61111FF6A0045309E /* Debug iPhone */,
 				1AA90AF71111FF6A0045309E /* Release */,
 				1A16722C11615C1600E26B48 /* Release iPhone */,
+				1A45E22F121EE26D006C1DB6 /* Release iPhone lite */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -7032,6 +7138,7 @@
 				1ABC50B3101254C200811E0D /* Debug iPhone */,
 				1D6058950D05DD3E006BFB54 /* Release */,
 				1A16722B11615C1600E26B48 /* Release iPhone */,
+				1A45E22E121EE26D006C1DB6 /* Release iPhone lite */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -7043,6 +7150,7 @@
 				1ABC50B2101254C200811E0D /* Debug iPhone */,
 				C01FCF5008A954540054247B /* Release */,
 				1A16722A11615C1600E26B48 /* Release iPhone */,
+				1A45E22D121EE26D006C1DB6 /* Release iPhone lite */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -41,7 +41,7 @@
     font-perspective
     font: (make-2d-font default-font24 "LOCAL" 20.)
     position: (to-font-space .1 .285)
-    color: (make-vec4d 1. .3 .3 1.)))
+    color: (make-vec4d .835 .294 .211 1.)))
 
   (overlay-list-add
    (make-2d-object
@@ -56,12 +56,12 @@
     font-perspective
     font: (make-2d-font default-font24 "GLOBAL" 20.)
     position: (to-font-space .6 .285)
-    color: (make-vec4d .3 .3 1. 1.)))
+    color: (make-vec4d .153 .608 .322 1.)))
   
   (overlay-list-add *global-score-obj*)
 
   (overlay-add-fancy-button "BACK"
-                            (make-vec2d (+ .09 *button-width*) .855)
+                            (make-vec2d (- 1. (+ .07 *button-width*)) .855)
                             (lambda (this)
                               (set-screen! title-screen)))
 
@@ -112,7 +112,7 @@
         (add-centered-font default-font24 "loading..." 240. 20.))
   
   (overlay-add-fancy-button "LOCAL"
-                            (make-vec2d .09 .855)
+                            (make-vec2d .07 .855)
                             (lambda (this)
                               (load-local-scores)))
   
@@ -134,7 +134,7 @@
                 (if (and *showing-global?*
                          (not *have-scores?*))
                     (begin
-                      (show-scores scores (make-vec4d .3 .3 1. 1.))
+                      (show-scores scores (make-vec4d .153 .608 .322 1.))
                       (set! *have-scores?* #t)))))
           (if *showing-global?*
               (show-feint-enable)))))
@@ -155,12 +155,12 @@
   (add-centered-font default-font24 "LOCAL SCORES" 275. 24.)
   
   (overlay-add-fancy-button "GLOBAL"
-                            (make-vec2d .09 .855)
+                            (make-vec2d .07 .855)
                             (lambda (this)
                               (load-global-scores)))
   
   (show-scores (get-high-scores)
-               (make-vec4d 1. .3 .3 1.)))
+               (make-vec4d .835 .294 .211 1.)))
 
 (define-screen scores-screen
   init: (lambda ()

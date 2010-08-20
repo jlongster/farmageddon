@@ -36,6 +36,10 @@
        (make-2d-object
         2d-perspective
         texture: TX-BUTTON
+        texture-scale: (if (high-res?)
+                           (make-vec2d 1. 1.)
+                           (make-vec2d (/ btn-width 256.)
+                                       (/ btn-height 64)))
         scale: scale
         position: pos)
        important: #t))
@@ -72,7 +76,7 @@
       (overlay-list-add
        (make-2d-object
         2d-perspective
-        color: (make-vec4d .84 .137 .137 1.)
+        color: (make-vec4d .76 .239 .133 1.)
         scale: scale
         position: pos)
        important: #t))
