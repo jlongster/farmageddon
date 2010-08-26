@@ -25,9 +25,11 @@
             (make-2d-object
              2d-perspective
              texture: instructions-texture
-             scale: (make-vec3d (/ 512. 320.)
-                                (/ 512. 480.)
-                                1.)))
+             scale: (if (high-res?)
+                        (make-vec3d 1. 1. 1.)
+                        (make-vec3d (/ 512. 320.)
+                                    (/ 512. 480.)
+                                    1.))))
            (overlay-list-add
             (make-tween
              (make-2d-object

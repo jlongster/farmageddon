@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>MinimumOSVersion</key>
+	<string>3.0</string>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>Icon-full.png</string>
+		<string>Icon-full@2x.png</string>
+	</array>
+	<key>UIPrerenderedIcon</key>
+	<true/>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>Farmageddon</string>
+	<key>CFBundleExecutable</key>
+	<string>farmageddon</string>
+	<key>CFBundleIconFile</key>
+	<string>Icon-full.png</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.jlongster.farmageddon</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>farmageddon</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>2.1</string>
+	<key>LSEnvironment</key>
+	<dict>
+		<key>GAMBCOPT</key>
+		<string>dQ-</string>
+	</dict>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSMainNibFile</key>
+	<string>window</string>
+	<key>UIStatusBarHidden</key>
+	<true/>
+</dict>
+</plist>

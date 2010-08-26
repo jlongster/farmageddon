@@ -43,9 +43,10 @@
 		1A3F681811529B9800C2E3AF /* chicken1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A3F681511529B9800C2E3AF /* chicken1.wav */; };
 		1A3F681D11529E8800C2E3AF /* sheep2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A3F681B11529E8800C2E3AF /* sheep2.wav */; };
 		1A3F681E11529E8800C2E3AF /* sheep1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A3F681C11529E8800C2E3AF /* sheep1.wav */; };
-		1A45E225121EE22C006C1DB6 /* Info-lite.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A45E224121EE22C006C1DB6 /* Info-lite.plist */; };
 		1A45E229121EE25C006C1DB6 /* Icon-lite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A45E227121EE25C006C1DB6 /* Icon-lite@2x.png */; };
-		1A45E22A121EE25C006C1DB6 /* Icon-light.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A45E228121EE25C006C1DB6 /* Icon-light.png */; };
+		1A45E2BA121EF57C006C1DB6 /* Icon-full@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A45E2B7121EF57C006C1DB6 /* Icon-full@2x.png */; };
+		1A45E2BB121EF57C006C1DB6 /* Icon-full.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A45E2B8121EF57C006C1DB6 /* Icon-full.png */; };
+		1A45E2BC121EF57C006C1DB6 /* Icon-lite.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A45E2B9121EF57C006C1DB6 /* Icon-lite.png */; };
 		1A4FE2B311754A72005926DB /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = 1A4FE2B211754A72005926DB /* sphere.obj */; };
 		1A4FE2B511754A7C005926DB /* sphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 1A4FE2B411754A7C005926DB /* sphere.mtl */; };
 		1A4FE2B711754A87005926DB /* box.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 1A4FE2B611754A87005926DB /* box.mtl */; };
@@ -59,8 +60,8 @@
 		1A6ABCCC116289BA003266FA /* clap.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A6ABCCB116289BA003266FA /* clap.wav */; };
 		1A6ABCCE11628B88003266FA /* star.pvr in Resources */ = {isa = PBXBuildFile; fileRef = 1A6ABCCD11628B88003266FA /* star.pvr */; };
 		1A6F5E7E112DECCE00AB5CB8 /* ApexSansExtraBoldC.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A6F5E7D112DECCE00AB5CB8 /* ApexSansExtraBoldC.ttf */; };
-		1A78E767121ED5EF00BAFC21 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A78E766121ED5EF00BAFC21 /* Icon@2x.png */; };
 		1A861A8510916C0500706CC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A861A8410916C0500706CC5 /* CoreGraphics.framework */; };
+		1A88441B1226CE880015FBDC /* instructions@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A88441A1226CE880015FBDC /* instructions@2x.png */; };
 		1A8AAD811100F83C006ABDA6 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AAD7C1100F83C006ABDA6 /* EAGLView.mm */; };
 		1A8AAD821100F83C006ABDA6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AAD7D1100F83C006ABDA6 /* main.m */; };
 		1A8AAD831100F83C006ABDA6 /* tosserAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AAD7F1100F83C006ABDA6 /* tosserAppDelegate.mm */; };
@@ -115,7 +116,6 @@
 		1AC7D89D115A8430005026FF /* explosion4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1AC7D89C115A8430005026FF /* explosion4.wav */; };
 		1ACC5B2F10F6640200293FFC /* duck.obj.gso in Resources */ = {isa = PBXBuildFile; fileRef = 1ACC5B2E10F6640100293FFC /* duck.obj.gso */; };
 		1ACCF3E6111411680037F147 /* title-screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACCF3E4111411680037F147 /* title-screen.png */; };
-		1AD2B36A115C4B4D00D686CB /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AD2B369115C4B4D00D686CB /* Icon.png */; };
 		1AD2B36F115C4C2200D686CB /* box.obj in Resources */ = {isa = PBXBuildFile; fileRef = 1AD2B36E115C4C2200D686CB /* box.obj */; };
 		1ADE284C121D9AFC00616BAB /* OFAchievementService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE21EA121D9AFB00616BAB /* OFAchievementService.mm */; };
 		1ADE284D121D9AFC00616BAB /* OFUnlockedAchievementNotificationData.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1ADE21EC121D9AFB00616BAB /* OFUnlockedAchievementNotificationData.mm */; };
@@ -955,7 +955,10 @@
 		1A3F681C11529E8800C2E3AF /* sheep1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sheep1.wav; sourceTree = "<group>"; };
 		1A45E224121EE22C006C1DB6 /* Info-lite.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Info-lite.plist"; path = "src/app/Info-lite.plist"; sourceTree = "<group>"; };
 		1A45E227121EE25C006C1DB6 /* Icon-lite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-lite@2x.png"; sourceTree = "<group>"; };
-		1A45E228121EE25C006C1DB6 /* Icon-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-light.png"; sourceTree = "<group>"; };
+		1A45E2A6121EF489006C1DB6 /* Info-full.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Info-full.plist"; path = "src/app/Info-full.plist"; sourceTree = "<group>"; };
+		1A45E2B7121EF57C006C1DB6 /* Icon-full@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-full@2x.png"; sourceTree = "<group>"; };
+		1A45E2B8121EF57C006C1DB6 /* Icon-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-full.png"; sourceTree = "<group>"; };
+		1A45E2B9121EF57C006C1DB6 /* Icon-lite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-lite.png"; sourceTree = "<group>"; };
 		1A4FE2B211754A72005926DB /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.obj; sourceTree = "<group>"; };
 		1A4FE2B411754A7C005926DB /* sphere.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.mtl; sourceTree = "<group>"; };
 		1A4FE2B611754A87005926DB /* box.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = box.mtl; sourceTree = "<group>"; };
@@ -970,8 +973,8 @@
 		1A6ABCCB116289BA003266FA /* clap.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = clap.wav; sourceTree = "<group>"; };
 		1A6ABCCD11628B88003266FA /* star.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = star.pvr; sourceTree = "<group>"; };
 		1A6F5E7D112DECCE00AB5CB8 /* ApexSansExtraBoldC.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ApexSansExtraBoldC.ttf; sourceTree = "<group>"; };
-		1A78E766121ED5EF00BAFC21 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		1A861A8410916C0500706CC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		1A88441A1226CE880015FBDC /* instructions@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "instructions@2x.png"; sourceTree = "<group>"; };
 		1A8AAD7B1100F83C006ABDA6 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = src/app/EAGLView.h; sourceTree = "<group>"; };
 		1A8AAD7C1100F83C006ABDA6 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EAGLView.mm; path = src/app/EAGLView.mm; sourceTree = "<group>"; };
 		1A8AAD7D1100F83C006ABDA6 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = src/app/main.m; sourceTree = "<group>"; };
@@ -992,7 +995,6 @@
 		1AA90AF81111FF6A0045309E /* farmageddon-iPad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "farmageddon-iPad.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AA90B10111200470045309E /* window-ipad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "window-ipad.xib"; path = "src/app/window-ipad.xib"; sourceTree = "<group>"; };
 		1AA95D33115538FB00ABCA1C /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
-		1AAB11BD1100FBA2005EAADF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = src/app/Info.plist; sourceTree = "<group>"; };
 		1AB6F300117EBC0E00D94783 /* score.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = score.h; sourceTree = "<group>"; };
 		1AB6F301117EBC0E00D94783 /* score.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = score.m; sourceTree = "<group>"; };
 		1AB6F3561180118E00D94783 /* bones.obj.gso */ = {isa = PBXFileReference; lastKnownFileType = file; path = bones.obj.gso; sourceTree = "<group>"; };
@@ -1006,7 +1008,6 @@
 		1AC7D89C115A8430005026FF /* explosion4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = explosion4.wav; sourceTree = "<group>"; };
 		1ACC5B2E10F6640100293FFC /* duck.obj.gso */ = {isa = PBXFileReference; lastKnownFileType = file; path = duck.obj.gso; sourceTree = "<group>"; };
 		1ACCF3E4111411680037F147 /* title-screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "title-screen.png"; sourceTree = "<group>"; };
-		1AD2B369115C4B4D00D686CB /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		1AD2B36E115C4C2200D686CB /* box.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = box.obj; sourceTree = "<group>"; };
 		1ADE21E9121D9AFB00616BAB /* OFAchievementService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OFAchievementService.h; path = /usr/local/iphone/OpenFeint2.6/api/Achievement/OFAchievementService.h; sourceTree = "<absolute>"; };
 		1ADE21EA121D9AFB00616BAB /* OFAchievementService.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = OFAchievementService.mm; path = /usr/local/iphone/OpenFeint2.6/api/Achievement/OFAchievementService.mm; sourceTree = "<absolute>"; };
@@ -2349,9 +2350,11 @@
 		1A8BCDAE101A1BEA00DED70B /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				1A88441A1226CE880015FBDC /* instructions@2x.png */,
+				1A45E2B7121EF57C006C1DB6 /* Icon-full@2x.png */,
+				1A45E2B8121EF57C006C1DB6 /* Icon-full.png */,
+				1A45E2B9121EF57C006C1DB6 /* Icon-lite.png */,
 				1A45E227121EE25C006C1DB6 /* Icon-lite@2x.png */,
-				1A45E228121EE25C006C1DB6 /* Icon-light.png */,
-				1A78E766121ED5EF00BAFC21 /* Icon@2x.png */,
 				1A19081D11FE3B2300B98AB2 /* Default@2x.png */,
 				1A1907E411FE1C8E00B98AB2 /* title-lite@2x.png */,
 				1A19E9DF11FD5EE100B98AB2 /* button@2x.png */,
@@ -2374,7 +2377,6 @@
 				1A593E2A115C9CD500E12C7D /* fog.pvr */,
 				1AB70D1F115C946C00047EC7 /* background.pvr */,
 				1AD2B36E115C4C2200D686CB /* box.obj */,
-				1AD2B369115C4B4D00D686CB /* Icon.png */,
 				1AC7D89C115A8430005026FF /* explosion4.wav */,
 				1AC7D88E115A8081005026FF /* fog.wav */,
 				1AC7D85C1159553E005026FF /* pig-part2.obj.gso */,
@@ -5678,8 +5680,8 @@
 				1ADE21E6121D9AFB00616BAB /* OpenFeint2.6 */,
 				1A3261141163E8F7009034AD /* farmageddon.c */,
 				1A3261151163E8F7009034AD /* harness.c */,
-				1AAB11BD1100FBA2005EAADF /* Info.plist */,
 				1A45E224121EE22C006C1DB6 /* Info-lite.plist */,
+				1A45E2A6121EF489006C1DB6 /* Info-full.plist */,
 				1A8AAD851100F85B006ABDA6 /* init_.c */,
 				1A8AAD861100F85B006ABDA6 /* init.c */,
 				1A8AAD7B1100F83C006ABDA6 /* EAGLView.h */,
@@ -5849,7 +5851,6 @@
 				1AC7D85F1159553E005026FF /* pig-part1.obj.gso in Resources */,
 				1AC7D88F115A8081005026FF /* fog.wav in Resources */,
 				1AC7D89D115A8430005026FF /* explosion4.wav in Resources */,
-				1AD2B36A115C4B4D00D686CB /* Icon.png in Resources */,
 				1AD2B36F115C4C2200D686CB /* box.obj in Resources */,
 				1AB70D20115C946C00047EC7 /* background.pvr in Resources */,
 				1A593E2B115C9CD500E12C7D /* fog.pvr in Resources */,
@@ -6218,10 +6219,11 @@
 				1ADE2B26121D9AFD00616BAB /* OFDashboardTabNowPlayingPortrait.png in Resources */,
 				1ADE2B27121D9AFD00616BAB /* OFDashboardTabNowPlayingPortraitDisabled.png in Resources */,
 				1ADE2B28121D9AFD00616BAB /* OFDashboardTabNowPlayingPortraitHit.png in Resources */,
-				1A78E767121ED5EF00BAFC21 /* Icon@2x.png in Resources */,
-				1A45E225121EE22C006C1DB6 /* Info-lite.plist in Resources */,
 				1A45E229121EE25C006C1DB6 /* Icon-lite@2x.png in Resources */,
-				1A45E22A121EE25C006C1DB6 /* Icon-light.png in Resources */,
+				1A45E2BA121EF57C006C1DB6 /* Icon-full@2x.png in Resources */,
+				1A45E2BB121EF57C006C1DB6 /* Icon-full.png in Resources */,
+				1A45E2BC121EF57C006C1DB6 /* Icon-lite.png in Resources */,
+				1A88441B1226CE880015FBDC /* instructions@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6703,7 +6705,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: James Long (9XL3GTK9AZ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: James Long";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -6711,8 +6713,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
 					"-D___LIBRARY",
@@ -6744,9 +6745,9 @@
 					"-lgambc",
 				);
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "60F0ED71-A411-4B90-8BA3-25ED4D06698E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "006D94A2-E57A-47D3-A1B2-30E1BC88BE07";
 				SDKROOT = iphoneos4.0;
-				USER_HEADER_SEARCH_PATHS = "/usr/local/iphone/iPhoneOS3.1.3/include /usr/local/iphone/iPhoneOS3.1.2/include/freetype2 /usr/local/iphone/iPhoneOS3.1.2/include";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR) /usr/local/iphone/iPhoneOS3.1.3/include /usr/local/iphone/iPhoneOS3.1.2/include/freetype2 /usr/local/iphone/iPhoneOS3.1.2/include";
 			};
 			name = "Release iPhone";
 		};
@@ -6756,7 +6757,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = src/app/farmageddon_Prefix.pch;
-				INFOPLIST_FILE = src/app/Info.plist;
+				INFOPLIST_FILE = "src/app/Info-full.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/iphone/iPhoneOS3.1.2/lib,
@@ -6778,7 +6779,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = src/app/farmageddon_Prefix.pch;
-				INFOPLIST_FILE = src/app/Info.plist;
+				INFOPLIST_FILE = "src/app/Info-full.plist";
 				PRODUCT_NAME = "farmageddon-iPad";
 				SDKROOT = iphoneos3.2;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -6790,7 +6791,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: James Long (9XL3GTK9AZ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: James Long";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -6798,8 +6799,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Info-lite.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
 					"-D___LIBRARY",
@@ -6831,7 +6831,7 @@
 					"-lgambc",
 				);
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "60F0ED71-A411-4B90-8BA3-25ED4D06698E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "006D94A2-E57A-47D3-A1B2-30E1BC88BE07";
 				SDKROOT = iphoneos4.0;
 				USER_HEADER_SEARCH_PATHS = "/usr/local/iphone/iPhoneOS3.1.3/include /usr/local/iphone/iPhoneOS3.1.2/include/freetype2 /usr/local/iphone/iPhoneOS3.1.2/include";
 			};
@@ -6866,7 +6866,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = src/app/farmageddon_Prefix.pch;
-				INFOPLIST_FILE = src/app/Info.plist;
+				INFOPLIST_FILE = "src/app/Info-full.plist";
 				PRODUCT_NAME = "farmageddon-iPad";
 				SDKROOT = iphoneos3.2;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -6882,7 +6882,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = src/app/farmageddon_Prefix.pch;
-				INFOPLIST_FILE = src/app/Info.plist;
+				INFOPLIST_FILE = "src/app/Info-full.plist";
 				PRODUCT_NAME = "farmageddon-iPad";
 				SDKROOT = iphoneos3.2;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -6898,7 +6898,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = src/app/farmageddon_Prefix.pch;
-				INFOPLIST_FILE = src/app/Info.plist;
+				INFOPLIST_FILE = "src/app/Info-full.plist";
 				PRODUCT_NAME = "farmageddon-iPad";
 				SDKROOT = iphoneos3.2;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -6912,7 +6912,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = src/app/farmageddon_Prefix.pch;
-				INFOPLIST_FILE = src/app/Info.plist;
+				INFOPLIST_FILE = "src/app/Info-full.plist";
 				PRODUCT_NAME = "farmageddon-iPad";
 				SDKROOT = iphoneos3.2;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -6982,7 +6982,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = src/app/farmageddon_Prefix.pch;
-				INFOPLIST_FILE = src/app/Info.plist;
+				INFOPLIST_FILE = "src/app/Info-full.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/iphone/iPhoneOS3.1.2/lib,
@@ -7000,7 +7000,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				INFOPLIST_FILE = src/app/Info.plist;
+				INFOPLIST_FILE = "src/app/Info-full.plist";
 				PRODUCT_NAME = farmageddon;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -7012,7 +7012,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = src/app/farmageddon_Prefix.pch;
-				INFOPLIST_FILE = src/app/Info.plist;
+				INFOPLIST_FILE = "src/app/Info-full.plist";
 				PRODUCT_NAME = farmageddon;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

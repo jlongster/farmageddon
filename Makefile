@@ -13,10 +13,10 @@ gsc=/usr/local/iphone/iPhoneSimulator3.1.3/bin/gsc
 
 all: simulator
 
-iphone: iphone_config lite src/init.c src/farmageddon.c src/harness.c
+iphone: iphone_config full src/init.c src/farmageddon.c src/harness.c
 	cd src && $(gsc) -link -o init_.c init.c harness.c farmageddon.c
 
-simulator: simul_config lite src/init.c src/harness.c
+simulator: simul_config full src/init.c src/harness.c
 	cd src && $(gsc) -link -o init_.c init.c harness.c
 	cd src && echo '' > farmageddon.c
 
