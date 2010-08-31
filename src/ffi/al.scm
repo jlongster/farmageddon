@@ -11,6 +11,7 @@
  #import <OpenAL/alc.h>
  #import <AudioToolbox/AudioToolbox.h>
  #import <AudioToolbox/ExtendedAudioFile.h>
+ #import "tremor/ivorbisfile.h"
  
  struct AudioData {
     void* data;
@@ -20,6 +21,9 @@
  };
 
  typedef struct AudioData AudioData;
+ 
+ GLuint load_audio_ogg(char *file);
+ GLuint load_audio_wav(char *file);
  
  typedef ALvoid AL_APIENTRY (*alBufferDataStaticProcPtr) (const ALint bid, ALenum format, ALvoid* data, ALsizei size, ALsizei freq);
  AudioData load_audio_data(char *inFile);
@@ -51,6 +55,84 @@
  }
 
  GLuint load_audio(char *file) {
+     NSString *path = [[NSString alloc] initWithCString:file encoding:NSASCIIStringEncoding];
+     NSString *ext = [path pathExtension];
+     [path release];
+
+     if([ext isEqualToString:@"ogg"]) {
+         return load_audio_ogg(file);
+     }
+     else if([ext isEqualToString:@"wav"]) {
+         return load_audio_wav(file);
+     }
+
+     return 0;
+ }
+
+ GLuint load_audio_ogg(char *file) {
+     NSString *file_ = [[NSString alloc] initWithCString:file encoding:NSASCIIStringEncoding];
+     NSString *base = [[NSBundle mainBundle] resourcePath];
+     NSString *path = [NSString stringWithFormat:@"%@/%@",
+                                base,
+                                file_];
+     [file_ release];
+     
+     char c_str[1024];
+     
+     [path getCString:c_str maxLength:1024 encoding:NSASCIIStringEncoding];
+
+     
+     FILE *f = fopen(c_str, "rb");
+     
+     vorbis_info *pInfo;
+     OggVorbis_File ogg_file;
+     ALenum format;
+     ALsizei freq;
+     
+     ov_open(f, &ogg_file, NULL, 0);
+     pInfo = ov_info(&ogg_file, -1);
+
+     if(pInfo->channels == 1)
+         format = AL_FORMAT_MONO16;
+     else
+         format = AL_FORMAT_STEREO16;
+
+     freq = pInfo->rate;
+
+     // 1mb buffers
+     int buffer_size = 1024*1024;
+     char *buffer = malloc(buffer_size);
+     int endian = 0;
+     int bit_stream;
+     int bytes;
+     int total_bytes = 0;
+
+     do {
+         bytes = ov_read(&ogg_file,
+                         buffer+total_bytes,
+                         buffer_size-total_bytes,
+                         &bit_stream);
+         total_bytes += bytes;
+     } while(bytes > 0);
+
+     char *finalized = malloc(total_bytes);
+     memcpy(finalized, buffer, total_bytes);
+     free(buffer);
+         
+     ov_clear(&ogg_file);
+
+     ALuint bufferId;
+     alGenBuffers(1, &bufferId);
+     alBufferData(bufferId,
+                  format,
+                  finalized,
+                  total_bytes,
+                  freq);
+     free(finalized);
+     return bufferId;
+ }
+
+ GLuint load_audio_wav(char *file) {
      AudioData data_desc;
      data_desc = load_audio_data(file);
      
@@ -109,7 +191,9 @@
      CFStringRef name = CFStringCreateWithCString(NULL, inFile, kCFStringEncodingUTF8);
      CFURLRef inFileURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(), name, NULL, NULL);
      CFRelease(name);
-    
+
+     
+     
      OSStatus err = noErr;
      SInt64 theFileLengthInFrames = 0;
      AudioStreamBasicDescription theFileFormat;
