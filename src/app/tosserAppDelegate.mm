@@ -10,7 +10,7 @@
 #import "EAGLView.h"
 #import "OpenFeint.h"
 #import "feintDelegate.h"
-#import "appirater/Appirater.h"
+#import "Appirater.h"
 
 @implementation tosserAppDelegate
 

@@ -16,9 +16,9 @@ all: simulator
 iphone: iphone_config full src/init.c src/farmageddon.c src/harness.c
 	cd src && $(gsc) -link -o init_.c init.c harness.c farmageddon.c
 
-simulator: simul_config full src/init.c src/harness.c
-	cd src && $(gsc) -link -o init_.c init.c harness.c
-	cd src && echo '' > farmageddon.c
+simulator: simul_config full src/init.c src/harness.c src/farmageddon.c
+	cd src && $(gsc) -link -o init_.c init.c harness.c farmageddon.c
+	#cd src && echo '' > farmageddon.c
 
 src/init.c: src/init.scm src/ffi/gl.scm src/farmageddon.scm
 	cd src && $(gsc) -c init.scm

@@ -42,6 +42,7 @@
 		1A6576E8121E344E00035B48 /* Appirater.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6576BA121E344E00035B48 /* Appirater.m */; };
 		1A6576EB121E345F00035B48 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A6576EA121E345F00035B48 /* CFNetwork.framework */; };
 		1A6F5E7E112DECCE00AB5CB8 /* ApexSansExtraBoldC.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A6F5E7D112DECCE00AB5CB8 /* ApexSansExtraBoldC.ttf */; };
+		1A77A51612512CBE0077EF84 /* star.pvr in Resources */ = {isa = PBXBuildFile; fileRef = 1A77A51512512CBE0077EF84 /* star.pvr */; };
 		1A861A8510916C0500706CC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A861A8410916C0500706CC5 /* CoreGraphics.framework */; };
 		1A88441B1226CE880015FBDC /* instructions@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A88441A1226CE880015FBDC /* instructions@2x.png */; };
 		1A8AAD811100F83C006ABDA6 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AAD7C1100F83C006ABDA6 /* EAGLView.mm */; };
@@ -948,6 +949,7 @@
 		1A6576BA121E344E00035B48 /* Appirater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Appirater.m; sourceTree = "<group>"; };
 		1A6576EA121E345F00035B48 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		1A6F5E7D112DECCE00AB5CB8 /* ApexSansExtraBoldC.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ApexSansExtraBoldC.ttf; sourceTree = "<group>"; };
+		1A77A51512512CBE0077EF84 /* star.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = star.pvr; sourceTree = "<group>"; };
 		1A861A8410916C0500706CC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		1A88441A1226CE880015FBDC /* instructions@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "instructions@2x.png"; sourceTree = "<group>"; };
 		1A8AAD7B1100F83C006ABDA6 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = src/app/EAGLView.h; sourceTree = "<group>"; };
@@ -2338,6 +2340,7 @@
 		1A8BCDAE101A1BEA00DED70B /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				1A77A51512512CBE0077EF84 /* star.pvr */,
 				1AC2F9B2122CA72B0086E8E2 /* thud.ogg */,
 				1AC2F9B3122CA72B0086E8E2 /* sheep2.ogg */,
 				1AC2F9B4122CA72B0086E8E2 /* sheep1.ogg */,
@@ -6200,6 +6203,7 @@
 				1AC2F9DF122CA72B0086E8E2 /* clap.ogg in Resources */,
 				1AC2F9E0122CA72B0086E8E2 /* chicken2.ogg in Resources */,
 				1AC2F9E1122CA72B0086E8E2 /* chicken1.ogg in Resources */,
+				1A77A51612512CBE0077EF84 /* star.pvr in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6681,7 +6685,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: James Long (9XL3GTK9AZ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: James Long";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -6723,7 +6727,7 @@
 					"-lgambc",
 				);
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "60F0ED71-A411-4B90-8BA3-25ED4D06698E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "006D94A2-E57A-47D3-A1B2-30E1BC88BE07";
 				SDKROOT = iphoneos4.0;
 				USER_HEADER_SEARCH_PATHS = "/usr/local/iphone/iPhoneOS4.0/include $(PROJECT_DIR) /usr/local/iphone/iPhoneOS3.1.3/include /usr/local/iphone/iPhoneOS3.1.2/include/freetype2 /usr/local/iphone/iPhoneOS3.1.2/include";
 			};
@@ -6739,6 +6743,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/iphone/iPhoneOS3.1.2/lib,
+					/tmp,
+					/usr/local/iphone/iPhoneSimulator/lib,
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -6769,7 +6775,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: James Long (9XL3GTK9AZ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: James Long";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -6811,7 +6817,7 @@
 					"-lgambc",
 				);
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "60F0ED71-A411-4B90-8BA3-25ED4D06698E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "006D94A2-E57A-47D3-A1B2-30E1BC88BE07";
 				SDKROOT = iphoneos4.0;
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR) /usr/local/iphone/iPhoneOS4.0/include /usr/local/iphone/iPhoneOS3.1.3/include /usr/local/iphone/iPhoneOS3.1.2/include/freetype2 /usr/local/iphone/iPhoneOS3.1.2/include";
 			};
@@ -6827,6 +6833,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/iphone/iPhoneOS3.1.2/lib,
+					/tmp,
+					/usr/local/iphone/iPhoneSimulator/lib,
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -6965,6 +6973,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/iphone/iPhoneOS3.1.2/lib,
+					/tmp,
+					/usr/local/iphone/iPhoneSimulator/lib,
 				);
 				PRODUCT_NAME = farmageddon;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -6979,7 +6989,12 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				INFOPLIST_FILE = "src/app/Info-lite.plist";
+				INFOPLIST_FILE = "src/app/Info-full.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/tmp,
+					/usr/local/iphone/iPhoneSimulator/lib,
+				);
 				PRODUCT_NAME = farmageddon;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -6992,6 +7007,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = src/app/farmageddon_Prefix.pch;
 				INFOPLIST_FILE = "src/app/Info-full.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/tmp,
+					/usr/local/iphone/iPhoneSimulator/lib,
+				);
 				PRODUCT_NAME = farmageddon;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -7002,7 +7022,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: James Long (9XL3GTK9AZ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: James Long";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OBJC_CALL_CXX_CDTORS = YES;
@@ -7033,17 +7053,16 @@
 					"objective-c++",
 				);
 				OTHER_LDFLAGS = (
+					/usr/local/iphone/iPhoneSimulator/lib/libfreetype.a,
+					/usr/local/iphone/iPhoneSimulator/lib/libftgl.a,
 					"-weak_framework",
 					UIKit,
 					"-ObjC",
 					"-lstdc++",
 					"-lz",
-					"-lftgl",
 					"-lgambc",
 					"-lvorbisidec",
-					"-L/usr/local/iphone/iPhoneSimulator3.2/lib",
-					"-L/usr/local/iphone/iPhoneSimulator3.1.3/lib",
-					"-L/usr/local/iphone/iPhoneSimulator3.1.2/lib",
+					"-L/usr/local/iphone/iPhoneSimulator/lib",
 				);
 				PREBINDING = NO;
 				SDKROOT = iphonesimulator4.0;
