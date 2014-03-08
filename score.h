@@ -3,7 +3,7 @@
 //  farmageddon
 //
 //  Created by James Long on 4/21/10.
-//  Copyright 2010 Coptix, Inc. All rights reserved.
+//  Copyright 2010 James Long. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

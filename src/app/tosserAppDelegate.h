@@ -3,7 +3,7 @@
 //  tosser
 //
 //  Created by James on 6/2/09.
-//  Copyright Coptix, Inc 2009. All rights reserved.
+//  Copyright James Long 2009. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

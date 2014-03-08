@@ -3,7 +3,7 @@
 //  gambit-iphone
 //
 //  Created by James on 4/22/09.
-//  Copyright Coptix, Inc 2009. All rights reserved.
+//  Copyright James Long 2009. All rights reserved.
 //
 
 

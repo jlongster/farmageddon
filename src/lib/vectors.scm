@@ -92,7 +92,7 @@
   (let ((v1-x (vec3d-x v1)) (v2-x (vec3d-x v2))
 	(v1-y (vec3d-y v1)) (v2-y (vec3d-y v2))
 	(v1-z (vec3d-z v1)) (v2-z (vec3d-z v2)))
-    (make-vec3d (fl- (fl* v1-y v2-z(vec3d-z v2))
+    (make-vec3d (fl- (fl* v1-y v2-z)
 		     (fl* v1-z v2-y))
 		(fl- (fl* v1-z v2-x)
 		     (fl* v1-x v2-z))
