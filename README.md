@@ -5,4 +5,4 @@ I blogged about my progress working with Scheme on iOS back then and evidently a
 
 You're looking at the worst, messiest, most out-of-date code of all time. But it's also where I learned some of the most important concepts of my life.
 
-[Read the full post]() about this for videos and more.
+[Read the full post](http://jlongster.com/Open-Sourcing-My-Gambit-Scheme-iOS-Game-from-2010) about this for videos and more.
